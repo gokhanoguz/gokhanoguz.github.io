@@ -111,10 +111,9 @@
   <h1>Walking the English Board, One Screenshot at a Time</h1>
 
   <p>
-    The Phase 9c audit shipped a few days ago: 709 tests green, English locale at parity
-    with Turkish on paper. But "passes the test suite" and "looks right on a real device"
-    are not the same thing. Today was a slow walk through every English category in the
-    iOS simulator, screenshot by screenshot, fixing every defect that showed up.
+    Tests were green. The English audit shipped a few days ago. On paper, EN was
+    at parity with TR. Then I actually opened the app, switched to English, and
+    started scrolling. Oh.
   </p>
 
   <div class="stat-grid">
@@ -136,123 +135,124 @@
     </div>
   </div>
 
-  <h2>Lowercase Is the AAC Convention</h2>
+  <h2>Why is everything Capitalised</h2>
 
   <p>
-    First thing that jumped out: every English label was Title Case. <em>Boy</em>,
-    <em>Girl</em>, <em>Apple</em>. Every commercial AAC app I checked uses lowercase.
-    There's a reason — lowercase letterforms have more distinctive shapes, which helps
-    early readers and AAC users with visual processing differences. Capitals all look
-    like rectangles.
+    Every English label was Title Case. <em>Boy. Girl. Apple.</em> Looks like a
+    children's book. Every commercial AAC app I bothered to check uses lowercase,
+    and there's an actual reason — lowercase letterforms have more distinctive
+    shapes, which matters for early readers and anyone with visual processing
+    differences. Capitals all look like rectangles.
   </p>
 
   <p>
-    A bulk lowercase script is trivial. A bulk lowercase script that doesn't break
-    <em>I</em>, <em>Sunday</em>, <em>Easter</em>, the alphabet (A, B, C…), or
-    proper nouns is slightly less trivial. The first version stripped <em>everything</em>
-    and I had to revert and add a skip list. AAC apps care about edge cases more than
-    most software does.
+    So, bulk lowercase script. Easy. Ten seconds later half the alphabet card
+    was broken (<em>a, b, c, d, e…</em>), <em>I</em> was <em>i</em>, Sunday
+    became sunday, Easter became easter. Reverted, added a skip list, ran it
+    again. AAC apps care about edge cases more than most software does.
   </p>
 
-  <h2>The Default Board Was Wrong</h2>
+  <h2>The default board was Turkish</h2>
 
   <p>
-    Switched the app to English. Opened Boards. The default board that loaded was
-    Turkish. Several tiles on it were marked <code>hide:en</code>, so they showed up
-    as gray holes. Confusing for any English user.
-  </p>
-
-  <p>
-    The board provider was returning <em>"the first default board"</em> regardless of
-    language. Made it language-aware: if you've picked English, give me the board whose
-    ID ends in <code>en-basic-communication</code>; if Turkish, give me
-    <code>tr-temel-iletisim</code>. Three lines, instant fix, but you only catch it
-    by actually flipping the language toggle and looking.
-  </p>
-
-  <h2>Baked Text Was Hiding Everywhere</h2>
-
-  <p>
-    AAC symbols traditionally have the word baked into the SVG, on top of the picture.
-    Sesla's tile already shows the word as a label below the icon, so the baked word
-    is redundant — every tile reads "<em>he he</em>" or "<em>need need</em>". Fine
-    on Turkish, where I'd been disciplined about it. Less fine on English.
+    Switched to English. Opened Boards. Default board: Turkish. Several tiles
+    on it were marked "hide on English" so they showed up as gray holes.
+    Welcoming.
   </p>
 
   <p>
-    Two flavors of bug:
+    Turns out the board provider was just returning <em>"the first default
+    board it finds"</em>, no matter what language you'd picked. Three lines to
+    make it language-aware. The kind of bug you can only catch by actually
+    flipping the toggle.
+  </p>
+
+  <h2>Why does every tile say "he he"</h2>
+
+  <p>
+    AAC symbols traditionally have the word baked right into the picture. But
+    Sesla also shows the word as a label below the icon. So every tile read
+    "<em>he he</em>" or "<em>need need</em>" or "<em>my my</em>". I'd been
+    careful about this on Turkish. I had been less careful on English.
+  </p>
+
+  <p>
+    Two flavours of bug:
   </p>
 
   <ul>
-    <li>Four icons had <em>Turkish</em> baked text (e.g. "DUR" on the stop sign) showing through on the English board. Stripped.</li>
-    <li>22 icons had <em>English</em> baked text duplicating their label. Stripped.</li>
+    <li>Four icons had <em>Turkish</em> baked text leaking through onto the English board. The stop sign said "DUR". The boy holding milk said "SÜT".</li>
+    <li>22 icons had <em>English</em> baked text duplicating their own label.</li>
   </ul>
 
   <p>
-    The trick was not stripping <em>everything</em>. Some icons are text-only by design —
-    the symbol for <em>and</em> is just the word "and" in a colored rectangle. Strip
-    that and you're left with an empty colored rectangle. The fix script checks each SVG
-    for non-text glyph content (paths, circles, polygons) before deciding it's safe to
-    strip. Text-only cards survive; redundant overlays die.
+    Wrote a strip script. Ran it. Half the cards went blank because some symbols
+    are text-only by design — the symbol for <em>and</em> is just the word
+    "and" in a coloured rectangle, and stripping the text leaves you with a
+    coloured rectangle. Reverted, rewrote the script to only strip if the SVG
+    had actual glyph content underneath. Text-only cards survive; redundant
+    overlays die. Better.
   </p>
 
-  <h2>Eleven Icons Were Pointing at Nothing</h2>
+  <h2>Eleven icons pointed at nothing</h2>
 
   <p>
-    Some tiles rendered as broken-image gray placeholders: <em>boy</em>, <em>neighbor</em>,
-    <em>we</em>, <em>they</em>, <em>good night</em>, <em>bored</em>, <em>calm</em>,
-    <em>to throw</em>, and a few more. The SVG files existed on disk. The JSON
-    just had empty <code>image_path</code> fields pointing at nothing. Drift had
-    happily seeded a "this symbol has no picture" record for each one.
-  </p>
-
-  <p>
-    Eleven empty paths populated. Seed version bumped so existing installs re-seed
-    on next launch. This kind of bug is invisible to the test suite — every test
-    passed because the schema was valid; the data was just incomplete.
-  </p>
-
-  <h2>The Seed Version Trick</h2>
-
-  <p>
-    A note on how data fixes ship to users who already have the app installed. The
-    bundled symbol JSON has a version number. The app stores the last-seeded version
-    in user prefs. On launch, if the bundled version is higher, it re-seeds the symbol
-    table (preserving user-created custom symbols). Bumped from v34 → v37 across
-    today's three commits.
+    Some tiles came up as broken-image placeholders: <em>boy</em>,
+    <em>neighbor</em>, <em>we</em>, <em>they</em>, <em>good night</em>,
+    <em>bored</em>, <em>calm</em>, <em>to throw</em>… The SVGs existed.
+    Right there on disk. The JSON just had empty image paths pointing at
+    nothing.
   </p>
 
   <p>
-    Boards work differently — they only seed once, ever, to avoid clobbering user-edited
-    boards. So board changes need a different mechanism for in-place updates. Today's
-    fixes were all symbol-level so the version bump handles it.
+    Eleven empty paths filled in. The kind of bug your test suite is genuinely
+    incapable of catching — schema is valid, FK constraints satisfied, data is
+    just blank. Eyes only.
   </p>
 
-  <h2>The Screenshot Loop</h2>
+  <h2>The version-bump dance</h2>
 
   <p>
-    My workflow today was: ask Copilot to take a screenshot, look at it, identify
-    everything wrong, log it, scroll to the next category, repeat. Twelve categories,
-    twelve passes. Then a single batch fix at the end covering everything that wasn't
-    a one-off.
+    Quick aside on shipping data fixes. The bundled symbol JSON has a version
+    number. The app remembers what version it last seeded. Bump the number,
+    re-seed on next launch, custom user symbols are preserved. Today the number
+    went from v34 to v37 across three commits. Boards work differently — they
+    only seed once ever, so they don't clobber user edits, which means board
+    changes need their own update path. Today's fixes were symbol-level. Lucky.
+  </p>
+
+  <h2>How the day actually went</h2>
+
+  <p>
+    The loop: ask Copilot for a screenshot, look at it, list every wrong thing,
+    next category, repeat. Twelve categories. Twelve screenshots. A growing list
+    of "fix this later". Then one batched fix at the end that covered everything
+    that wasn't a one-off.
+  </p>
+
+  <p>
+    A few cards still bother me. <em>need</em> in the helper row is just the
+    word "need" in a green rectangle. Not great. But replacing it with a glyph
+    means deciding what "need" looks like as a picture, and that's a real
+    design call, not a sweep. Logged. Tomorrow.
   </p>
 
   <blockquote>
     <p>
-      Tests catch logic bugs. Eyes catch design bugs. Both matter equally for an
-      app whose entire purpose is visual communication.
+      Tests catch logic bugs. Eyes catch design bugs. For an app whose entire
+      job is visual communication, you really can't skip the second one.
     </p>
   </blockquote>
 
-  <h2>What's Next</h2>
+  <h2>Tomorrow</h2>
 
   <p>
-    Tomorrow: English morphology gets the same depth treatment Turkish got. Right now
-    the English engine handles 3rd-person-singular agreement, 25 irregular pasts, and
-    quantifier-triggered plurals. That's enough for a basic sentence. It is not enough
-    for the natural-feeling output Turkish already produces (purpose clauses, possessive
-    agreement, dative for movement verbs). Closing that gap is the next push before any
-    launch work.
+    English morphology gets the same depth pass Turkish already got. Right now
+    the EN engine does third-person-singular, 25 irregular pasts, and plural
+    triggering — enough for a basic sentence. Turkish does possessive agreement,
+    purpose clauses, dative for movement verbs, and reads like an actual
+    Turkish person talking. The English side needs to feel like that too
+    before any launch conversation makes sense.
   </p>
 
   <div class="nav-bottom">
