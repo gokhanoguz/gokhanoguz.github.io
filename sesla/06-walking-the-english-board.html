@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Walking the English Board, One Screenshot at a Time — Sesla Dev Log</title>
+<meta name="description" content="A screenshot-driven QA pass on the English locale. Lowercase labels, missing assets, baked-text duplicates — every defect visible in the simulator, fixed in a single afternoon." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { color: var(--ink-soft); padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="./">← Sesla Dev Log</a></p>
+
+  <p class="meta">April 28, 2026 · Gökhan Oğuz</p>
+  <h1>Walking the English Board, One Screenshot at a Time</h1>
+
+  <p>
+    The Phase 9c audit shipped a few days ago: 709 tests green, English locale at parity
+    with Turkish on paper. But "passes the test suite" and "looks right on a real device"
+    are not the same thing. Today was a slow walk through every English category in the
+    iOS simulator, screenshot by screenshot, fixing every defect that showed up.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">11</p>
+      <p class="stat-label">Missing Icons</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">81</p>
+      <p class="stat-label">Labels Lowercased</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">22</p>
+      <p class="stat-label">Baked-Text Strips</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">709</p>
+      <p class="stat-label">Tests Still Green</p>
+    </div>
+  </div>
+
+  <h2>Lowercase Is the AAC Convention</h2>
+
+  <p>
+    First thing that jumped out: every English label was Title Case. <em>Boy</em>,
+    <em>Girl</em>, <em>Apple</em>. Every commercial AAC app I checked uses lowercase.
+    There's a reason — lowercase letterforms have more distinctive shapes, which helps
+    early readers and AAC users with visual processing differences. Capitals all look
+    like rectangles.
+  </p>
+
+  <p>
+    A bulk lowercase script is trivial. A bulk lowercase script that doesn't break
+    <em>I</em>, <em>Sunday</em>, <em>Easter</em>, the alphabet (A, B, C…), or
+    proper nouns is slightly less trivial. The first version stripped <em>everything</em>
+    and I had to revert and add a skip list. AAC apps care about edge cases more than
+    most software does.
+  </p>
+
+  <h2>The Default Board Was Wrong</h2>
+
+  <p>
+    Switched the app to English. Opened Boards. The default board that loaded was
+    Turkish. Several tiles on it were marked <code>hide:en</code>, so they showed up
+    as gray holes. Confusing for any English user.
+  </p>
+
+  <p>
+    The board provider was returning <em>"the first default board"</em> regardless of
+    language. Made it language-aware: if you've picked English, give me the board whose
+    ID ends in <code>en-basic-communication</code>; if Turkish, give me
+    <code>tr-temel-iletisim</code>. Three lines, instant fix, but you only catch it
+    by actually flipping the language toggle and looking.
+  </p>
+
+  <h2>Baked Text Was Hiding Everywhere</h2>
+
+  <p>
+    AAC symbols traditionally have the word baked into the SVG, on top of the picture.
+    Sesla's tile already shows the word as a label below the icon, so the baked word
+    is redundant — every tile reads "<em>he he</em>" or "<em>need need</em>". Fine
+    on Turkish, where I'd been disciplined about it. Less fine on English.
+  </p>
+
+  <p>
+    Two flavors of bug:
+  </p>
+
+  <ul>
+    <li>Four icons had <em>Turkish</em> baked text (e.g. "DUR" on the stop sign) showing through on the English board. Stripped.</li>
+    <li>22 icons had <em>English</em> baked text duplicating their label. Stripped.</li>
+  </ul>
+
+  <p>
+    The trick was not stripping <em>everything</em>. Some icons are text-only by design —
+    the symbol for <em>and</em> is just the word "and" in a colored rectangle. Strip
+    that and you're left with an empty colored rectangle. The fix script checks each SVG
+    for non-text glyph content (paths, circles, polygons) before deciding it's safe to
+    strip. Text-only cards survive; redundant overlays die.
+  </p>
+
+  <h2>Eleven Icons Were Pointing at Nothing</h2>
+
+  <p>
+    Some tiles rendered as broken-image gray placeholders: <em>boy</em>, <em>neighbor</em>,
+    <em>we</em>, <em>they</em>, <em>good night</em>, <em>bored</em>, <em>calm</em>,
+    <em>to throw</em>, and a few more. The SVG files existed on disk. The JSON
+    just had empty <code>image_path</code> fields pointing at nothing. Drift had
+    happily seeded a "this symbol has no picture" record for each one.
+  </p>
+
+  <p>
+    Eleven empty paths populated. Seed version bumped so existing installs re-seed
+    on next launch. This kind of bug is invisible to the test suite — every test
+    passed because the schema was valid; the data was just incomplete.
+  </p>
+
+  <h2>The Seed Version Trick</h2>
+
+  <p>
+    A note on how data fixes ship to users who already have the app installed. The
+    bundled symbol JSON has a version number. The app stores the last-seeded version
+    in user prefs. On launch, if the bundled version is higher, it re-seeds the symbol
+    table (preserving user-created custom symbols). Bumped from v34 → v37 across
+    today's three commits.
+  </p>
+
+  <p>
+    Boards work differently — they only seed once, ever, to avoid clobbering user-edited
+    boards. So board changes need a different mechanism for in-place updates. Today's
+    fixes were all symbol-level so the version bump handles it.
+  </p>
+
+  <h2>The Screenshot Loop</h2>
+
+  <p>
+    My workflow today was: ask Copilot to take a screenshot, look at it, identify
+    everything wrong, log it, scroll to the next category, repeat. Twelve categories,
+    twelve passes. Then a single batch fix at the end covering everything that wasn't
+    a one-off.
+  </p>
+
+  <blockquote>
+    <p>
+      Tests catch logic bugs. Eyes catch design bugs. Both matter equally for an
+      app whose entire purpose is visual communication.
+    </p>
+  </blockquote>
+
+  <h2>What's Next</h2>
+
+  <p>
+    Tomorrow: English morphology gets the same depth treatment Turkish got. Right now
+    the English engine handles 3rd-person-singular agreement, 25 irregular pasts, and
+    quantifier-triggered plurals. That's enough for a basic sentence. It is not enough
+    for the natural-feeling output Turkish already produces (purpose clauses, possessive
+    agreement, dative for movement verbs). Closing that gap is the next push before any
+    launch work.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="05-custom-art-and-dedup.html">← Previous: Custom Art and Dedup</a>
+    <span></span>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="./" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>
