@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deckstiny — A Roguelike Deckbuilder</title>
+<meta name="description" content="Deckstiny is a roguelike deckbuilder for iOS and Android with elemental Resonance and Fusion mechanics." />
+<meta property="og:title" content="Deckstiny" />
+<meta property="og:description" content="A roguelike deckbuilder with elemental Resonance &amp; Fusion mechanics. Coming to iOS &amp; Android." />
+<meta property="og:type" content="website" />
+<style>
+  :root {
+    --bg: #15110b;
+    --bg-card: #1d180f;
+    --ink: #efe6d4;
+    --muted: #b9ad94;
+    --accent: #c9a86a;
+    --line: #2a2218;
+    --fire:      #e07a3c;
+    --ice:       #6fb7cf;
+    --lightning: #d9c25a;
+    --shadow:    #8a73b8;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.65;
+  }
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .breadcrumb { font-size: 0.9rem; color: var(--muted); margin-bottom: 24px; }
+  .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  header.hero {
+    text-align: center;
+    padding: 32px 0 16px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 40px;
+  }
+  h1 {
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 3.2rem;
+    letter-spacing: 0.02em;
+    margin: 0 0 8px;
+    color: var(--accent);
+  }
+  .subtitle {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 1.1rem;
+    margin: 0 0 16px;
+  }
+  .status-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-top: 48px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  @media (min-width: 600px) {
+    .pillars { grid-template-columns: 1fr 1fr; }
+  }
+  .pillar {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .pillar h3 {
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.1rem;
+    margin: 0 0 6px;
+    color: var(--accent);
+  }
+  .pillar p { margin: 0; color: var(--ink); font-size: 0.95rem; }
+
+  .elements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0 8px;
+  }
+  .element {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid;
+    font-size: 0.95rem;
+    font-weight: 600;
+    background: var(--bg-card);
+  }
+  .element.fire      { color: var(--fire);      border-color: var(--fire); }
+  .element.ice       { color: var(--ice);       border-color: var(--ice); }
+  .element.lightning { color: var(--lightning); border-color: var(--lightning); }
+  .element.shadow    { color: var(--shadow);    border-color: var(--shadow); }
+
+  .facts {
+    width: 100%;
+    margin-top: 16px;
+    border-collapse: collapse;
+  }
+  .facts td {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .facts td:first-child {
+    color: var(--muted);
+    width: 38%;
+    padding-right: 16px;
+  }
+  .facts tr:last-child td { border-bottom: none; }
+
+  .links { margin-top: 16px; }
+  .links a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    margin-right: 20px;
+  }
+  .links a:hover { border-bottom-color: var(--accent); }
+
+  .availability {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-top: 16px;
+  }
+  .availability p { margin: 0; }
+  .availability p + p { margin-top: 10px; }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="breadcrumb"><a href="../index.html">Oguz Games</a> / Deckstiny</div>
+
+  <header class="hero">
+    <h1>Deckstiny</h1>
+    <p class="subtitle">A roguelike deckbuilder with elemental Resonance &amp; Fusion.</p>
+    <span class="status-pill">In development</span>
+  </header>
+
+  <p>Ascend the Shattered Spire one floor at a time. Build a deck from scratch each run, weave four elements into resonant chains, and switch elements at the perfect moment to trigger devastating fusion combos. Every run is different. Every choice matters. Die and start over with new knowledge.</p>
+
+  <h2>What makes it different</h2>
+  <div class="pillars">
+    <div class="pillar">
+      <h3>Resonance</h3>
+      <p>Play same-element cards in sequence to build stacking power — up to <strong>+100% damage and block</strong>. Spend it on an empowered play when it matters most.</p>
+    </div>
+    <div class="pillar">
+      <h3>Fusion</h3>
+      <p>Switch elements at the right moment to trigger combo effects — Steam Blast, Void Strike, Storm Front, and three more. Six fusions, six identities.</p>
+    </div>
+    <div class="pillar">
+      <h3>Element Channeling</h3>
+      <p>Cards that let you sculpt your hand. Elemental strategy is deliberate, not luck-of-the-draw.</p>
+    </div>
+    <div class="pillar">
+      <h3>Run variety</h3>
+      <p>Three heroes, branching maps, narrative events, an ascension ladder, and a daily challenge with a globally seeded run.</p>
+    </div>
+  </div>
+
+  <h2>The four elements</h2>
+  <div class="elements">
+    <span class="element fire">🔥 Fire</span>
+    <span class="element ice">❄️ Ice</span>
+    <span class="element lightning">⚡ Lightning</span>
+    <span class="element shadow">🌑 Shadow</span>
+  </div>
+  <p>Each element has its own combat identity — Fire piles on burn and pressure, Ice freezes and walls up, Lightning chains and surges, Shadow weakens and exhausts. Heroes have a primary element (+30% damage) and a secondary element (+15%), so the same card plays differently in different hands.</p>
+
+  <h2>At a glance</h2>
+  <table class="facts">
+    <tr><td>Genre</td><td>Single-player roguelike deckbuilder</td></tr>
+    <tr><td>Platforms</td><td>iOS &amp; Android (Flutter, single codebase)</td></tr>
+    <tr><td>Session length</td><td>~10 min per floor · 25–40 min per full run · Quick Run mode for short sessions</td></tr>
+    <tr><td>Heroes</td><td>3 at launch, each with a unique starting deck and elemental identity</td></tr>
+    <tr><td>Connectivity</td><td>Single-player. No account required. Optional online leaderboard for the daily challenge — everything else runs offline.</td></tr>
+    <tr><td>Accessibility</td><td>Colourblind-safe palette (each element has a redundant glyph) and full audio-mute support</td></tr>
+    <tr><td>Status</td><td>Mechanically complete; in art &amp; presentation pass before public TestFlight</td></tr>
+  </table>
+
+  <h2>Availability</h2>
+  <div class="availability">
+    <p><strong>Not yet released.</strong> Deckstiny is currently in active development. The core game is feature-complete and the team is focused on the art, audio, and polish pass before opening a public TestFlight.</p>
+    <p>To be notified when the beta opens, email <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>.</p>
+  </div>
+
+  <h2>Information</h2>
+  <div class="links">
+    <a href="./privacy.html">Privacy Policy</a>
+    <a href="./support.html">Support</a>
+    <a href="../index.html">More from Oguz Games</a>
+  </div>
+
+  <footer>© 2026 Gökhan Oguz. All rights reserved. Deckstiny is a trademark of Oguz Games.</footer>
+</main>
+</body>
+</html>

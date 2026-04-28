@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sesla is Back: The Return of Konuşan Parmaklar</title>
+<meta name="description" content="Years ago I built Turkey's first AAC app. The tech wasn't ready. Now it is. This is the story of why Sesla exists." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  .highlight {
+    background: #fffde7;
+    padding: 20px 24px;
+    border-radius: 8px;
+    border: 1px solid #f0e68c;
+    margin: 28px 0;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="./">← Sesla Dev Log</a></p>
+
+  <p class="meta">April 01, 2026 · Gökhan Oğuz</p>
+  <h1>Sesla is Back: The Return of Konuşan Parmaklar</h1>
+
+  <p>
+    This isn't my first time building an AAC app. Years ago, through my company
+    <strong>Javatar Yazılım</strong>, I created <strong>Konuşan Parmaklar</strong>
+    (Talking Fingers), Turkey's first native AAC application. The idea was simple:
+    every child deserves a voice, no matter their ability to speak.
+  </p>
+
+  <h2>What is AAC?</h2>
+
+  <p>
+    AAC stands for Augmentative and Alternative Communication. For millions of children
+    and adults with speech disabilities caused by autism, cerebral palsy, Down syndrome,
+    or other conditions, AAC apps are literally their voice. You tap a picture of "water"
+    and the phone says "Su istiyorum" (I want water). You build sentences by tapping
+    symbols. That's how you communicate with the world.
+  </p>
+
+  <p>
+    In English-speaking countries, apps like Proloquo2Go ($250 one-time), TouchChat ($300+),
+    and LAMP Words for Life have been around for over a decade. They're powerful, well-funded,
+    and clinically validated. But they all share a blind spot: <strong>they don't really
+    work for Turkish</strong>.
+  </p>
+
+  <h2>The First Attempt</h2>
+
+  <p>
+    When I built Konuşan Parmaklar, the Turkish AAC market was basically empty.
+    No app treated Turkish as a first-class language with proper symbols,
+    culturally relevant content, and natural-sounding speech. I wanted to change that.
+  </p>
+
+  <p>
+    But the tech wasn't ready. I ended up developing and patenting one of the first
+    Turkish text-to-speech engines. It worked, but it still sounded robotic and
+    struggled with vowel harmony and agglutination. There was no proper sound library
+    to work with either, so I had to rely on Google Translate audio as a workaround.
+    Smartphones were slower, cross-platform tools were immature. Building a quality AAC
+    app for Turkish meant fighting the platform at every turn.
+  </p>
+
+  <p>
+    I sold the company. The project went dormant. But the mission never left me.
+  </p>
+
+  <h2>Why Now?</h2>
+
+  <p>
+    Fast forward to 2026, and everything has changed:
+  </p>
+
+  <p>
+    <strong>Turkish TTS is now excellent.</strong> Both iOS (AVSpeechSynthesizer) and
+    Android (Google TTS) ship high-quality Turkish voices on-device. No internet required.
+    The voices sound natural, handle vowel harmony correctly, and support multiple voice options.
+  </p>
+
+  <p>
+    <strong>Flutter makes solo development viable.</strong> One codebase, two platforms.
+    The Impeller rendering engine delivers 98-99% frame rate consistency on image-heavy grids,
+    exactly what AAC symbol boards need. I can build for iOS and Android at the same time
+    without maintaining two codebases.
+  </p>
+
+  <p>
+    <strong>AI helps with quality assurance.</strong> With AI-assisted code review
+    and testing, a solo developer can keep the quality bar that used to require a team.
+    275 tests, Turkish morphology rules, a complete communication engine, and AI
+    helping me review, test, and catch bugs along the way.
+  </p>
+
+  <blockquote>
+    <p>
+      "Sesla" means "voice" in Turkish (sesle / seslen, to call out, to give voice).
+      The name itself is the mission.
+    </p>
+  </blockquote>
+
+  <h2>What Makes Sesla Different</h2>
+
+  <p>
+    <strong>Turkish-first, not Turkish-translated.</strong> Sesla isn't an English app
+    with Turkish labels bolted on. Turkish and English are each a complete, standalone
+    experience with culturally authentic symbols and content. Turkish morphology (the
+    complex system of vowel harmony, verb conjugation, and noun cases) is built into
+    the core, not an afterthought.
+  </p>
+
+  <p>
+    <strong>Accessible pricing.</strong> The big AAC apps cost $250-$300 upfront
+    or $7-10/month. In Turkey, that's out of reach for most families. Sesla will have
+    a generous free tier with a modest subscription for premium features. Communication
+    is a right, not a luxury.
+  </p>
+
+  <p>
+    <strong>Modern, not clinical.</strong> Most AAC apps look like medical software from
+    2010. Sesla uses Material 3 design with dark mode, high contrast, and full accessibility
+    support. It should feel like an app a child actually wants to use.
+  </p>
+
+  <div class="highlight">
+    <p>
+      <strong>Current status:</strong> Core development is complete. 3,400+ symbols,
+      Turkish morphology engine, communication builder, user profiles, accessibility features,
+      275 tests. Now in the pre-launch phase, working toward beta.
+    </p>
+  </div>
+
+  <h2>The Road Ahead</h2>
+
+  <p>
+    Sesla is being built in the open. This devlog will document the journey: the technical
+    challenges, the design decisions, and the path from code to the hands of families who
+    need it. If you're a speech-language pathologist, a parent of a non-verbal child, or
+    just someone who believes everyone deserves a voice, follow along.
+  </p>
+
+  <p>
+    This is the return of Konuşan Parmaklar. Built with better tools, guided by the same mission.
+  </p>
+
+  <div class="nav-bottom">
+    <span></span>
+    <a href="02-building-aac-with-ai.html">Next: Building an AAC App in 2026 →</a>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="./" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>

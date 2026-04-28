@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gökhan Oğuz</title>
+<meta name="description" content="Apps and games by Gökhan Oğuz." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #2a2a2a;
+  }
+
+  /* Per-game accents, used only inside each card so the index page itself
+     stays neutral while still hinting at each game's identity. */
+  .card.deckstiny       { --tile: #c9a86a; --tile-bg: #fdf9f0; }
+  .card.forgotten-script{ --tile: #8b3a1e; --tile-bg: #faf3e2; }
+  .card.landrush        { --tile: #3b82f6; --tile-bg: #eff6ff; }
+  .card.sesla           { --tile: #0066cc; --tile-bg: #e8f0fe; }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 80px 24px 96px;
+  }
+
+  header.site {
+    margin-bottom: 64px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .tagline {
+    color: var(--muted);
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin: 56px 0 16px;
+    font-weight: 600;
+  }
+
+  .games {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 24px 28px;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .card:hover {
+    border-color: var(--tile, var(--accent));
+    transform: translateY(-1px);
+  }
+
+  .card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .card-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card-title a:hover {
+    color: var(--tile, var(--accent));
+  }
+
+  .card-platforms {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: var(--tile-bg, #f0f0ec);
+    color: var(--tile, var(--ink-soft));
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  .card-blurb {
+    margin: 0 0 14px;
+    color: var(--ink-soft);
+  }
+
+  .card-links {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 0.92rem;
+  }
+
+  .card-links a {
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px dotted transparent;
+    padding-bottom: 1px;
+  }
+
+  .card-links a:hover {
+    color: var(--tile, var(--accent));
+    border-bottom-color: var(--tile, var(--accent));
+  }
+
+  .contact {
+    color: var(--ink-soft);
+  }
+
+  .contact a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+  }
+
+  .contact a:hover {
+    border-bottom-color: var(--ink);
+  }
+
+  footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    main { padding: 56px 20px 64px; }
+    h1 { font-size: 1.8rem; }
+    .card { padding: 20px 22px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header class="site">
+    <h1>Gökhan Oğuz</h1>
+    <p class="tagline">Apps and games — hand-crafted with care.</p>
+  </header>
+
+  <h2>Apps</h2>
+  <ul class="games">
+    <li class="card sesla">
+      <div class="card-head">
+        <p class="card-title"><a href="./sesla/">Sesla</a></p>
+        <span class="card-platforms">iOS · Android</span>
+      </div>
+      <p class="card-blurb">
+        An AAC app giving a voice to speech-disabled children and adults. First-class Turkish &amp; English.
+      </p>
+      <div class="card-links">
+        <a href="./sesla/">Dev Log</a>
+        <a href="./sesla/01-sesla-is-back.html">Origin Story</a>
+      </div>
+    </li>
+  </ul>
+
+  <h2>Games</h2>
+  <ul class="games">
+    <li class="card landrush">
+      <div class="card-head">
+        <p class="card-title"><a href="./landrush/">LandRush</a></p>
+        <span class="card-platforms">iOS · Android</span>
+      </div>
+      <p class="card-blurb">
+        A real-world territory game — walk, run, or bike to claim land on a shared map.
+      </p>
+      <div class="card-links">
+        <a href="./landrush/">About</a>
+        <a href="./landrush/press.html">Press Kit</a>
+        <a href="./landrush/privacy.html">Privacy</a>
+        <a href="./landrush/support.html">Support</a>
+      </div>
+    </li>
+    <li class="card deckstiny">
+      <div class="card-head">
+        <p class="card-title"><a href="./deckstiny/">Deckstiny</a></p>
+        <span class="card-platforms">iOS · Android</span>
+      </div>
+      <p class="card-blurb">
+        A roguelike deckbuilder with elemental Resonance &amp; Fusion mechanics.
+      </p>
+      <div class="card-links">
+        <a href="./deckstiny/">About</a>
+        <a href="./deckstiny/privacy.html">Privacy</a>
+        <a href="./deckstiny/support.html">Support</a>
+      </div>
+    </li>
+    <li class="card forgotten-script">
+      <div class="card-head">
+        <p class="card-title"><a href="./forgotten-script/">Forgotten Script</a></p>
+        <span class="card-platforms">iOS · Android</span>
+      </div>
+      <p class="card-blurb">
+        A meditative cipher-decoding puzzle. Daily and endless runs, three languages.
+      </p>
+      <div class="card-links">
+        <a href="./forgotten-script/">About</a>
+        <a href="./forgotten-script/privacy.html">Privacy</a>
+        <a href="./forgotten-script/terms.html">Terms</a>
+        <a href="./forgotten-script/support.html">Support</a>
+      </div>
+    </li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p class="contact">
+    Support, partnership, or press —
+    <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>.
+  </p>
+
+  <footer>
+    © 2026 Gökhan Oğuz.
+  </footer>
+</main>
+</body>
+</html>

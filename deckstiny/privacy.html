@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deckstiny — Privacy Policy</title>
+<meta name="description" content="Privacy Policy for Deckstiny." />
+<style>
+  :root {
+    --bg: #15110b;
+    --ink: #efe6d4;
+    --muted: #b9ad94;
+    --accent: #c9a86a;
+    --line: #2a2218;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.65;
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  h1 {
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 2.0rem;
+    color: var(--accent);
+    margin: 0 0 4px;
+  }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 36px; }
+  h2 {
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.25rem;
+    color: var(--accent);
+    margin-top: 40px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 6px;
+  }
+  a { color: var(--accent); }
+  .breadcrumb { font-size: 0.9rem; color: var(--muted); margin-bottom: 24px; }
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="breadcrumb"><a href="../index.html">Oguz Games</a> / Deckstiny / Privacy Policy</div>
+  <h1>Deckstiny — Privacy Policy</h1>
+  <div class="meta">Effective date: 27 April 2026 · Applies to Deckstiny v1.0 and later · Last updated 27 April 2026 (added Crashlytics)</div>
+
+  <p>This Privacy Policy describes how the Deckstiny mobile game ("Deckstiny", "the app", "we", "us") handles information when you use it. Deckstiny is published by Gökhan Oguz ("Oguz Games").</p>
+
+  <h2>Summary</h2>
+  <p>Deckstiny is a single-player game with <strong>no user accounts, no advertising, and no cross-app tracking</strong>. Almost everything happens on your device. Three features touch the network: the optional daily-challenge leaderboard, in-app purchases, and crash reporting. All three are described below in plain language.</p>
+
+  <h2>What Stays on Your Device</h2>
+  <p>Deckstiny stores the following information <em>locally on your device only</em>, inside the app's private sandbox:</p>
+  <ul>
+    <li>Your save data: run progress, unlocked cards/relics/heroes, ascension level, daily-challenge results, audio settings, accessibility preferences, and similar gameplay state.</li>
+    <li>Your in-app display name (a randomly generated adjective+noun shown on the leaderboard, which you can change in Settings).</li>
+    <li>An anonymous random identifier (a UUID) generated on first launch, used to recognise your own entry on the leaderboard and to associate your purchases with this install.</li>
+  </ul>
+  <p>None of this is tied to your real identity. You can erase all of it at any time by uninstalling the app or by clearing the app's storage in your device settings.</p>
+
+  <h2>Daily Leaderboard (Online Feature)</h2>
+  <p>When you complete a Daily Challenge run, Deckstiny submits your result to a leaderboard server (operated for us by <a href="https://supabase.com/privacy">Supabase</a>) so that you can see how you ranked against other players that day. Each submission contains:</p>
+  <ul>
+    <li>Your in-app display name.</li>
+    <li>The anonymous random identifier described above (so the same install can update its own entry).</li>
+    <li>The score and the date of the daily challenge.</li>
+  </ul>
+  <p>We do <strong>not</strong> send your real name, email address, IP-derived location, advertising identifier, device fingerprint, or any other personal data to the leaderboard. The submission is best-effort — if it fails (no network, server down), your local progress is unaffected. Leaderboard entries are retained for a rolling window so that historical daily boards remain viewable.</p>
+
+  <h2>In-App Purchases</h2>
+  <p>If you choose to buy something in Deckstiny, the transaction is processed by Apple (App Store) or Google (Play Store) under <em>their</em> respective privacy policies. Oguz Games never sees your payment card, billing address, or Apple/Google account email.</p>
+  <p>To deliver the items you bought across reinstalls and to verify "Restore Purchases", Deckstiny uses <a href="https://www.revenuecat.com/privacy/">RevenueCat</a> as a purchase-management service. RevenueCat is given the anonymous identifier described above plus the purchase metadata that the platform store sends (product ID, transaction ID, country, currency). RevenueCat acts as our service provider and does not use this data to advertise to you or to track you across other apps. See RevenueCat's privacy policy for details.</p>
+
+  <h2>Crash Reporting</h2>
+  <p>To find and fix bugs, Deckstiny sends crash reports and non-fatal error reports to <a href="https://firebase.google.com/support/privacy">Firebase Crashlytics</a> (a Google service). Crash reporting is enabled only in production builds — debug builds we run on our own machines do not upload anything.</p>
+  <p>Each report includes:</p>
+  <ul>
+    <li>The stack trace of the error.</li>
+    <li>Your device model, operating-system version, and locale.</li>
+    <li>The Deckstiny app version and build number.</li>
+    <li>An anonymous Firebase-internal installation identifier (managed by Crashlytics; rotates if you reinstall the app).</li>
+    <li>Up-to-the-crash diagnostic context (e.g. recent log breadcrumbs).</li>
+  </ul>
+  <p>Crash reports do <strong>not</strong> contain your real name, email address, IP-derived location, advertising identifier, or the anonymous device identifier we use for the leaderboard. We never call Crashlytics' "set user identifier" API, so reports are not linked to a particular player profile from our side. Reports are retained by Firebase for 90 days and then deleted automatically.</p>
+
+  <h2>What We Do Not Collect</h2>
+  <ul>
+    <li>No real name, email address, postal address, or phone number.</li>
+    <li>No user account credentials (Deckstiny has no accounts).</li>
+    <li>No location data.</li>
+    <li>No access to contacts, photos, microphone, or camera.</li>
+    <li>No advertising identifiers (IDFA / Android Advertising ID).</li>
+    <li>No advertising SDKs, no third-party analytics, no marketing trackers.</li>
+    <li>No tracking across apps or websites — nothing in Deckstiny qualifies as "tracking" under Apple's App Tracking Transparency framework, and we will never present an ATT prompt.</li>
+  </ul>
+
+  <h2>Children's Privacy</h2>
+  <p>Deckstiny is not directed to children under 13 (or the equivalent minimum age in your jurisdiction). The data we do receive (anonymous identifier, display name, score) is not personal information and is not used to build user profiles. We do not knowingly collect personal information from children.</p>
+
+  <h2>Third-Party Services</h2>
+  <p>The shipped app embeds the following third-party software components that touch the network or the platform stores. None of them are advertising or cross-app tracking SDKs.</p>
+  <ul>
+    <li><strong>Supabase</strong> — backend for the daily-challenge leaderboard. <a href="https://supabase.com/privacy">Privacy policy</a>.</li>
+    <li><strong>RevenueCat</strong> — purchase management and "Restore Purchases" support. <a href="https://www.revenuecat.com/privacy/">Privacy policy</a>.</li>
+    <li><strong>Firebase Crashlytics</strong> (Google) — crash and non-fatal error reporting. <a href="https://firebase.google.com/support/privacy">Privacy policy</a>. We do <em>not</em> use Firebase Analytics.</li>
+    <li><strong>Apple App Store / Google Play Billing</strong> — payment processing. Governed by Apple's and Google's policies respectively.</li>
+  </ul>
+
+  <h2>Your Choices</h2>
+  <ul>
+    <li><strong>Don't play the Daily Challenge.</strong> If you never complete a Daily Challenge, no leaderboard data is sent. Standard runs and Quick Runs are entirely local.</li>
+    <li><strong>Change your display name</strong> at any time in Settings; the new name appears on future submissions.</li>
+    <li><strong>Reset everything</strong> by uninstalling the app or clearing its storage. This severs the link between this install and any prior leaderboard / purchase records, because they are keyed off the anonymous random identifier stored on the device.</li>
+    <li><strong>Manage or refund purchases</strong> through your Apple ID / Google account settings.</li>
+  </ul>
+
+  <h2>International Users</h2>
+  <p>The leaderboard backend may store data in regions outside your country (for example, the European Union or the United States). Because we do not collect personal data, no special transfer mechanism is required for the categories listed in this policy.</p>
+
+  <h2>Changes to This Policy</h2>
+  <p>If this policy changes in a material way, we will update the "Effective date" above and post the new version at this URL. The version that applies to your use of the app is the one in effect at the time of use.</p>
+
+  <h2>Contact</h2>
+  <p>If you have questions about this policy, contact us at <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>.</p>
+
+  <footer>© 2026 Gökhan Oguz. All rights reserved.</footer>
+</main>
+</body>
+</html>

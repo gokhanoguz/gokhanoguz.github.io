@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Custom Art and the Deduplication Marathon — Sesla Dev Log</title>
+<meta name="description" content="Generated 387 custom SVG symbols, ran two dedup passes to cut visible symbols from 950+ to 457, and fixed the sentence helper row. The visual identity takes shape." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { color: var(--ink-soft); padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="./">← Sesla Dev Log</a></p>
+
+  <p class="meta">April 25, 2026 · Gökhan Oğuz</p>
+  <h1>Custom Art and the Deduplication Marathon</h1>
+
+  <p>
+    An AAC app lives and dies by its symbols. Kids don't read labels — they recognise
+    pictures. Today the app got its own visual identity: 387 hand-crafted SVG icons
+    across all 16 categories, a brutal deduplication pass, and fixes to the sentence
+    helper row. The grid finally looks like <em>our</em> app, not a Mulberry reskin.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">387</p>
+      <p class="stat-label">Custom SVGs</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">457</p>
+      <p class="stat-label">Visible Symbols</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">514</p>
+      <p class="stat-label">Duplicates Hidden</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">691</p>
+      <p class="stat-label">Tests</p>
+    </div>
+  </div>
+
+  <h2>The Sesla Art Style</h2>
+
+  <p>
+    Every symbol follows a consistent formula: 100×100 SVG viewBox, rounded 12px
+    background, bold outlines, flat fills, no gradients. A banana looks like a banana
+    at 64 pixels wide. A house reads instantly as a house. The palette is bright but
+    not garish — about 30 named colours that map to natural categories (green for nature,
+    blue for places, yellow for food).
+  </p>
+
+  <p>
+    The generator script covers all 16 categories: social expressions, feelings, people,
+    colours, drinks, numbers, time, nature, places, animals, play, school, home, food,
+    actions, and body. Plus a "board extras" section for symbols that only appear in
+    pre-built boards. Each symbol is a few hundred bytes of SVG — the entire set adds
+    barely anything to the app bundle.
+  </p>
+
+  <h2>The Duplication Problem</h2>
+
+  <p>
+    Here's what happens when you have 4,371 symbol entries and multiple data sources:
+    duplicates. Lots of them. The original Mulberry set had multiple entries for common
+    words. Our generator created new entries for the same words. Board-specific symbols
+    overlapped with category symbols. It was a mess.
+  </p>
+
+  <p>
+    A child tapping into the "Body" category shouldn't see two copies of "El" (hand)
+    with slightly different art. That's confusing, not helpful.
+  </p>
+
+  <p>
+    The fix was two automated dedup passes. The first one caught 409 obvious duplicates —
+    same Turkish text, keep the lower-numbered entry, hide the rest. The second pass,
+    after art generation created new entries, caught another 105. The scoring logic
+    prefers entries with custom Sesla art, then checks if the symbol is referenced by
+    a pre-built board (can't hide those), then falls back to ID number.
+  </p>
+
+  <p>
+    End result: 457 visible symbols, zero duplicate text within any category. Clean grids.
+  </p>
+
+  <h2>Fixing the Helper Row</h2>
+
+  <p>
+    Remember the sentence helper row from last time? The pinned pronouns and verbs at
+    the top of every category? Two of the core symbols — "O" (he/she/it) and "Benim"
+    (my/mine) — were showing broken placeholders. They'd been hidden during dedup
+    because they were Mulberry entries, and nobody had created Sesla replacements.
+  </p>
+
+  <p>
+    Created proper SVGs for both, plus the question mark symbol. The helper row now
+    renders cleanly: Ben, Sen, O, Benim, Hayır, Dün, Yarın, and the question mark —
+    all in the Sesla art style, always visible, every category.
+  </p>
+
+  <h2>Pre-Built Boards</h2>
+
+  <p>
+    The three Turkish boards (Temel İletişim, Yemek Zamanı, Okul) reference 69 specific
+    symbol IDs. All of them now have Sesla art and none are accidentally hidden. A small
+    thing, but pre-built boards are the first thing a new user sees after onboarding.
+    Every symbol needs to render — no question marks, no missing images.
+  </p>
+
+  <h2>Visual QA, Category by Category</h2>
+
+  <p>
+    Went through every category on the simulator, taking screenshots. Most categories
+    looked great. A few things to revisit later — some food items could be more
+    recognisable, and there are still a handful of Mulberry-style symbols mixed in where
+    the generator didn't have a custom version. But the overall feel has shifted from
+    "borrowed open-source art" to "cohesive visual language."
+  </p>
+
+  <blockquote>
+    <p>
+      Symbols are the words of an AAC app. Today the app learned to speak
+      in its own visual dialect instead of borrowing someone else's.
+    </p>
+  </blockquote>
+
+  <h2>What's Next</h2>
+
+  <p>
+    Some individual symbols need art touch-ups. The tablet layout got responsive treatment
+    last session but hasn't been tested with the new symbol set. And the English locale
+    needs the same dedup and art treatment that Turkish just got. But the core visual
+    identity is here — 387 symbols, one consistent style, zero duplicates.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="04-possessives-and-polish.html">← Previous: Possessives and 679 Tests</a>
+    <span></span>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="./" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>

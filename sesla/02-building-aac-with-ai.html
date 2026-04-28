@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Building an AAC App in 2026</title>
+<meta name="description" content="Flutter, Turkish morphology, 610+ tests, and an AI pair programmer. A technical look at how Sesla was built." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px 24px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 20px 0;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="./">← Sesla Dev Log</a></p>
+
+  <p class="meta">April 12, 2026 · Gökhan Oğuz</p>
+  <h1>Building an AAC App in 2026</h1>
+
+  <p>
+    Sesla's core development is complete: 10 phases, 610+ tests, a Turkish morphology engine,
+    3,400+ symbols, and a full communication experience — built by one developer with an
+    AI pair programmer. Here's how.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">610+</p>
+      <p class="stat-label">Tests</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">3,436</p>
+      <p class="stat-label">Symbols</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">10</p>
+      <p class="stat-label">Build Phases</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">16</p>
+      <p class="stat-label">Screenshot Tests</p>
+    </div>
+  </div>
+
+  <h2>The Stack</h2>
+
+  <p>
+    <strong>Flutter</strong> was the only realistic choice for a solo developer targeting
+    both iOS and Android. The Impeller rendering engine handles image-heavy symbol grids
+    at near-native performance, which is critical when you're rendering 20-60 symbols per screen.
+  </p>
+
+  <p>
+    The rest of the stack: <strong>Drift</strong> for the SQLite database (type-safe queries,
+    migrations, streams), <strong>Riverpod 3</strong> for state management (the new Notifier
+    pattern is excellent once you learn the gotchas), and <strong>GoRouter</strong> for
+    declarative navigation.
+  </p>
+
+  <p>
+    All data stays on-device. No server, no cloud, no tracking. For an app used by
+    children with disabilities, privacy isn't a feature, it's a requirement.
+  </p>
+
+  <h2>The Turkish Morphology Challenge</h2>
+
+  <p>
+    This is where it gets interesting. Turkish is an agglutinative language, meaning you build
+    words by stacking suffixes. "I am not going" in English is three words. In Turkish
+    it's one: <strong>gitmiyorum</strong> (<code>git</code> + <code>mi</code> +
+    <code>yor</code> + <code>um</code>).
+  </p>
+
+  <p>
+    For an AAC app, this matters a lot. When a child taps the symbol for "go"
+    (gitmek), the app can't just speak the infinitive. It needs to conjugate:
+    "Gidiyorum" (I'm going), "Gitmiyorum" (I'm not going), "Gittim" (I went).
+    And the suffixes change based on vowel harmony. Turkish has strict rules about
+    which vowels can follow which.
+  </p>
+
+  <p>
+    I built a <strong>rule-based morphology engine</strong>, not ML, because Turkish
+    grammar is deterministic. The engine handles:
+  </p>
+
+  <p>
+    <strong>Verb conjugation:</strong> present continuous, simple past, future, and
+    imperative tenses across 6 persons, with negative forms. Plus special cases like
+    consonant softening (<code>git → gid-</code> before vowels) and vowel-stem
+    verbs (<code>ye → yi-</code>).
+  </p>
+
+  <p>
+    <strong>Noun declension:</strong> 6 grammatical cases (nominative, accusative,
+    dative, locative, ablative, genitive) with 4-way and 2-way vowel harmony.
+  </p>
+
+  <p>
+    <strong>Auto-conjugation in the communication path:</strong> when speaking a
+    sentence in Turkish, the app detects verb infinitives (words ending in -mak/-mek),
+    looks up the stem in a verb dictionary, and conjugates to present continuous first
+    person, the most common form in AAC usage for children.
+  </p>
+
+  <h2>Symbol System</h2>
+
+  <p>
+    Sesla uses <strong>Mulberry Symbols</strong> (CC BY-SA 4.0), the only high-quality,
+    open-source symbol set suitable for commercial AAC use. I looked at ARASAAC too (excellent
+    quality but CC BY-NC-SA, so no commercial use) and decided Mulberry was the right
+    foundation.
+  </p>
+
+  <p>
+    3,436 symbols are bundled in the app as SVGs, organized into categories matching the
+    Fitzgerald Key color system used in speech therapy. All symbols have Turkish
+    translations — a major localization effort that goes beyond simple word mapping.
+    Turkish doesn't just translate "eat" → "yemek" — cultural context matters.
+    The symbol for "toast" in a Turkish AAC board should be "tost" (Turkish-style toast),
+    not the American version.
+  </p>
+
+  <h2>Testing Philosophy</h2>
+
+  <p>
+    AAC apps are medical-adjacent software. A bug that shows the wrong symbol or speaks
+    the wrong word isn't just annoying, it prevents a child from communicating.
+    So testing is taken seriously:
+  </p>
+
+  <p>
+    <strong>610+ tests</strong> covering data layer integrity, TTS service behavior,
+    morphology correctness (verb conjugation edge cases were brutal to get right),
+    profile management invariants, board seeding, UI widget rendering, and a
+    334-case Turkish sentence grammar benchmark.
+  </p>
+
+  <p>
+    <strong>16 integration screenshot tests</strong> that capture real app journeys
+    (onboarding, home screen, settings, search, profiles, dark mode, high contrast)
+    on a simulator, then get visually verified. This catches layout breaks, missing
+    translations, and rendering issues that unit tests can't.
+  </p>
+
+  <p>
+    <strong>AI-assisted code reviews</strong> after every major phase. An AI reviewer
+    catches things you miss when you're deep in implementation: architecture issues,
+    missing edge cases, constraint violations. Several critical bugs were caught this
+    way before they could reach users.
+  </p>
+
+  <h2>How AI Fits Into the Workflow</h2>
+
+  <p>
+    I use AI as part of my development workflow, particularly for code reviews,
+    generating test cases, catching edge cases, and validating that the implementation
+    matches the design intent.
+  </p>
+
+  <p>
+    Think of it as having a tireless QA partner. After I finish a feature, I run it
+    through AI review. It finds the constraint violation I overlooked, the null check
+    I forgot, the test case I didn't think of. That feedback loop (build, review,
+    fix, test) is where AI genuinely speeds things up for a solo developer.
+  </p>
+
+  <blockquote>
+    <p>
+      AI helps me ship with fewer bugs. The domain knowledge, the product decisions,
+      the code, that's still my job. AI just makes the review and testing cycle faster.
+    </p>
+  </blockquote>
+
+  <h2>What's Next</h2>
+
+  <p>
+    The core is done. What remains is the last mile: app icons, store listings,
+    beta testing with real families, and the things you can only learn from
+    putting software in people's hands.
+  </p>
+
+  <p>
+    Phase 10 is launch. After that: more features based on what real users
+    actually need. The roadmap exists, but the best ideas will come from
+    watching families use the app.
+  </p>
+
+  <p>
+    Follow this devlog for updates. If you know a family that could benefit
+    from Sesla, stay tuned. Beta is coming soon.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="01-sesla-is-back.html">← Previous: Sesla is Back</a>
+    <a href="03-teaching-an-app-turkish.html">Next: Teaching an App Turkish →</a>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="./" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>

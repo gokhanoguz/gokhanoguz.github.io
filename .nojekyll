@@ -1,0 +1,5 @@
+<!--
+  Tells GitHub Pages to skip Jekyll processing. The repo is plain static
+  HTML — no templating, no theme, no _config.yml. With Jekyll on, files
+  starting with `_` would be hidden, which is a footgun we don't need.
+-->

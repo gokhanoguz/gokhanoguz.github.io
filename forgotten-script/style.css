@@ -1,0 +1,205 @@
+/* Forgotten Script — public site shared styles.
+   Parchment / archaeological aesthetic: warm cream paper, dark sepia
+   ink, serif headings. Designed to read well at any width without a
+   build step. */
+
+:root {
+  --paper: #f5ecd9;
+  --paper-shadow: #e8dcc0;
+  --ink: #2a1f12;
+  --ink-soft: #4a3a26;
+  --ink-faint: #7a6a52;
+  --accent: #8b3a1e;
+  --accent-soft: #b85a36;
+  --rule: #c9b894;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse at top, rgba(255, 245, 220, 0.4), transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(180, 140, 90, 0.08), transparent 70%);
+  min-height: 100vh;
+}
+
+.wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 28px 96px;
+}
+
+header.site {
+  text-align: center;
+  margin-bottom: 56px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--rule);
+}
+
+header.site h1 {
+  font-size: 44px;
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+header.site .tagline {
+  font-style: italic;
+  color: var(--ink-faint);
+  font-size: 18px;
+  margin: 0;
+}
+
+nav.site {
+  margin-top: 18px;
+  font-size: 16px;
+}
+
+nav.site a {
+  color: var(--accent);
+  text-decoration: none;
+  margin: 0 12px;
+  border-bottom: 1px dotted transparent;
+}
+
+nav.site a:hover {
+  border-bottom-color: var(--accent);
+}
+
+nav.site a.current {
+  color: var(--ink);
+  border-bottom-color: var(--ink-faint);
+}
+
+h2 {
+  font-size: 28px;
+  margin: 48px 0 16px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 6px;
+}
+
+h3 {
+  font-size: 20px;
+  margin: 32px 0 10px;
+  color: var(--ink-soft);
+}
+
+p, li {
+  color: var(--ink-soft);
+}
+
+a {
+  color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent-soft);
+}
+
+ul {
+  padding-left: 22px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+.lede {
+  font-size: 20px;
+  color: var(--ink);
+  font-style: italic;
+  margin: 0 0 28px;
+}
+
+.callout {
+  background: var(--paper-shadow);
+  border-left: 4px solid var(--accent);
+  padding: 16px 20px;
+  margin: 24px 0;
+  font-size: 17px;
+}
+
+.callout strong { color: var(--ink); }
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 32px 0 16px;
+}
+
+.feature {
+  background: rgba(255, 250, 235, 0.6);
+  border: 1px solid var(--rule);
+  padding: 20px 22px;
+  border-radius: 4px;
+}
+
+.feature h3 {
+  margin-top: 0;
+  font-size: 18px;
+  color: var(--accent);
+}
+
+.feature p {
+  margin: 0;
+  font-size: 16px;
+}
+
+@media (max-width: 560px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  header.site h1 { font-size: 34px; }
+  .wrap { padding: 32px 20px 64px; }
+}
+
+dl.meta {
+  margin: 16px 0 32px;
+  font-size: 16px;
+  color: var(--ink-faint);
+}
+
+dl.meta dt {
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin-top: 8px;
+}
+
+dl.meta dd {
+  margin: 0 0 6px;
+}
+
+footer.site {
+  margin-top: 80px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-faint);
+}
+
+footer.site a {
+  color: var(--ink-faint);
+  margin: 0 8px;
+}
+
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.92em;
+  background: var(--paper-shadow);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: var(--ink);
+}

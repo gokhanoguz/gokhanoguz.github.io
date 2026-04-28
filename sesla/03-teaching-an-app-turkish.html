@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Teaching an App Turkish — Sesla Dev Log</title>
+<meta name="description" content="3,436 symbols translated, 325 culturally filtered, a grammar engine that conjugates verbs and declines nouns. The localization story." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px 24px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 20px 0;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { color: var(--ink-soft); padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="./">← Sesla Dev Log</a></p>
+
+  <p class="meta">April 16, 2026 · Gökhan Oğuz</p>
+  <h1>Teaching an App Turkish</h1>
+
+  <p>
+    Translating an AAC app isn't like translating a website. You can't run 3,436 symbol
+    labels through Google Translate and call it done. This is the story of getting Sesla
+    to actually speak Turkish — from symbol translations to grammar-aware sentence building.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">3,436</p>
+      <p class="stat-label">Symbols Translated</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">100%</p>
+      <p class="stat-label">TR Coverage</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">325</p>
+      <p class="stat-label">Culturally Filtered</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">334</p>
+      <p class="stat-label">Grammar Tests</p>
+    </div>
+  </div>
+
+  <h2>The Translation Problem</h2>
+
+  <p>
+    Mulberry Symbols were designed for English-speaking countries. Many symbols are
+    straightforward — "cat" is "kedi," "water" is "su." But hundreds required real
+    thought.
+  </p>
+
+  <p>
+    Take country flags. The English label "France" works fine, but the Turkish translation
+    isn't "France" — it's "Fransa." And it's not just names: "football kit" becomes
+    "futbol forması," "cricket" has no natural Turkish equivalent, and "Boxing Day"
+    is meaningless outside the Commonwealth.
+  </p>
+
+  <p>
+    Then there are the duplicates. Machine translation gives you "Bayrak" for every flag,
+    "Forma" for every kit, and identical translations for symbols that should be distinct.
+    We ran four passes of deduplication scripts, differentiating 970+ symbols that
+    would have had identical labels.
+  </p>
+
+  <h2>Cultural Filtering</h2>
+
+  <p>
+    An AAC app for Turkish children shouldn't show symbols for "Church of England,"
+    "Christening," or "Three Kings." These aren't offensive — they're just irrelevant,
+    and they waste grid space that should go to symbols the child actually needs.
+  </p>
+
+  <p>
+    We built a <code>hidden_tr</code> flag system. 325 symbols are marked hidden for
+    the Turkish locale:
+  </p>
+
+  <ul>
+    <li><strong>46</strong> Christianity and British-culture symbols (church holidays, religious ceremonies)</li>
+    <li><strong>124</strong> person diversity variant duplicates (kept one per profession, hid skin-tone variants)</li>
+    <li><strong>154</strong> numbered variant duplicates where the base symbol already exists</li>
+    <li><strong>1</strong> "Üç Kral" (Three Kings) — a Christianity reference in the People category</li>
+  </ul>
+
+  <p>
+    The hidden symbols still exist in the data — they're just filtered at seed time.
+    A future English-locale user sees all 3,436. A Turkish user sees 3,111.
+  </p>
+
+  <h2>SVG Rendering: The Invisible Bug</h2>
+
+  <p>
+    After loading all symbols, we noticed something odd: about 300 symbols rendered
+    as solid black silhouettes. The SVGs looked fine in a browser but were dark
+    in the app.
+  </p>
+
+  <p>
+    The culprit: CSS <code>&lt;style&gt;</code> blocks inside the SVGs. Mulberry
+    uses CSS classes like <code>.st0{fill:#ffffc2}</code> for colors. Flutter's
+    <code>flutter_svg</code> package doesn't parse CSS — it only reads inline
+    <code>fill</code> and <code>stroke</code> attributes.
+  </p>
+
+  <p>
+    The fix was a Python script that parsed each SVG's CSS rules, resolved combined
+    selectors (like <code>.st2,.st3{fill:#fff}</code> followed by
+    <code>.st3{stroke:#000}</code> — where properties merge, not replace), and
+    inlined them as direct SVG attributes. 317 SVGs fixed. Ten remain with
+    <code>@font-face</code> declarations for embedded text — a minor cosmetic issue.
+  </p>
+
+  <h2>From Symbol Taps to Sentences</h2>
+
+  <p>
+    The real challenge isn't translation — it's grammar. When a child taps
+    <strong>Ben</strong> → <strong>Okul</strong> → <strong>Gitmek</strong>,
+    the app shouldn't speak "Ben Okul Gitmek" (I School To-go). It should say
+    <strong>"Ben okula gidiyorum"</strong> (I'm going to school).
+  </p>
+
+  <p>
+    Three things happened there: "Okul" got lowercased (it's mid-sentence), it received
+    the dative suffix "-a" (because "gitmek" is a movement verb and "okul" is a
+    destination), and "gitmek" was conjugated to first-person present continuous
+    with consonant softening (git → gid → gidiyorum).
+  </p>
+
+  <p>
+    The sentence builder does this in three passes:
+  </p>
+
+  <p>
+    <strong>Pass 1 — Scan for markers.</strong> Time markers set the tense:
+    "Dün" (yesterday) → past, "Yarın" (tomorrow) → future. "Hayır" (no) triggers
+    negation. Pronouns set the person. Subject nouns like "Anne" (mom) or "Köpek"
+    (dog) trigger third person.
+  </p>
+
+  <p>
+    <strong>Pass 2 — Build output.</strong> The last verb infinitive gets conjugated
+    with the detected tense, person, and negation. Preceding verbs stay infinitive
+    (complement position). Location nouns before movement verbs get dative case.
+  </p>
+
+  <p>
+    <strong>Pass 3 — Lowercase.</strong> Non-first words get Turkish-aware
+    lowercasing — this matters because Turkish has two distinct "i" letters:
+    İ→i and I→ı.
+  </p>
+
+  <h2>The Benchmark</h2>
+
+  <p>
+    Grammar engines are only as good as their test coverage. We built a 334-case
+    benchmark corpus covering:
+  </p>
+
+  <ul>
+    <li>Simple subject-verb: "Ben gidiyorum" (I'm going)</li>
+    <li>Subject-object-verb: "Ben su içiyorum" (I'm drinking water)</li>
+    <li>Auxiliary verbs: "Ben gitmek istiyorum" (I want to go)</li>
+    <li>Tense: "Ben dün gittim" (I went yesterday)</li>
+    <li>Negation: "Ben gitmiyorum" (I'm not going)</li>
+    <li>Third person: "Anne geliyor" (Mom is coming)</li>
+    <li>Combined: "Anne dün gelmedi" (Mom didn't come yesterday)</li>
+    <li>Edge cases: two verbs, three nouns, pre-conjugated forms, unknown verbs</li>
+  </ul>
+
+  <p>
+    All 334 cases pass. Three known gaps remain: accusative case marking
+    ("bebeği" instead of "bebek"), word reordering (verb-before-noun sequences),
+    and one verb not yet in the dictionary. These are documented as
+    <code>targetExpected</code> fields in the test corpus — when the engine improves,
+    the tests automatically detect the resolution.
+  </p>
+
+  <blockquote>
+    <p>
+      AAC grammar doesn't need to be perfect. It needs to be better than
+      the alternative — which is no grammar at all. "Ben okula gidiyorum"
+      is miles ahead of "Ben Okul Gitmek."
+    </p>
+  </blockquote>
+
+  <h2>Category Ordering</h2>
+
+  <p>
+    With 3,111 symbols across 16 categories, ordering matters. We wrote a sorting
+    engine with curated priority lists for each category. Numbers go 0–9, then teens,
+    tens, hundreds. Feelings start with "Mutlu" (happy), "Üzgün" (sad), "Kızgın" (angry).
+    Actions start with core verbs: gitmek, gelmek, yapmak.
+  </p>
+
+  <p>
+    Items not in the priority list fall back to Turkish alphabetical order — with
+    proper handling of ç, ğ, ı, ö, ş, ü. Not as trivial as it sounds when your
+    sort function needs to know that "ç" comes after "c" but before "d."
+  </p>
+
+  <h2>What's Next</h2>
+
+  <p>
+    The Turkish language layer is solid. Next: beta testing with real families,
+    App Store submission, and the features that only become obvious once real
+    users start tapping symbols.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="02-building-aac-with-ai.html">← Previous: Building an AAC App with AI</a>
+    <a href="04-possessives-and-polish.html">Next: Possessives, Helpers, and 679 Tests →</a>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="./" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>

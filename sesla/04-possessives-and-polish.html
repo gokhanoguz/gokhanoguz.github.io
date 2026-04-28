@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Possessives, Helpers, and 679 Tests — Sesla Dev Log</title>
+<meta name="description" content="Added possessive morphology, in-category sentence helpers, loanword exceptions, and hit 679 tests. A day of grammar fixes." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  .example-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.92rem;
+  }
+  .example-table th {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--rule);
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .example-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-soft);
+  }
+  .example-table tr:last-child td { border-bottom: none; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { color: var(--ink-soft); padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="./">← Sesla Dev Log</a></p>
+
+  <p class="meta">April 20, 2026 · Gökhan Oğuz</p>
+  <h1>Possessives, Helpers, and 679 Tests</h1>
+
+  <p>
+    Today was supposed to be a different day. I had a plan, an agenda, items to check off.
+    Instead I spent the whole session deep in Turkish grammar rabbit holes and came out
+    the other side with possessive morphology, in-category sentence helpers, and almost
+    70 new tests. Sometimes the best days are the unplanned ones.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">679</p>
+      <p class="stat-label">Tests</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">383</p>
+      <p class="stat-label">Grammar Cases</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">100%</p>
+      <p class="stat-label">Benchmark Pass</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">6</p>
+      <p class="stat-label">New Symbols</p>
+    </div>
+  </div>
+
+  <h2>Sentence Helpers: The Pinned Row</h2>
+
+  <p>
+    Here's the thing about AAC apps — when a kid is in the "Food" category looking at
+    pictures of bread and milk, they still need pronouns and verbs to make sentences.
+    Tapping back to find "Ben" (I) or "İstemek" (want) every time breaks the flow.
+  </p>
+
+  <p>
+    So I added a pinned helper row at the top of every category grid. Eight core symbols
+    that are always there (pronouns, negation, time markers, question mark), plus two
+    verbs that change per category. Food gets "Yemek" (eat) and "İçmek" (drink).
+    Transport gets "Gitmek" (go) and "Binmek" (ride). You get the idea.
+  </p>
+
+  <p>
+    It's a small UI change but it completely transforms how you build sentences without
+    leaving the category you're in. Tap "Ben" from the helper row, tap "Ekmek" (bread)
+    from the grid, tap "Yemek" from the helper row — and the app speaks
+    "Ben ekmek yiyorum" (I'm eating bread). No category switching needed.
+  </p>
+
+  <h2>"Benim Evim" — Teaching Possessives</h2>
+
+  <p>
+    This is the one that ate most of my day. Turkish possessives aren't like English
+    where you just stick "'s" on things. "My house" in Turkish is "benim evim" — the
+    pronoun changes form AND the noun gets a suffix. And it's different for every person.
+  </p>
+
+  <p>
+    A child tapping <strong>Benim</strong> → <strong>Ev</strong> should hear "benim evim,"
+    not "benim ev." And if they add a movement verb — <strong>Benim</strong> →
+    <strong>Ev</strong> → <strong>Gitmek</strong> — it should become "benim evime
+    gidiyorum" (I'm going to my house). That's possessive AND dative case stacked together.
+  </p>
+
+  <table class="example-table">
+    <tr><th>Tapped</th><th>Output</th><th>What happened</th></tr>
+    <tr><td>Benim + Ev</td><td>Benim evim</td><td>1st person possessive</td></tr>
+    <tr><td>Senin + Araba</td><td>Senin araban</td><td>2nd person possessive</td></tr>
+    <tr><td>Onun + Okul + Gitmek</td><td>Onun okuluna gidiyor</td><td>3rd person possessive + dative</td></tr>
+    <tr><td>Benim + Park + Gitmek</td><td>Benim parkıma gidiyorum</td><td>1st person possessive + dative</td></tr>
+    <tr><td>Benim + Top + Gitmek</td><td>Benim topum gidiyor</td><td>Possessive only — "my ball goes" (3rd person)</td></tr>
+  </table>
+
+  <p>
+    That last row is the subtle part — the engine only adds dative case when the noun
+    is actually a location AND a movement verb follows. "My ball is going" doesn't get
+    dative because a ball isn't a destination. Getting these rules right took a while.
+  </p>
+
+  <h2>The Third Person Buffer Trick</h2>
+
+  <p>
+    Here's a fun edge case. When you stack possessive + dative in Turkish, it works
+    differently for third person. "Benim evime" (to my house) — straightforward, just
+    add the dative suffix. But "onun evine" (to his/her house) needs a buffer consonant
+    "n" between the possessive and the case suffix, because the third person possessive
+    already ends in a vowel.
+  </p>
+
+  <p>
+    Took me a bit to figure out why "onun evi" + dative was producing "onun evie" instead
+    of "onun evine." One buffer letter, that's all it takes to sound completely wrong.
+  </p>
+
+  <h2>Loanwords Don't Play by the Rules</h2>
+
+  <p>
+    Turkish has this consonant softening thing where certain letters change before vowels
+    (k→ğ, p→b, t→d). Usually works great. Then I tried "park" and the engine
+    proudly produced "parğım" (my park). Nope.
+  </p>
+
+  <p>
+    Loanwords borrowed into Turkish often keep their original consonants. "Park" stays
+    "park" — it doesn't soften. Same with "bank," "tank," "link," "risk." Added an
+    exceptions list. Probably need to grow it over time, but these cover the
+    common ones a kid would encounter.
+  </p>
+
+  <h2>New Symbols</h2>
+
+  <p>
+    Realized we were missing some basics for sentence building: the question mark symbol,
+    demonstrative pronouns (Bu/Şu — this/that), and possessive pronouns (Benim/Senin/Onun).
+    Added six new custom symbols. Small addition, but you can't build possessive sentences
+    if there's no "Benim" to tap.
+  </p>
+
+  <h2>AI Review</h2>
+
+  <p>
+    Ran the whole grammar engine through two different AI models for review.
+    They found the possessive+dative gap before I did, which pushed me to
+    implement the stacking. The rest of the feedback was "looks solid" — which
+    after a day of grammar work, was nice to hear.
+  </p>
+
+  <blockquote>
+    <p>
+      I keep learning that Turkish grammar is an onion. Every layer you peel reveals
+      another suffix, another harmony rule, another exception. But each one makes the
+      app's output sound a little more natural. Worth it.
+    </p>
+  </blockquote>
+
+  <h2>What's Next</h2>
+
+  <p>
+    Three known gaps left in the grammar benchmark: accusative case marking, word
+    reordering, and one verb not in the dictionary. Plus I still need to get back
+    to that original agenda I skipped today. But 679 tests and 383 grammar cases
+    at 100% — not a bad detour.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="03-teaching-an-app-turkish.html">← Previous: Teaching an App Turkish</a>
+    <a href="05-custom-art-and-dedup.html">Next: Custom Art and Dedup →</a>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="./" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>
