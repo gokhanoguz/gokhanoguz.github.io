@@ -132,11 +132,11 @@
 
   <div class="stat-grid">
     <div class="stat-card">
-      <p class="stat-number">284</p>
+      <p class="stat-number">295</p>
       <p class="stat-label">EN Bench Cases</p>
     </div>
     <div class="stat-card">
-      <p class="stat-number">975</p>
+      <p class="stat-number">986</p>
       <p class="stat-label">Tests Passing</p>
     </div>
     <div class="stat-card">
@@ -169,7 +169,7 @@
 
   <pre><code>['I', 'want', 'cookie']                  -> "I want cookie"
 ['he', 'eat', 'apple']                   -> "he eats apple"
-['yesterday', 'I', 'go', 'park']         -> "yesterday I went park"
+['yesterday', 'I', 'go', 'park']         -> "yesterday I went to the park"
 ['tomorrow', 'mom', 'come']              -> "tomorrow mom will come"
 ['I', 'want', 'eat', 'cookie']           -> "I want to eat a cookie"
 ['she', 'happy']                         -> "she is happy"
@@ -179,6 +179,27 @@
     Articles get skipped on purpose. AAC convention is to keep tiles bare and
     let the speech read naturally. <em>Cookie</em> is fine; nobody is grading
     the kid on whether they tapped <em>a</em>.
+  </p>
+
+  <p>
+    There is one place the engine quietly puts articles back, though. Movement
+    verbs (<em>go, come, walk, run, ride</em>) followed by a place tile feel
+    weird without a destination marker. <em>Yesterday I went park</em> sounds
+    like a telegram. So when a known place noun follows a movement verb, the
+    engine inserts the right glue:
+  </p>
+
+  <pre><code>['I', 'go', 'park']         -> "I go to the park"
+['I', 'go', 'school']       -> "I go to school"
+['I', 'go', 'home']         -> "I go home"
+['I', 'go', 'bed']          -> "I go to bed"
+['she', 'go', 'doctor']     -> "she goes to the doctor"</code></pre>
+
+  <p>
+    Three flavours: places that take <em>to the</em> (park, store, beach,
+    bathroom, doctor, zoo), places that take a bare <em>to</em> (school, bed,
+    work, church), and the home group that takes neither (home, outside,
+    upstairs). English really is this idiosyncratic, and AAC users notice.
   </p>
 
   <h2>The negation problem and the trick from Turkish</h2>
