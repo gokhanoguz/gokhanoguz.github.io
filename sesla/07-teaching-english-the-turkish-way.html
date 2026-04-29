@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Teaching English the Turkish Way — Sesla Dev Log</title>
+<meta name="description" content="A 284-case sentence benchmark for the English morphology engine, an AI peer review, and the small handful of fixes that came out of it." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  pre {
+    background: #f0ede6;
+    padding: 14px 18px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.86em;
+    line-height: 1.55;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+    color: var(--ink);
+  }
+  pre code { background: none; padding: 0; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { color: var(--ink-soft); padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="./">← Sesla Dev Log</a></p>
+
+  <p class="meta">April 29, 2026 · Gökhan Oğuz</p>
+  <h1>Teaching English the Turkish Way</h1>
+
+  <p>
+    The Turkish side of Sesla has had a sentence benchmark for a while. Hundreds
+    of real toddler utterances tapped on the board, with the expected sentence
+    next to each one. Every time I touch the morphology engine, I run the bench
+    and see exactly which kid stopped sounding right. English never had that.
+    Today it does.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">284</p>
+      <p class="stat-label">EN Bench Cases</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">975</p>
+      <p class="stat-label">Tests Passing</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">7</p>
+      <p class="stat-label">Engine Fixes</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">3</p>
+      <p class="stat-label">Known Gaps Left</p>
+    </div>
+  </div>
+
+  <h2>What a "real sentence" looks like in AAC</h2>
+
+  <p>
+    A child taps icons. The app speaks a sentence. The icons are bare lemmas:
+    <em>I, want, eat, cookie</em>. The job of the engine is to turn that into
+    "I want to eat a cookie" without sounding like a phrasebook from 1962. No
+    POS tagger, no neural net, no 200MB language model on a kid's tablet. Just
+    a small Dart file and a lot of curated rules.
+  </p>
+
+  <p>
+    So the bench is a list of <em>(input tokens, expected sentence)</em> pairs,
+    grouped by what they exercise: simple present, third person singular,
+    past via the marker <em>yesterday</em>, future via <em>tomorrow</em>,
+    questions, negation, infinitive <em>to</em>, copula, plurals, modals.
+    A few examples from the file:
+  </p>
+
+  <pre><code>['I', 'want', 'cookie']                  -> "I want cookie"
+['he', 'eat', 'apple']                   -> "he eats apple"
+['yesterday', 'I', 'go', 'park']         -> "yesterday I went park"
+['tomorrow', 'mom', 'come']              -> "tomorrow mom will come"
+['I', 'want', 'eat', 'cookie']           -> "I want to eat a cookie"
+['she', 'happy']                         -> "she is happy"
+['two', 'apple']                         -> "two apples"</code></pre>
+
+  <p>
+    Articles get skipped on purpose. AAC convention is to keep tiles bare and
+    let the speech read naturally. <em>Cookie</em> is fine; nobody is grading
+    the kid on whether they tapped <em>a</em>.
+  </p>
+
+  <h2>The negation problem and the trick from Turkish</h2>
+
+  <p>
+    Negation is where AAC gets interesting. The kid has no <em>don't</em> tile,
+    no <em>doesn't</em> tile, no <em>am not</em>. They're not going to. Asking
+    a four year old to construct a contraction is a bad design.
+  </p>
+
+  <p>
+    Turkish solved this elegantly: there's a single <em>Hayır</em> tile (the
+    word for "no"), and tapping it at the end of a sentence flips the meaning.
+    <em>Ben yemek istiyorum hayır</em> becomes <em>Ben yemek istemiyorum</em>.
+    One tile, full negation, picks the right suffix on the right verb.
+  </p>
+
+  <p>
+    English deserves the same. So a trailing <em>no</em> on the end of any
+    English sentence now triggers the negation rewrite. The engine looks at
+    what's in front of it and picks the right contraction:
+  </p>
+
+  <pre><code>['I', 'want', 'eat', 'cookie', 'no']  -> "I don't want to eat a cookie"
+['he', 'eat', 'apple', 'no']          -> "he doesn't eat apple"
+['I', 'can', 'go', 'no']              -> "I can't go"
+['I', 'will', 'go', 'no']             -> "I won't go"
+['she', 'hungry', 'no']               -> "she is not hungry"</code></pre>
+
+  <p>
+    Three different rewrite paths underneath. If there's a modal, contract it.
+    If there's a regular verb, inject do-support with the right tense and
+    agreement. If it's just a subject and an adjective, insert <em>is not</em>
+    or <em>am not</em>. From the kid's perspective, it's one tile that means
+    "actually, no". From the engine's perspective, it's a small state machine.
+  </p>
+
+  <h2>Asking another model to grade my homework</h2>
+
+  <p>
+    With the bench passing, I asked a different AI model to peer review the
+    engine. Different model, fresh eyes. The prompt was basically: "here's
+    the file, here's the bench, find what I missed."
+  </p>
+
+  <p>
+    It came back with seven real bugs. Not nitpicks. Things like:
+  </p>
+
+  <ul>
+    <li>Modals weren't blocking past tense, so <em>yesterday I can go</em> was producing <em>yesterday I can went</em>. Reasonable looking, very wrong.</li>
+    <li>Explicit <em>to</em> wasn't protecting the next verb either. <em>Yesterday I want to go</em> came out as <em>yesterday I wanted to went</em>.</li>
+    <li>The <em>help</em> tile was hardcoded as a noun (because most of the time you're saying "I need help"), but that broke <em>I want help mom</em>.</li>
+    <li>Plurals only triggered on the immediately following word, so <em>two red apple</em> stayed singular because <em>red</em> was in the way.</li>
+    <li>A handful of common verbs were just missing: <em>feel, love, hurt, watch, buy, wear, ride, hold, hear, know, think</em>. Embarrassing.</li>
+  </ul>
+
+  <p>
+    The fix for the first two was the same, and pleasingly small. Instead of
+    deciding tense for the whole sentence, the engine now carries a
+    <em>force the next verb to stay bare</em> flag, set whenever it sees a
+    modal or an explicit <em>to</em>. The flag clears after one verb. Both
+    bugs gone, no rewrite.
+  </p>
+
+  <p>
+    The <em>help</em> fix was a one line lookahead: treat it as a noun only
+    when the next thing is the end of the sentence, a punctuation mark, the
+    word <em>please</em>, or the <em>no</em> negation marker. Otherwise it's
+    a verb and gets <em>to</em> in front.
+  </p>
+
+  <p>
+    Plurals got a tiny allowlist of bridge words (size and color adjectives,
+    basically) that don't reset the pending plural. Apples are once again
+    plural in the presence of red.
+  </p>
+
+  <h2>What didn't make the cut</h2>
+
+  <p>
+    Two things from the review I deliberately skipped. <em>Can</em> doesn't
+    map to <em>could</em> in the past, because in AAC the kid almost never
+    means the conditional, they mean ability. And the do-support questions
+    (<em>what do you want?</em>) need a real subject inversion pass that's
+    bigger than a one liner. Both logged.
+  </p>
+
+  <blockquote>
+    <p>
+      A benchmark with hundreds of real sentences turns the engine from
+      "looks right when I type it" into "actually right when a child taps it."
+      Doubly so when the test cases come from someone other than the person
+      writing the rules.
+    </p>
+  </blockquote>
+
+  <h2>How the bench feels day to day</h2>
+
+  <p>
+    The Turkish bench has saved me from shipping at least four embarrassing
+    regressions over the past month. The English one already paid for itself
+    on the first peer review pass. New verb? Add a row to the bench. New
+    tense marker? Add ten rows. Feature ships when the bench stays green.
+  </p>
+
+  <p>
+    Total damage today: 45 new test cases, 7 engine changes, one merged
+    commit, zero regressions across the rest of the suite. The English engine
+    is finally on the same shelf as the Turkish one. Not yet at parity. But
+    on the same shelf.
+  </p>
+
+  <h2>Tomorrow</h2>
+
+  <p>
+    Possessives. <em>My, your, his, her</em>. Turkish handles these through
+    suffix agreement and gets it right almost by accident. English needs a
+    tiny rule for the third person and not much else, but the AAC angle is
+    interesting: the boards have <em>mom</em> and <em>my mom</em> as separate
+    tiles right now, and they probably shouldn't be.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="06-walking-the-english-board.html">← Previous: Walking the English Board</a>
+    <span></span>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="./" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>
