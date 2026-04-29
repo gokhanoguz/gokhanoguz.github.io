@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sesla Dev Log</title>
-<meta name="description" content="Development log for Sesla, an AAC app giving everyone a voice." />
+<title>Sesla — Giving Everyone a Voice</title>
+<meta name="description" content="Sesla is a modern AAC app for speech-disabled children and adults, with first-class Turkish and English support. Built by the creator of Konuşan Parmaklar." />
+<meta name="theme-color" content="#0066cc" />
+<meta property="og:title" content="Sesla — Giving Everyone a Voice" />
+<meta property="og:description" content="A modern AAC app with first-class Turkish and English support." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://gokhanoguz.github.io/sesla/" />
 <style>
   :root {
     --bg: #fafaf7;
@@ -15,6 +20,21 @@
     --rule: #e6e4dd;
     --accent: #0066cc;
     --accent-soft: #e8f0fe;
+    --accent-ink: #ffffff;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171a;
+      --surface: #1d2024;
+      --ink: #f3f3ee;
+      --ink-soft: #c8c8c0;
+      --muted: #8e8e85;
+      --rule: #2c2f33;
+      --accent: #6ea8ff;
+      --accent-soft: #1f2937;
+      --accent-ink: #0b0d10;
+    }
   }
 
   * { box-sizing: border-box; }
@@ -25,158 +45,422 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  main { max-width: 700px; margin: 0 auto; padding: 64px 24px 96px; }
+  a { color: var(--accent); }
 
-  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 32px; }
-  .breadcrumb a { color: var(--muted); text-decoration: none; }
-  .breadcrumb a:hover { color: var(--ink); }
-
-  h1 { font-size: 2rem; margin: 0 0 8px; font-weight: 700; }
-  .subtitle { color: var(--ink-soft); font-size: 1.1rem; margin: 0 0 48px; }
-
-  .posts { list-style: none; padding: 0; margin: 0; }
-  .post-item {
-    background: var(--surface);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    padding: 24px 28px;
-    margin-bottom: 16px;
-    transition: border-color 0.15s ease, transform 0.15s ease;
+  .topbar {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
   }
-  .post-item:hover {
-    border-color: var(--accent);
-    transform: translateY(-1px);
-  }
-
-  .post-date {
-    font-size: 0.82rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  .post-title {
-    font-size: 1.2rem;
+  .topbar .brand {
     font-weight: 700;
-    margin: 4px 0 8px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
   }
-  .post-title a { color: var(--ink); text-decoration: none; }
-  .post-title a:hover { color: var(--accent); }
-  .post-excerpt { color: var(--ink-soft); margin: 0; }
-
-  .about-box {
-    background: var(--accent-soft);
-    border-radius: 8px;
-    padding: 20px 24px;
-    margin-bottom: 40px;
+  .lang-toggle {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--surface);
   }
-  .about-box p { margin: 0; color: var(--ink-soft); }
-  .about-box strong { color: var(--ink); }
+  .lang-toggle button {
+    background: transparent;
+    border: 0;
+    color: var(--ink-soft);
+    font: inherit;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .lang-toggle button[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  .lang-toggle button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
 
-  footer {
-    margin-top: 64px;
-    padding-top: 20px;
-    border-top: 1px solid var(--rule);
+  main { max-width: 980px; margin: 0 auto; padding: 24px 24px 96px; }
+
+  .hero {
+    padding: 56px 0 40px;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    line-height: 1.1;
+    margin: 0 0 16px;
+    letter-spacing: -0.02em;
+  }
+  .hero .tagline {
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+    margin: 0 0 28px;
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--rule);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .availability {
     color: var(--muted);
     font-size: 0.85rem;
+    margin: 0;
   }
 
-  @media (max-width: 520px) {
-    main { padding: 40px 20px 64px; }
-    h1 { font-size: 1.6rem; }
+  .hero-art {
+    display: flex;
+    justify-content: center;
   }
+  .hero-art img {
+    max-width: 100%;
+    height: auto;
+    max-height: 520px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  }
+
+  section { padding: 48px 0; border-top: 1px solid var(--rule); }
+  section h2 {
+    font-size: 1.6rem;
+    margin: 0 0 24px;
+    letter-spacing: -0.01em;
+  }
+  section p { color: var(--ink-soft); margin: 0 0 16px; }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 12px;
+  }
+  .feature {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 20px 22px;
+  }
+  .feature .icon {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .feature h3 {
+    font-size: 1rem;
+    margin: 0 0 6px;
+    color: var(--ink);
+  }
+  .feature p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+  }
+  .gallery figure {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .gallery figcaption {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .about-card {
+    background: var(--accent-soft);
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+  .about-card p { color: var(--ink-soft); }
+  .about-card strong { color: var(--ink); }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.88rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: space-between;
+  }
+  footer a { color: var(--ink-soft); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+  footer .links { display: flex; flex-wrap: wrap; gap: 14px; }
+
+  @media (max-width: 720px) {
+    .hero { grid-template-columns: 1fr; padding: 32px 0; gap: 32px; }
+    .hero-art img { max-height: 380px; }
+    section { padding: 36px 0; }
+  }
+
+  /* Language switching: only one of [data-lang="en"] / [data-lang="tr"] is shown. */
+  [data-lang] { display: none; }
+  html[lang="en"] [data-lang="en"] { display: revert; }
+  html[lang="tr"] [data-lang="tr"] { display: revert; }
 </style>
 </head>
 <body>
-<main>
-  <p class="breadcrumb"><a href="../">← Oguz Games</a></p>
-
-  <h1>Sesla Dev Log</h1>
-  <p class="subtitle">Building an AAC app that gives everyone a voice.</p>
-
-  <div class="about-box">
-    <p>
-      <strong>Sesla</strong> is an Augmentative and Alternative Communication (AAC) app
-      for speech-disabled children and adults. First-class Turkish and English support.
-      Built with Flutter by <strong>Gökhan Oğuz</strong>, the original creator of
-      <em>Konuşan Parmaklar</em>, Turkey's first AAC app.
-    </p>
+<header class="topbar">
+  <a class="brand" href="./">Sesla</a>
+  <div class="lang-toggle" role="group" aria-label="Language">
+    <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+    <button type="button" data-set-lang="tr" aria-pressed="false">TR</button>
   </div>
+</header>
 
-  <ul class="posts">
-    <li class="post-item">
-      <span class="post-date">April 29, 2026</span>
-      <p class="post-title"><a href="08-the-android-shakedown.html">The Android Shakedown</a></p>
-      <p class="post-excerpt">
-        First real-device pass on Android. A silent sqlite crash from an
-        end-of-life plugin tag, a soft keyboard that wouldn't quit across
-        hot restarts, a locale that lagged behind a profile switch, and a
-        Turkish board with one too many columns. Four bugs the simulator
-        and 1030 tests both missed.
+<main>
+  <section class="hero" style="border-top: 0;">
+    <div>
+      <h1>
+        <span data-lang="en">Giving everyone a voice.</span>
+        <span data-lang="tr">Herkese bir ses.</span>
+      </h1>
+      <p class="tagline">
+        <span data-lang="en">Sesla is a modern AAC app for speech-disabled children and adults — with first-class Turkish and English support, on-device speech, and zero accounts.</span>
+        <span data-lang="tr">Sesla, konuşma güçlüğü çeken çocuklar ve yetişkinler için modern bir İDA (Alternatif İletişim) uygulaması. Türkçe ve İngilizce'yi eşit önemde destekler, sesi cihazda üretir, hesap istemez.</span>
       </p>
-    </li>
-    <li class="post-item">
-      <span class="post-date">April 29, 2026</span>
-      <p class="post-title"><a href="07-teaching-english-the-turkish-way.html">Teaching English the Turkish Way</a></p>
-      <p class="post-excerpt">
-        A 284 case sentence benchmark for the English morphology engine,
-        a peer review from a different AI model, and the small handful of
-        fixes that came out of it. Including a one tile negation trick
-        borrowed from Turkish.
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#features">
+          <span data-lang="en">See what Sesla does</span>
+          <span data-lang="tr">Sesla ne yapar?</span>
+        </a>
+        <a class="btn btn-ghost" href="devlog.html">
+          <span data-lang="en">Read the dev log</span>
+          <span data-lang="tr">Geliştirici günlüğü</span>
+        </a>
+      </div>
+      <p class="availability">
+        <span data-lang="en">Coming soon to the App Store and Google Play.</span>
+        <span data-lang="tr">Yakında App Store ve Google Play'de.</span>
       </p>
-    </li>
-    <li class="post-item">
-      <span class="post-date">April 28, 2026</span>
-      <p class="post-title"><a href="06-walking-the-english-board.html">Walking the English Board, One Screenshot at a Time</a></p>
-      <p class="post-excerpt">
-        A screenshot-driven QA pass on the English locale. Lowercase labels,
-        missing assets, baked-text duplicates — every defect visible in the
-        simulator, fixed in a single afternoon.
-      </p>
-    </li>
-    <li class="post-item">
-      <span class="post-date">April 25, 2026</span>
-      <p class="post-title"><a href="05-custom-art-and-dedup.html">Custom Art and the Deduplication Marathon</a></p>
-      <p class="post-excerpt">
-        Generated 387 custom SVG symbols across 16 categories, ran two dedup
-        passes to cut visible symbols from 950+ to 457, and fixed the sentence
-        helper row. The visual identity takes shape.
-      </p>
-    </li>
-    <li class="post-item">
-      <span class="post-date">April 20, 2026</span>
-      <p class="post-title"><a href="04-possessives-and-polish.html">Possessives, Helpers, and 679 Tests</a></p>
-      <p class="post-excerpt">
-        Added possessive morphology, in-category sentence helpers, loanword
-        exceptions, and hit 679 tests. A day of grammar fixes.
-      </p>
-    </li>
-    <li class="post-item">
-      <span class="post-date">April 16, 2026</span>
-      <p class="post-title"><a href="03-teaching-an-app-turkish.html">Teaching an App Turkish</a></p>
-      <p class="post-excerpt">
-        3,436 symbols translated, 325 culturally filtered, a grammar engine that
-        conjugates verbs and declines nouns. The localization story.
-      </p>
-    </li>
-    <li class="post-item">
-      <span class="post-date">April 12, 2026</span>
-      <p class="post-title"><a href="02-building-aac-with-ai.html">Building an AAC App in 2026</a></p>
-      <p class="post-excerpt">
-        Flutter, Turkish morphology, 610+ tests, and an AI pair programmer.
-        A technical look at how Sesla was built.
-      </p>
-    </li>
-    <li class="post-item">
-      <span class="post-date">April 01, 2026</span>
-      <p class="post-title"><a href="01-sesla-is-back.html">Sesla is Back: The Return of Konuşan Parmaklar</a></p>
-      <p class="post-excerpt">
-        Years ago I built Turkey's first AAC app. The tech wasn't ready. Now it is.
-        This is the story of why Sesla exists.
-      </p>
-    </li>
-  </ul>
+    </div>
+    <div class="hero-art">
+      <img data-lang="en" src="img/home-en.png" alt="Sesla home screen in English" />
+      <img data-lang="tr" src="img/home-tr.png" alt="Sesla ana ekranı, Türkçe" />
+    </div>
+  </section>
 
-  <footer>© 2026 Gökhan Oğuz · <a href="mailto:m.gokhanoguz2@gmail.com" style="color:var(--muted)">Contact</a></footer>
+  <section id="features">
+    <h2>
+      <span data-lang="en">What's inside</span>
+      <span data-lang="tr">Neler var?</span>
+    </h2>
+    <div class="features">
+      <div class="feature">
+        <span class="icon" aria-hidden="true">🗣️</span>
+        <h3>
+          <span data-lang="en">Curated symbol library</span>
+          <span data-lang="tr">Özenle seçilmiş semboller</span>
+        </h3>
+        <p>
+          <span data-lang="en">540+ Turkish and English symbols, hand-picked and culturally filtered. Hundreds drawn just for Sesla.</span>
+          <span data-lang="tr">540'tan fazla Türkçe ve İngilizce sembol, kültüre uygun şekilde elenmiş. Yüzlercesi Sesla için özel çizildi.</span>
+        </p>
+      </div>
+      <div class="feature">
+        <span class="icon" aria-hidden="true">🇹🇷</span>
+        <h3>
+          <span data-lang="en">Real Turkish grammar</span>
+          <span data-lang="tr">Gerçek Türkçe dilbilgisi</span>
+        </h3>
+        <p>
+          <span data-lang="en">Verbs conjugate, nouns decline, possessives stack — vowel harmony and loanword exceptions included.</span>
+          <span data-lang="tr">Fiiller çekilir, isimler hâl alır, iyelik ekleri yığılır — ünlü uyumu ve yabancı sözcük istisnaları dahil.</span>
+        </p>
+      </div>
+      <div class="feature">
+        <span class="icon" aria-hidden="true">⌨️</span>
+        <h3>
+          <span data-lang="en">Free typing tab</span>
+          <span data-lang="tr">Serbest yazım sekmesi</span>
+        </h3>
+        <p>
+          <span data-lang="en">Type any phrase that isn't on the board and have it spoken instantly with on-device TTS.</span>
+          <span data-lang="tr">Tahtada olmayan cümleleri yazın, cihazdaki ses sentezi anında seslendirsin.</span>
+        </p>
+      </div>
+      <div class="feature">
+        <span class="icon" aria-hidden="true">👤</span>
+        <h3>
+          <span data-lang="en">Per-user profiles</span>
+          <span data-lang="tr">Kullanıcı profilleri</span>
+        </h3>
+        <p>
+          <span data-lang="en">Different language, grid size, voice, and accessibility settings for every person who uses the device.</span>
+          <span data-lang="tr">Her kullanıcı için ayrı dil, ızgara boyutu, ses ve erişilebilirlik ayarları.</span>
+        </p>
+      </div>
+      <div class="feature">
+        <span class="icon" aria-hidden="true">♿</span>
+        <h3>
+          <span data-lang="en">Built for access</span>
+          <span data-lang="tr">Erişilebilirlik öncelikli</span>
+        </h3>
+        <p>
+          <span data-lang="en">Dwell selection, reduced motion, screen reader support, dark mode, and high-contrast theme.</span>
+          <span data-lang="tr">Bekleme ile seçim, azaltılmış hareket, ekran okuyucu desteği, koyu mod ve yüksek kontrast teması.</span>
+        </p>
+      </div>
+      <div class="feature">
+        <span class="icon" aria-hidden="true">🔒</span>
+        <h3>
+          <span data-lang="en">Privacy by default</span>
+          <span data-lang="tr">Varsayılan olarak gizli</span>
+        </h3>
+        <p>
+          <span data-lang="en">No accounts, no cloud sync, no analytics. Your data stays on the device. Period.</span>
+          <span data-lang="tr">Hesap yok, bulut senkronizasyonu yok, analitik yok. Veriler cihazda kalır. Nokta.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="en">A look inside</span>
+      <span data-lang="tr">İçeriden bir bakış</span>
+    </h2>
+    <div class="gallery">
+      <figure>
+        <img data-lang="en" src="img/home-en.png" alt="English home board" />
+        <img data-lang="tr" src="img/home-tr.png" alt="Türkçe ana tahta" />
+        <figcaption>
+          <span data-lang="en">Home board</span>
+          <span data-lang="tr">Ana tahta</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <img src="img/home-dark.png" alt="Sesla dark mode" />
+        <figcaption>
+          <span data-lang="en">Dark mode</span>
+          <span data-lang="tr">Koyu mod</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <img src="img/search.png" alt="Symbol search" />
+        <figcaption>
+          <span data-lang="en">Symbol search</span>
+          <span data-lang="tr">Sembol arama</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="en">About</span>
+      <span data-lang="tr">Hakkında</span>
+    </h2>
+    <div class="about-card">
+      <p data-lang="en">
+        <strong>Sesla</strong> is built by <strong>Gökhan Oğuz</strong>, the original creator of
+        <em>Konuşan Parmaklar</em>, Turkey's first AAC app. After years away from the field, the
+        tools — fast on-device speech, mature symbol libraries, modern UI frameworks — finally
+        caught up with the idea. Sesla is the rebuild it always deserved.
+      </p>
+      <p data-lang="tr">
+        <strong>Sesla</strong>, Türkiye'nin ilk İDA uygulaması olan <em>Konuşan Parmaklar</em>'ın
+        yaratıcısı <strong>Gökhan Oğuz</strong> tarafından geliştiriliyor. Aradan geçen yıllarda
+        cihaz üstü ses sentezi, olgun sembol kitaplıkları ve modern arayüz çerçeveleri sonunda
+        fikre yetişti. Sesla, hep hak ettiği yeniden inşa.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Gökhan Oğuz</span>
+    <span class="links">
+      <a href="devlog.html"><span data-lang="en">Dev log</span><span data-lang="tr">Günlük</span></a>
+      <a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="tr">Gizlilik</span></a>
+      <a href="terms.html"><span data-lang="en">Terms</span><span data-lang="tr">Koşullar</span></a>
+      <a href="support.html"><span data-lang="en">Support</span><span data-lang="tr">Destek</span></a>
+      <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>
+    </span>
+  </footer>
 </main>
+
+<script>
+  (function () {
+    var STORAGE_KEY = 'seslaLang';
+    var supported = ['en', 'tr'];
+
+    function pickInitial() {
+      try {
+        var stored = localStorage.getItem(STORAGE_KEY);
+        if (stored && supported.indexOf(stored) !== -1) return stored;
+      } catch (e) { /* private mode etc */ }
+      var nav = (navigator.language || 'en').toLowerCase();
+      return nav.indexOf('tr') === 0 ? 'tr' : 'en';
+    }
+
+    function applyLang(lang) {
+      if (supported.indexOf(lang) === -1) lang = 'en';
+      document.documentElement.setAttribute('lang', lang);
+      document.title = lang === 'tr'
+        ? 'Sesla — Herkese Bir Ses'
+        : 'Sesla — Giving Everyone a Voice';
+      var buttons = document.querySelectorAll('[data-set-lang]');
+      for (var i = 0; i < buttons.length; i++) {
+        var b = buttons[i];
+        b.setAttribute('aria-pressed', b.getAttribute('data-set-lang') === lang ? 'true' : 'false');
+      }
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+    }
+
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest && e.target.closest('[data-set-lang]');
+      if (!t) return;
+      applyLang(t.getAttribute('data-set-lang'));
+    });
+
+    applyLang(pickInitial());
+  })();
+</script>
 </body>
 </html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sesla Dev Log</title>
+<meta name="description" content="Development log for Sesla, an AAC app giving everyone a voice." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+    --accent-soft: #e8f0fe;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main { max-width: 700px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 32px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  h1 { font-size: 2rem; margin: 0 0 8px; font-weight: 700; }
+  .subtitle { color: var(--ink-soft); font-size: 1.1rem; margin: 0 0 48px; }
+
+  .posts { list-style: none; padding: 0; margin: 0; }
+  .post-item {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .post-item:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .post-date {
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .post-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 4px 0 8px;
+  }
+  .post-title a { color: var(--ink); text-decoration: none; }
+  .post-title a:hover { color: var(--accent); }
+  .post-excerpt { color: var(--ink-soft); margin: 0; }
+
+  .about-box {
+    background: var(--accent-soft);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+  .about-box p { margin: 0; color: var(--ink-soft); }
+  .about-box strong { color: var(--ink); }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    main { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <p class="breadcrumb"><a href="./">← Sesla</a> · <a href="../">Oguz Games</a></p>
+
+  <h1>Sesla Dev Log</h1>
+  <p class="subtitle">Building an AAC app that gives everyone a voice.</p>
+
+  <div class="about-box">
+    <p>
+      <strong>Sesla</strong> is an Augmentative and Alternative Communication (AAC) app
+      for speech-disabled children and adults. First-class Turkish and English support.
+      Built with Flutter by <strong>Gökhan Oğuz</strong>, the original creator of
+      <em>Konuşan Parmaklar</em>, Turkey's first AAC app.
+    </p>
+  </div>
+
+  <ul class="posts">
+    <li class="post-item">
+      <span class="post-date">April 29, 2026</span>
+      <p class="post-title"><a href="08-the-android-shakedown.html">The Android Shakedown</a></p>
+      <p class="post-excerpt">
+        First real-device pass on Android. A silent sqlite crash from an
+        end-of-life plugin tag, a soft keyboard that wouldn't quit across
+        hot restarts, a locale that lagged behind a profile switch, and a
+        Turkish board with one too many columns. Four bugs the simulator
+        and 1030 tests both missed.
+      </p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">April 29, 2026</span>
+      <p class="post-title"><a href="07-teaching-english-the-turkish-way.html">Teaching English the Turkish Way</a></p>
+      <p class="post-excerpt">
+        A 284 case sentence benchmark for the English morphology engine,
+        a peer review from a different AI model, and the small handful of
+        fixes that came out of it. Including a one tile negation trick
+        borrowed from Turkish.
+      </p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">April 28, 2026</span>
+      <p class="post-title"><a href="06-walking-the-english-board.html">Walking the English Board, One Screenshot at a Time</a></p>
+      <p class="post-excerpt">
+        A screenshot-driven QA pass on the English locale. Lowercase labels,
+        missing assets, baked-text duplicates — every defect visible in the
+        simulator, fixed in a single afternoon.
+      </p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">April 25, 2026</span>
+      <p class="post-title"><a href="05-custom-art-and-dedup.html">Custom Art and the Deduplication Marathon</a></p>
+      <p class="post-excerpt">
+        Generated 387 custom SVG symbols across 16 categories, ran two dedup
+        passes to cut visible symbols from 950+ to 457, and fixed the sentence
+        helper row. The visual identity takes shape.
+      </p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">April 20, 2026</span>
+      <p class="post-title"><a href="04-possessives-and-polish.html">Possessives, Helpers, and 679 Tests</a></p>
+      <p class="post-excerpt">
+        Added possessive morphology, in-category sentence helpers, loanword
+        exceptions, and hit 679 tests. A day of grammar fixes.
+      </p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">April 16, 2026</span>
+      <p class="post-title"><a href="03-teaching-an-app-turkish.html">Teaching an App Turkish</a></p>
+      <p class="post-excerpt">
+        3,436 symbols translated, 325 culturally filtered, a grammar engine that
+        conjugates verbs and declines nouns. The localization story.
+      </p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">April 12, 2026</span>
+      <p class="post-title"><a href="02-building-aac-with-ai.html">Building an AAC App in 2026</a></p>
+      <p class="post-excerpt">
+        Flutter, Turkish morphology, 610+ tests, and an AI pair programmer.
+        A technical look at how Sesla was built.
+      </p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">April 01, 2026</span>
+      <p class="post-title"><a href="01-sesla-is-back.html">Sesla is Back: The Return of Konuşan Parmaklar</a></p>
+      <p class="post-excerpt">
+        Years ago I built Turkey's first AAC app. The tech wasn't ready. Now it is.
+        This is the story of why Sesla exists.
+      </p>
+    </li>
+  </ul>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="mailto:m.gokhanoguz2@gmail.com" style="color:var(--muted)">Contact</a></footer>
+</main>
+</body>
+</html>
