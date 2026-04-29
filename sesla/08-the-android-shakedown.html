@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Android Shakedown — Sesla Dev Log</title>
+<meta name="description" content="First real-device pass on Android. A silent sqlite crash, a soft keyboard that wouldn't quit, a locale that lagged behind a profile switch, and a Turkish board with one too many columns." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  pre {
+    background: #f0ede6;
+    padding: 14px 18px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.86em;
+    line-height: 1.55;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+    color: var(--ink);
+  }
+  pre code { background: none; padding: 0; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { color: var(--ink-soft); padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="./">← Sesla Dev Log</a></p>
+
+  <p class="meta">April 29, 2026 · Gökhan Oğuz</p>
+  <h1>The Android Shakedown</h1>
+
+  <p>
+    The simulator lies. Not on purpose, but it lies. Today was Sesla's first
+    real session on a physical Android phone — a Galaxy S921B running
+    Android 16 — and within fifteen minutes I had four bugs that the iOS
+    simulator and the test suite had cheerfully signed off on.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">4</p>
+      <p class="stat-label">Real Bugs Caught</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">1030</p>
+      <p class="stat-label">Tests Passing</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">0</p>
+      <p class="stat-label">Caught By Tests</p>
+    </div>
+  </div>
+
+  <h2>The crash that wasn't a crash</h2>
+
+  <p>
+    First launch on the Galaxy: app opens, splash flashes, app dies. No red
+    Flutter screen, no Dart exception, just a clean exit. The kind of failure
+    you don't get to debug, you get to interrogate.
+  </p>
+
+  <p>
+    <code>adb logcat</code> eventually coughed up the truth:
+  </p>
+
+  <pre><code>Failed to load dynamic library 'libsqlite3.so'</code></pre>
+
+  <p>
+    The pubspec was on <code>sqlite3_flutter_libs: ^0.6.0+eol</code>. That
+    <em>+eol</em> tag turns out to be load-bearing. The package author marked
+    the 0.6 line as end-of-life and stopped shipping the Android native
+    libraries with it. <code>flutter pub get</code> happily resolves it,
+    everything compiles, and then the database opens to a void.
+  </p>
+
+  <p>
+    Pinning to <code>^0.5.40</code> brought back the <code>.so</code> file and
+    the app booted. Lesson logged: a tag suffix with the word "eol" in it can
+    break your build without producing a single compile error.
+  </p>
+
+  <h2>The keyboard that wouldn't leave</h2>
+
+  <p>
+    Onboarding, page two: enter the child's name and age. Two text fields,
+    one Next button. On the simulator this works fine. On a real phone with a
+    real soft keyboard, three problems showed up at once.
+  </p>
+
+  <p>
+    The keyboard pushed the layout 52 pixels past the bottom edge. The
+    keyboard's own Next key advanced the page wizard instead of moving focus
+    to the age field. And after a hot restart the keyboard was still sitting
+    there from the previous session, attached to a focus tree that no longer
+    existed.
+  </p>
+
+  <p>
+    Three small surgeries. Wrap the page in a <code>SingleChildScrollView</code>.
+    Give the name field <code>textInputAction.next</code> and a real
+    <code>FocusNode</code> on the age field so submitting the name moves
+    focus instead of trying to advance pages. And in the onboarding
+    <code>initState</code>, fire one shot of:
+  </p>
+
+  <pre><code>SystemChannels.textInput.invokeMethod&lt;void&gt;('TextInput.hide')</code></pre>
+
+  <p>
+    to tell the native IME that whatever it thought was happening, isn't.
+    The Flutter focus tree had no idea the keyboard was even up because, from
+    its perspective, no field was focused. The native side held the state
+    independently.
+  </p>
+
+  <h2>The locale that lagged a profile</h2>
+
+  <p>
+    Sesla supports multiple user profiles per device, each with its own
+    primary language. I onboarded as English, then created a Turkish profile
+    on top. The symbol grid switched to Turkish immediately. The bottom nav
+    still said <em>Home / Search symbols / Profiles / Settings</em>. The
+    sentence strip placeholder still read "Tap symbols to build a sentence."
+    The category tiles were Turkish. The chrome was English.
+  </p>
+
+  <p>
+    Turns out the language was being read from two different places. The
+    symbol grid asked the active user's <code>primaryLang</code> directly,
+    which updates the moment the user switches. The chrome asked
+    <code>localeProvider</code>, which is a separate, persisted setting.
+    Switching profiles never touched it.
+  </p>
+
+  <p>
+    Two fixes. The profile switch and create paths now also call
+    <code>localeProvider.setLocale()</code>. And — for any user who had
+    already drifted into the inconsistent state, including me — bootstrap now
+    reconciles the saved locale against the active user's language on every
+    cold start. If they disagree, the active user wins. The chrome catches up
+    on the next launch without anyone having to re-switch profiles.
+  </p>
+
+  <h2>Six tiles where five would do</h2>
+
+  <p>
+    Last one. The Turkish "Temel İletişim" board was seeded with six columns;
+    its English twin was seeded with five. On a 1080-wide phone the sixth
+    column squeezed every tile into something a kid would struggle to hit.
+    The asset fix was a one character change. The cleanup wasn't.
+  </p>
+
+  <p>
+    Five symbols in that board lived at <code>col: 5</code>. Dropping the
+    column count from six to five orphaned them, and on the next clean
+    install the seeder threw a foreign key violation trying to insert
+    children with no parent row. The board loader caught the exception and
+    silently seeded zero boards. The user got an empty home screen.
+  </p>
+
+  <p>
+    A small Python pass over the JSON dropped the five stranded entries, and
+    the bench is back to 1030 green tests. While I was in the file I also
+    shortened the bottom nav label from <em>Sembol ara</em> / <em>Search
+    symbols</em> to <em>Ara</em> / <em>Search</em>. Two-word nav labels never
+    survive a real device.
+  </p>
+
+  <blockquote>
+    <p>
+      The simulator runs your code. The phone runs your code on top of every
+      decision a hundred Android engineers made about IMEs, native libraries,
+      window insets, and platform channels. The phone is right.
+    </p>
+  </blockquote>
+
+  <h2>What today proved</h2>
+
+  <p>
+    The four bugs are different in kind, but they share a shape: each one
+    needed something the simulator can't fake. A real native library loader.
+    A real soft keyboard with its own state machine. A real multi-profile
+    flow tested end to end. A real screen at a real density.
+  </p>
+
+  <p>
+    A 1030-test suite isn't going to find any of these. Real-device QA isn't
+    a step you do once before submission. It's the only ground truth you
+    have, and from now on every meaningful change gets a pass on the Galaxy
+    before it counts as done.
+  </p>
+
+  <h2>Tomorrow</h2>
+
+  <p>
+    More device passes. Tablet next. Then iOS on hardware, not just the
+    simulator. And I want to look at the screenshot-driven QA loop itself —
+    something that takes a screenshot of every screen in both languages and
+    diffs them when anything changes. The phone catches things, but a kid
+    notices things even faster.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="07-teaching-english-the-turkish-way.html">← Previous: Teaching English the Turkish Way</a>
+    <span></span>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="./" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>
