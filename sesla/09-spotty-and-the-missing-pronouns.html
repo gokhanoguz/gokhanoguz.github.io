@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Spotty and the Missing Pronouns — Sesla Dev Log</title>
+<meta name="description" content="A confused-looking 'Benekli' tile in the Turkish people category turned out to be a translation accident. Pulling on that thread uncovered four of the six core pronouns hidden in the wrong category, and a custom-symbol editor asking the wrong question." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  pre {
+    background: #f0ede6;
+    padding: 14px 18px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.86em;
+    line-height: 1.55;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+    color: var(--ink);
+  }
+  pre code { background: none; padding: 0; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { color: var(--ink-soft); padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="devlog.html">← Sesla Dev Log</a></p>
+
+  <p class="meta">April 30, 2026 · Gökhan Oğuz</p>
+  <h1>Spotty and the Missing Pronouns</h1>
+
+  <p>
+    Sometimes a single confused-looking tile is the loose thread that
+    unravels three different bugs at once. Today's thread was a Turkish
+    word for a spotted cat, sitting in the middle of the people category.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">4</p>
+      <p class="stat-label">Pronouns Restored</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">2</p>
+      <p class="stat-label">Label Fields → 1</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">1063</p>
+      <p class="stat-label">Tests Passing</p>
+    </div>
+  </div>
+
+  <h2>"In Turkish people, there's a tile called 'Benekli'. What is that?"</h2>
+
+  <p>
+    The Mulberry symbol set ships about 3,000 SVGs with English labels,
+    and someone — me, a year ago, in batches of fifty — translated each
+    one into Turkish. <em>Spotty</em> became <em>Benekli</em>. It's a
+    perfectly fine Turkish word. It just doesn't mean what the English
+    word means in this context.
+  </p>
+
+  <p>
+    English <em>spotty</em>, in the people category, means a person with
+    freckles or skin spots. Turkish <em>Benekli</em>, in the people
+    category, reads as <em>a spotted animal</em> — a cat, a leopard, a
+    cow. The image even shows a person, which makes it weirder. It looks
+    less like a translation and more like the app got bored mid-thought.
+  </p>
+
+  <p>
+    The fix was one line: add <code>hide:tr</code> to the symbol's locale
+    tags. The English version was already hidden for the same kind of
+    reason, which should have been a hint a year ago.
+  </p>
+
+  <p>
+    But the question that followed was the interesting one.
+  </p>
+
+  <h2>"Do we have I, you, he, she, it, we, they?"</h2>
+
+  <p>
+    Reasonable thing to ask. AAC apps live and die by their pronouns.
+    "I want," "you eat," "we go" — these are the bones of every sentence
+    a non-verbal child needs to build. So I went to look.
+  </p>
+
+  <p>
+    Turkish has six: <em>Ben, Sen, O, Biz, Siz, Onlar</em>. I found two
+    of them in the people category. The other four were in the
+    <em>numbers</em> category, three of them tagged <code>hide:tr</code>,
+    and the third — <em>O</em> — labeled in English as just "O", the
+    letter.
+  </p>
+
+  <p>
+    This is what happens when symbol data accumulates over a year of
+    porting from a third-party set without anyone reading the result top
+    to bottom. <em>Biz</em> ended up in numbers because Mulberry's
+    <em>we</em> symbol shares an asset filename with a numerical concept,
+    and the import script didn't know better. <em>O</em> ended up in
+    numbers because the script saw a one-letter label and assumed
+    alphabet. Turkish <em>O</em> means "he, she, it." A single character
+    carrying enormous load.
+  </p>
+
+  <p>
+    The <code>hide:tr</code> tags weren't malice either. They were
+    early-stage caution: "I haven't reviewed these yet, hide them until I
+    do." Then I never came back.
+  </p>
+
+  <p>
+    Six rows changed in <code>symbol_data.json</code>:
+  </p>
+
+  <ul>
+    <li>Move <code>ses-031</code>, <code>ses-032</code>, <code>ses-033</code>
+        (Biz, Siz, Onlar) from <code>numbers</code> to <code>people</code>.</li>
+    <li>Drop the <code>hide:tr</code> tags. Drop the stale
+        <code>image_type: missing</code> on Siz — the SVG was always there,
+        someone forgot to flip the flag.</li>
+    <li>Re-tag <code>mul-2060</code> from numbers to people, change its
+        English label from "O" (the letter) to "he/she/it" (the pronoun).
+        The Turkish digit zero already exists separately as
+        <code>mul-3118</code> labeled <em>Sıfır</em>.</li>
+    <li>Renumber the six pronouns to <code>sort_order</code>
+        <code>-100</code> through <code>-95</code> so they cluster at the
+        front of the people grid in the canonical Turkish order children
+        learn them in school: Ben, Sen, O, Biz, Siz, Onlar.</li>
+  </ul>
+
+  <p>
+    Bumped the seed version from 44 to 45 so existing devices re-seed on
+    next launch. Otherwise the corrected JSON ships but nobody sees it,
+    because the seed-once logic short-circuits.
+  </p>
+
+  <p>
+    While I was in the data, I unhid <em>Hangisi</em> ("which") to round
+    out the question-word set: Ne, Ne zaman, Nerede, Nasıl, Neden, Kim,
+    and now Hangisi. That's seven of the seven Turkish question words a
+    five-year-old uses. They were all in the data; one was just
+    invisible.
+  </p>
+
+  <h2>The custom-symbol editor was asking the wrong question</h2>
+
+  <p>
+    The same week I shipped the custom-symbol feature — Plus users can
+    now add their own tiles from a photo plus a label. The editor I built
+    asked for two labels, Turkish and English, with a verb-conjugation
+    helper hint under each. Clean, careful, internationally-thoughtful.
+  </p>
+
+  <p>
+    A user pointed out the obvious thing. They had two profiles on one
+    device, one Turkish and one English, and the editor was forcing them
+    to type a translation in a language they didn't speak. To add a photo
+    of <em>anneannem</em> (their grandma), they had to pause and think:
+    "...what's the English word for grandma again? Maternal?" To capture
+    a thought, you should not have to translate it.
+  </p>
+
+  <p>
+    I had built a multilingual data structure for a fundamentally
+    monolingual moment. Bundled symbols are multilingual because they
+    ship to everyone. A custom symbol is, by definition, the user
+    capturing something private to them, on their device, in their
+    language, right now. It is an act of recognition, not of
+    translation.
+  </p>
+
+  <p>
+    The fix was to delete a TextField. The single label is written into
+    the existing <code>textTr</code> column. Display already falls back
+    via <code>textEn ?? textTr</code>, so a label entered by an English
+    profile still renders correctly if a Turkish profile later opens the
+    same row. Both languages get a coherent display, neither user gets
+    asked to do work they don't want to do.
+  </p>
+
+  <blockquote>
+    <p>
+      Multilingual data structures are a tax. They're worth paying when
+      content travels across users. They're a friction when content
+      belongs to one user.
+    </p>
+  </blockquote>
+
+  <p>
+    I also took the now-shipping feature and added it to the paywall as
+    the third bullet: <em>Add your own symbols from photos.</em> Tightened
+    from older copy that said "Create your own boards &amp; symbols" —
+    custom boards isn't a shipped feature yet, and the App Store's
+    section 3.1.2 is unforgiving about paywalls promising things the
+    binary doesn't actually deliver.
+  </p>
+
+  <h2>What links the three</h2>
+
+  <p>
+    Three different fixes, one shared lesson. AAC apps have an unusually
+    long distance between <em>data is technically present</em> and
+    <em>user can find and use it</em>. A symbol with the wrong category,
+    the wrong locale tag, the wrong English label, or the wrong
+    sort_order is, from the user's perspective, missing. A label field
+    asking for a translation the user can't provide is, from the user's
+    perspective, a wall.
+  </p>
+
+  <p>
+    None of these were caught by the 1063 unit tests. All of them were
+    caught by one person looking at the screen and asking a question
+    that started with "wait — why...". That's the cheapest, most
+    underrated form of QA I have access to, and I should run it more
+    often.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="08-the-android-shakedown.html">← Previous: The Android Shakedown</a>
+    <span></span>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="devlog.html" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>
