@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Necessity Tile — Sesla Dev Log</title>
+<meta name="description" content="One new tile, 'Gerek', that turns any verb in the app into a Turkish necessity clause. A small grammar branch with surprisingly nice ergonomics." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  pre {
+    background: #f0ede6;
+    padding: 14px 18px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.86em;
+    line-height: 1.55;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+    color: var(--ink);
+  }
+  pre code { background: none; padding: 0; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.95rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  td { color: var(--ink-soft); }
+  td:last-child { color: var(--ink); }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { color: var(--ink-soft); padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="devlog.html">← Sesla Dev Log</a></p>
+
+  <p class="meta">May 1, 2026 · Gökhan Oğuz</p>
+  <h1>The Necessity Tile</h1>
+
+  <p>
+    Someone asked me how to say <em>"I need to go"</em> on Sesla. The
+    honest answer was: you can't, not in one nice sentence. You can tap
+    <em>Ben</em> and <em>Gitmek</em> and the engine will give you
+    "Gidiyorum" — <em>I'm going</em> — which is a different thing. To
+    express obligation in Turkish you have to reach for a grammatical
+    construction the app didn't know about yet.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">1</p>
+      <p class="stat-label">New Tile</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">6</p>
+      <p class="stat-label">Person Forms</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">1123</p>
+      <p class="stat-label">Tests Passing</p>
+    </div>
+  </div>
+
+  <h2>What Turkish does that English doesn't</h2>
+
+  <p>
+    English handles necessity with a stack of helper verbs: <em>I need
+    to go, I have to go, I must go</em>. Three little words wrap around
+    a bare infinitive. Turkish takes the verb itself and rebuilds it.
+  </p>
+
+  <p>
+    <em>Benim gitmem gerek</em> — literally <em>"my going is
+    necessary"</em> — is the form a Turkish parent uses with a child a
+    dozen times a day. <em>Banyoya gitmem gerek. Yatmam gerek. Annemi
+    aramam gerek.</em> Three things happen at once:
+  </p>
+
+  <ul>
+    <li>The subject pronoun goes <strong>genitive</strong>:
+        <em>Ben → Benim</em>, <em>Sen → Senin</em>, <em>O → Onun</em>.</li>
+    <li>The verb's infinitive ending <code>-mak / -mek</code> drops to a
+        verbal noun <code>-ma / -me</code>, then takes a
+        <strong>possessive suffix</strong> matching the subject's person:
+        <em>git-me-m</em>, <em>git-me-n</em>, <em>git-me-si</em>.</li>
+    <li>The particle <em>gerek</em> sits at the end as the only piece
+        that doesn't change.</li>
+  </ul>
+
+  <p>
+    For the verb <em>yıkamak</em> (to wash), the full set looks like
+    this:
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Person</th><th>Pronoun</th><th>Verb</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1sg</td><td>Benim</td><td>yıkamam gerek</td></tr>
+      <tr><td>2sg</td><td>Senin</td><td>yıkaman gerek</td></tr>
+      <tr><td>3sg</td><td>Onun</td><td>yıkaması gerek</td></tr>
+      <tr><td>1pl</td><td>Bizim</td><td>yıkamamız gerek</td></tr>
+      <tr><td>2pl</td><td>Sizin</td><td>yıkamanız gerek</td></tr>
+      <tr><td>3pl</td><td>Onların</td><td>yıkamaları gerek</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Six forms. One particle. Every verb in the app suddenly has a
+    necessity flavor — which is a lot of expressive surface for one new
+    tile.
+  </p>
+
+  <h2>Adding a tile vs. adding a grammar branch</h2>
+
+  <p>
+    The data side was easy: a single new symbol, <code>ses-1176</code>,
+    labeled <em>Gerek</em> in Turkish and <em>necessary</em> in English,
+    placed in the verbs category.
+  </p>
+
+  <p>
+    The engine side was a separate small fork. Sesla's sentence builder
+    normally looks at the tapped tiles, finds the last verb, and runs it
+    through tense / person / negation. The necessity construction
+    doesn't fit that pipeline cleanly — it isn't a tense, it changes the
+    verb's <em>category</em> from finite to nominal. So I gave it its
+    own early branch:
+  </p>
+
+  <pre><code>final hasNecessity = nonEmpty.any((t) =&gt;
+  _necessityMarkers.contains(t.trim().toLowerCase()));
+final hasVerb = hasNecessity &amp;&amp;
+  nonEmpty.any((t) =&gt; extractTurkishVerbStem(t) != null);
+
+if (hasVerb &amp;&amp; !isConditional) {
+  return _buildNecessitySegment(nonEmpty);
+}</code></pre>
+
+  <p>
+    Inside the branch, the only real new piece is a verbal-noun helper
+    that takes a verb stem and a person, applies <code>-ma/-me</code>
+    with the right back/front vowel, and then layers the matching
+    possessive suffix on top. Turkish vowel harmony is the rule that
+    makes the suffix shape change: <em>yaz-ma-m</em> with a back-vowel
+    stem, <em>git-me-m</em> with a front-vowel stem, and Sesla already
+    had a <code>fourWay</code> vowel-class detector from earlier work,
+    so most of the plumbing was reuse.
+  </p>
+
+  <p>
+    Movement verbs needed one extra touch. If the input is
+    <em>Ben + Ev + Gitmek + Gerek</em>, the location noun in the middle
+    has to take the dative case to match its head verb. The non-necessity
+    pipeline already does this, so I just propagated the same rule
+    through the new branch:
+  </p>
+
+  <blockquote>
+    <p>
+      Ben + Ev + Gitmek + Gerek → <em>Benim eve gitmem gerek.</em>
+    </p>
+  </blockquote>
+
+  <p>
+    Compound infinitives — verbs whose lemma is two words like
+    <em>yemek yemek</em> (to eat a meal) or <em>resim çizmek</em> (to
+    draw) — keep their object verbatim and only conjugate the head. So
+    <em>Ben + Yemek yemek + Gerek</em> becomes <em>Benim yemek yemem
+    gerek</em>, not the slightly horrible <em>yemek yememem</em>.
+  </p>
+
+  <h2>The implicit subject</h2>
+
+  <p>
+    My first benchmark assumed a hard rule: no pronoun typed → default to
+    1st person → emit <em>Benim yazmam gerek</em>. The test failed,
+    because what the engine actually produced was <em>Yazmam gerek</em>
+    — and that's correct. Turkish drops the genitive pronoun freely when
+    context is clear. <em>Yazmam gerek</em> is what a person says when
+    they're about to grab a pen; nobody adds <em>Benim</em> unless
+    they're being emphatic. So the engine was right and the test was
+    wrong. Adjusted the expectation, kept the behavior.
+  </p>
+
+  <p>
+    Nine new benchmark cases lock the rule in: one for each of the six
+    persons, one for the implicit subject, one for the dative
+    propagation, one for compound infinitives. The full Turkish suite is
+    at 1123 cases now and they all pass.
+  </p>
+
+  <h2>Why one tile is interesting</h2>
+
+  <p>
+    The reason this is worth a post and not a footnote is the leverage.
+    Sesla's verb dictionary has a few hundred Turkish verbs in it. Each
+    one already had finite forms — present, past, future, negation,
+    questions, six persons each — and that's a lot of grammar living
+    inside each tile.
+  </p>
+
+  <p>
+    Adding <em>Gerek</em> means every one of those verbs now also has a
+    necessity reading, in all six persons, with movement-verb dative
+    handled and compound infinitives respected. One tile, one engine
+    branch, and the expressive surface multiplies. That's the kind of
+    change AAC apps are supposed to be made of — small additions that
+    pay back across the whole vocabulary, instead of fussy per-word
+    work.
+  </p>
+
+  <p>
+    Next on the list: the same construction in English (<em>I need to
+    wash, I have to go</em>), which is grammatically simpler but has its
+    own subject-verb agreement edge cases. After that, more grammatical
+    particles in the same shape — Turkish has a small family of them
+    (<em>lazım</em>, <em>şart</em>) that lean on the same verbal-noun
+    machinery. The hard part is built; the rest is wiring.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="09-spotty-and-the-missing-pronouns.html">← Previous: Spotty and the Missing Pronouns</a>
+    <span></span>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="devlog.html" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>
