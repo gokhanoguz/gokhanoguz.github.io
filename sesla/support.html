@@ -6,83 +6,249 @@
   <title>Support — Sesla</title>
   <meta name="description" content="Support and contact information for the Sesla AAC mobile app.">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Language switching: only one of [data-lang="en"] / [data-lang="tr"] is shown. */
+    [data-lang] { display: none; }
+    html[lang="en"] [data-lang="en"] { display: revert; }
+    html[lang="tr"] [data-lang="tr"] { display: revert; }
+
+    .lang-toggle {
+      display: inline-flex;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--surface);
+      margin: 0 0 24px;
+    }
+    .lang-toggle button {
+      background: transparent;
+      border: 0;
+      color: var(--ink-soft);
+      font: inherit;
+      font-size: 0.85rem;
+      padding: 6px 14px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .lang-toggle button[aria-pressed="true"] {
+      background: var(--accent);
+      color: #fff;
+    }
+    .lang-toggle button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+  </style>
 </head>
 <body>
   <div class="wrap">
     <header class="site">
       <h1>Sesla</h1>
-      <p class="tagline">Support</p>
+      <p class="tagline">
+        <span data-lang="en">Support</span>
+        <span data-lang="tr">Destek</span>
+      </p>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-set-lang="tr" aria-pressed="false">TR</button>
+      </div>
       <nav class="site">
-        <a href="./">Dev Log</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="support.html" class="current">Support</a>
+        <a href="./">
+          <span data-lang="en">Dev Log</span>
+          <span data-lang="tr">Geliştirici Günlüğü</span>
+        </a>
+        <a href="privacy.html">
+          <span data-lang="en">Privacy</span>
+          <span data-lang="tr">Gizlilik</span>
+        </a>
+        <a href="terms.html">
+          <span data-lang="en">Terms</span>
+          <span data-lang="tr">Şartlar</span>
+        </a>
+        <a href="support.html" class="current">
+          <span data-lang="en">Support</span>
+          <span data-lang="tr">Destek</span>
+        </a>
       </nav>
     </header>
 
     <p class="lede">
-      Sesla is a one-developer project. Bug reports, feature requests,
-      and accessibility feedback are read personally and matter a lot.
+      <span data-lang="en">
+        Sesla is a one-developer project. Bug reports, feature requests,
+        and accessibility feedback are read personally and matter a lot.
+      </span>
+      <span data-lang="tr">
+        Sesla tek kişilik bir geliştirici projesidir. Hata bildirimleri,
+        özellik istekleri ve erişilebilirlik geri bildirimleri tek tek
+        okunur ve çok önemlidir.
+      </span>
     </p>
 
-    <h2>Get in touch</h2>
+    <h2>
+      <span data-lang="en">Get in touch</span>
+      <span data-lang="tr">İletişim</span>
+    </h2>
     <p>
-      Email:
+      <span data-lang="en">Email:</span>
+      <span data-lang="tr">E-posta:</span>
       <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>
     </p>
     <p>
-      For the fastest answer, please include:
+      <span data-lang="en">For the fastest answer, please include:</span>
+      <span data-lang="tr">En hızlı yanıt için lütfen şunları ekleyin:</span>
     </p>
-    <ul>
+    <ul data-lang="en">
       <li>Your device model and OS version (iOS or Android).</li>
       <li>Sesla version (Settings → About).</li>
       <li>What you tried to do, what happened, and what you expected.</li>
       <li>A screenshot if it's a visual issue.</li>
     </ul>
+    <ul data-lang="tr">
+      <li>Cihaz modeliniz ve işletim sistemi sürümünüz (iOS veya Android).</li>
+      <li>Sesla sürümü (Ayarlar → Hakkında).</li>
+      <li>Ne yapmaya çalıştığınız, ne olduğu ve ne beklediğiniz.</li>
+      <li>Görsel bir sorunsa bir ekran görüntüsü.</li>
+    </ul>
 
-    <h2>Subscription help</h2>
+    <h2>
+      <span data-lang="en">Subscription help</span>
+      <span data-lang="tr">Abonelik yardımı</span>
+    </h2>
     <p>
-      Sesla Plus subscriptions are billed and managed by Apple or Google.
-      To change or cancel:
+      <span data-lang="en">
+        Sesla Plus subscriptions are billed and managed by Apple or Google.
+        To change or cancel:
+      </span>
+      <span data-lang="tr">
+        Sesla Plus abonelikleri Apple veya Google tarafından faturalandırılır
+        ve yönetilir. Değiştirmek veya iptal etmek için:
+      </span>
     </p>
-    <ul>
+    <ul data-lang="en">
       <li><strong>iOS:</strong> Settings app → tap your name →
         Subscriptions → Sesla.</li>
       <li><strong>Android:</strong> Play Store app → profile →
         Payments &amp; subscriptions → Subscriptions → Sesla.</li>
     </ul>
+    <ul data-lang="tr">
+      <li><strong>iOS:</strong> Ayarlar uygulaması → adınıza dokunun →
+        Abonelikler → Sesla.</li>
+      <li><strong>Android:</strong> Play Store uygulaması → profil →
+        Ödemeler ve abonelikler → Abonelikler → Sesla.</li>
+    </ul>
     <p>
-      Refunds are handled by the store you bought from. Apple's process
-      is at <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>;
-      Google's is at
-      <a href="https://play.google.com/store/account/orderhistory">play.google.com/store/account/orderhistory</a>.
+      <span data-lang="en">
+        Refunds are handled by the store you bought from. Apple's process
+        is at <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>;
+        Google's is at
+        <a href="https://play.google.com/store/account/orderhistory">play.google.com/store/account/orderhistory</a>.
+      </span>
+      <span data-lang="tr">
+        İadeler, satın aldığınız mağaza tarafından yürütülür. Apple için
+        süreç <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>
+        adresindedir; Google için
+        <a href="https://play.google.com/store/account/orderhistory">play.google.com/store/account/orderhistory</a>
+        adresindedir.
+      </span>
     </p>
 
-    <h2>Restoring purchases</h2>
+    <h2>
+      <span data-lang="en">Restoring purchases</span>
+      <span data-lang="tr">Satın alımları geri yükleme</span>
+    </h2>
     <p>
-      If you reinstall Sesla or move to a new device, sign in to the
-      same Apple ID or Google account that bought the subscription, then
-      open the paywall and tap <strong>Restore purchases</strong>.
+      <span data-lang="en">
+        If you reinstall Sesla or move to a new device, sign in to the
+        same Apple ID or Google account that bought the subscription, then
+        open the paywall and tap <strong>Restore purchases</strong>.
+      </span>
+      <span data-lang="tr">
+        Sesla'yı yeniden kurarsanız veya yeni bir cihaza geçerseniz,
+        aboneliği satın alan Apple Kimliği veya Google hesabıyla oturum
+        açın, ardından ödeme ekranını açıp
+        <strong>Satın alımları geri yükle</strong> öğesine dokunun.
+      </span>
     </p>
 
-    <h2>Reporting accessibility issues</h2>
+    <h2>
+      <span data-lang="en">Reporting accessibility issues</span>
+      <span data-lang="tr">Erişilebilirlik sorunlarını bildirme</span>
+    </h2>
     <p>
-      Sesla is built for non-speaking users and their families. If
-      something blocks you from communicating, please flag it as
-      "accessibility" in the email subject line. These reports jump the
-      queue.
+      <span data-lang="en">
+        Sesla is built for non-speaking users and their families. If
+        something blocks you from communicating, please flag it as
+        "accessibility" in the email subject line. These reports jump the
+        queue.
+      </span>
+      <span data-lang="tr">
+        Sesla, konuşamayan kullanıcılar ve aileleri için tasarlanmıştır.
+        İletişim kurmanızı engelleyen bir şey varsa, lütfen e-posta
+        konusunda "erişilebilirlik" olarak işaretleyin. Bu bildirimler
+        sıranın başına geçer.
+      </span>
     </p>
 
     <footer class="site">
-      <a href="./">Dev Log</a> ·
-      <a href="privacy.html">Privacy</a> ·
-      <a href="terms.html">Terms</a> ·
-      <a href="mailto:m.gokhanoguz2@gmail.com">Contact</a>
-      <br><br>
-      © 2026 Gökhan Oğuz.
-      <br>
-      <a href="../">← Back to Oguz Games</a>
+      <span data-lang="en">
+        <a href="./">Dev Log</a> ·
+        <a href="privacy.html">Privacy</a> ·
+        <a href="terms.html">Terms</a> ·
+        <a href="mailto:m.gokhanoguz2@gmail.com">Contact</a>
+        <br><br>
+        © 2026 Gökhan Oğuz.
+        <br>
+        <a href="../">← Back to Oguz Games</a>
+      </span>
+      <span data-lang="tr">
+        <a href="./">Geliştirici Günlüğü</a> ·
+        <a href="privacy.html">Gizlilik</a> ·
+        <a href="terms.html">Şartlar</a> ·
+        <a href="mailto:m.gokhanoguz2@gmail.com">İletişim</a>
+        <br><br>
+        © 2026 Gökhan Oğuz.
+        <br>
+        <a href="../">← Oguz Games'e dön</a>
+      </span>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      var STORAGE_KEY = 'seslaLang';
+      var supported = ['en', 'tr'];
+
+      function pickInitial() {
+        try {
+          var stored = localStorage.getItem(STORAGE_KEY);
+          if (stored && supported.indexOf(stored) !== -1) return stored;
+        } catch (e) { /* private mode etc */ }
+        var nav = (navigator.language || 'en').toLowerCase();
+        return nav.indexOf('tr') === 0 ? 'tr' : 'en';
+      }
+
+      function applyLang(lang) {
+        if (supported.indexOf(lang) === -1) lang = 'en';
+        document.documentElement.setAttribute('lang', lang);
+        document.title = lang === 'tr'
+          ? 'Destek — Sesla'
+          : 'Support — Sesla';
+        var buttons = document.querySelectorAll('[data-set-lang]');
+        for (var i = 0; i < buttons.length; i++) {
+          var b = buttons[i];
+          b.setAttribute('aria-pressed', b.getAttribute('data-set-lang') === lang ? 'true' : 'false');
+        }
+        try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+      }
+
+      document.addEventListener('click', function (e) {
+        var t = e.target.closest && e.target.closest('[data-set-lang]');
+        if (!t) return;
+        applyLang(t.getAttribute('data-set-lang'));
+      });
+
+      applyLang(pickInitial());
+    })();
+  </script>
 </body>
 </html>
