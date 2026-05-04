@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Third Anything — Sesla Dev Log</title>
+<meta name="description" content="I sat down to add a third language. Spent the day refactoring instead. The codebase didn't know it had ever lived in only two." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  pre {
+    background: #f0ede6;
+    padding: 14px 18px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.86em;
+    line-height: 1.55;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+    color: var(--ink);
+  }
+  pre code { background: none; padding: 0; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.95rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  td { color: var(--ink-soft); }
+  td:last-child { color: var(--ink); }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { color: var(--ink-soft); padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="devlog.html">← Sesla Dev Log</a></p>
+
+  <p class="meta">May 4, 2026 · Gökhan Oğuz</p>
+  <h1>The Third Anything</h1>
+
+  <p>
+    I sat down on Sunday morning to add a third language to Sesla. By
+    lunchtime I'd written a full plan. By dinner I'd thrown the plan
+    away and spent the rest of the day refactoring code that, on the
+    surface, was working perfectly fine. No new feature shipped. The
+    app on real devices behaves exactly the same as it did at breakfast.
+    I'm calling that a good day.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">1162</p>
+      <p class="stat-label">Tests Passing</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">4</p>
+      <p class="stat-label">Commits</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">0</p>
+      <p class="stat-label">User-Visible Changes</p>
+    </div>
+  </div>
+
+  <h2>The plan that didn't survive contact with reality</h2>
+
+  <p>
+    I won't say which language I picked first. It doesn't matter,
+    because the plan was wrong before the language even came up. What
+    matters is what happened when I gave the plan to a few LLMs for
+    review and asked them to be mean.
+  </p>
+
+  <p>
+    They were mean.
+  </p>
+
+  <p>
+    The headline criticism wasn't about my pick or my linguistics. It
+    was structural. Sesla, the reviewer pointed out, isn't a multilingual
+    app. It's a <em>two-language app</em>. The codebase has spent its
+    entire life knowing about exactly two values — Turkish and English —
+    and that assumption is wired into about a dozen places nobody had
+    ever needed to look at: switch statements, ternaries, ARB files,
+    voice-settings keys, parser fallbacks, schema columns. Adding a
+    third value to the language enum would compile fine and then
+    silently route the new language to Turkish in half the app and
+    English in the other half. The tests would still be green. Users
+    would just see weird behavior.
+  </p>
+
+  <p>
+    There's a name for this in software: <em>the rule of three</em>.
+    The first time you do something, just do it. The second time, you
+    notice the duplication and grit your teeth. The third time, you
+    refactor. I'd been treating the second language (English) as if it
+    were the same shape as the first (Turkish) — because it was working
+    — and now I was about to add a third without doing the refactor that
+    the second one had been quietly demanding.
+  </p>
+
+  <h2>What "two-language system" actually means in code</h2>
+
+  <p>
+    The most embarrassing example: every place in the app that needed
+    to do something language-specific looked like this.
+  </p>
+
+  <pre><code>if (lang == AppLanguage.turkish) {
+  doTurkishThing();
+} else {
+  doEnglishThing();
+}</code></pre>
+
+  <p>
+    Read it slowly. Notice that "else" branch. The <code>AppLanguage</code>
+    enum has two values today, so "else" means English. The day a third
+    value lands, "else" means English <em>or the new language</em>,
+    silently. The compiler shrugs. The analyzer shrugs. Your tests, if
+    you only wrote them for the existing two values, shrug. The bug
+    only shows up when a parent in São Paulo opens the app and the
+    sentence comes out half in Portuguese, half in Turkish, with no
+    error.
+  </p>
+
+  <p>
+    Dart 3 has a fix for this. If you write the same logic as a
+    <code>switch</code> expression that exhaustively covers every enum
+    value, the compiler refuses to build the day you add a new value
+    until you've handled it everywhere.
+  </p>
+
+  <pre><code>final result = switch (lang) {
+  AppLanguage.turkish =&gt; doTurkishThing(),
+  AppLanguage.english =&gt; doEnglishThing(),
+};</code></pre>
+
+  <p>
+    Same behavior today. Loud failure tomorrow. Sunday afternoon was
+    finding every <code>if (lang == ...)</code> in the codebase and
+    converting it. Seven sites. None of them changed user-facing
+    behavior. All of them now refuse to compile if I add an enum value
+    without updating them.
+  </p>
+
+  <h2>The "no engine" engine</h2>
+
+  <p>
+    The bigger refactor was the morphology engines. Sesla has two of
+    them, custom-built. The Turkish one is a multi-pass beast — vowel
+    harmony, consonant softening, dative case, possessive chains, the
+    whole story. The English one is smaller but still does real work
+    around tense, plurals, and 3rd-person agreement. Both were
+    standalone classes with different shapes and different call sites.
+    Neither implemented a common interface, because there had only ever
+    been two of them.
+  </p>
+
+  <p>
+    I extracted a tiny abstraction:
+  </p>
+
+  <pre><code>abstract class SentenceEngine {
+  String build(List&lt;String&gt; texts);
+}</code></pre>
+
+  <p>
+    Three implementations live behind it now: the Turkish engine wraps
+    the existing builder, the English engine wraps the existing
+    morphology, and a third one — <code>PassthroughSentenceEngine</code>
+    — does almost nothing. It joins the words with spaces, drops empty
+    strings, and returns. That's the entire body.
+  </p>
+
+  <p>
+    The reason it exists: not every language needs morphology to be
+    intelligible. Some languages are <em>analytic</em>, meaning they
+    use word order and standalone particles instead of glued-on suffixes.
+    For a language like that, "I want eat rice" is approximately
+    correct grammar. You don't need a verb conjugator. You need a
+    string joiner. Passthrough lets a future language ship as soon as
+    its symbol labels are translated, without waiting on me to write a
+    morphology engine for it. I can always add a real engine later when
+    it's earned.
+  </p>
+
+  <blockquote>
+    <p>
+      The cheapest engine is the one you don't write. The trick is
+      designing the seam where it would have gone, so the day you do
+      need one, the wiring is already there.
+    </p>
+  </blockquote>
+
+  <h2>A schema migration that nobody notices</h2>
+
+  <p>
+    The third refactor was the schema. Sesla stores symbol labels and
+    board names as separate columns per language: <code>text_tr</code>,
+    <code>text_en</code>, <code>name_tr</code>, <code>name_en</code>.
+    Adding a third language under that pattern means another schema bump
+    every time, and the column-per-language style doesn't really scale.
+    But ripping it out now to switch readers would be invasive and
+    risky.
+  </p>
+
+  <p>
+    The middle path: add three new normalized translation tables
+    alongside the existing columns, and use SQLite triggers to
+    auto-mirror writes. Repository code is completely untouched. Every
+    time the app writes a symbol's text into the legacy column, an
+    <code>AFTER INSERT</code> trigger fires and copies the value into
+    <code>symbol_translations(symbol_id, lang, value)</code>. Same for
+    updates. Same for boards and categories. The migration also
+    backfills every existing row on first launch after upgrade, so a
+    user who's been running the app for months wakes up to a fully
+    populated translations table they don't know exists.
+  </p>
+
+  <p>
+    Reads still come from the legacy columns. Nothing changes about
+    behavior, performance, or the user experience. The translations
+    tables sit there, fully synchronized, waiting. The day I'm ready to
+    flip readers to use them — when language #3 actually lands — it's
+    one commit and zero data work.
+  </p>
+
+  <p>
+    The thing I'm most paranoid about with database migrations is
+    breaking existing users on upgrade. So the test for this isn't a
+    pretend in-memory test. It writes a real v4-shaped sqlite file to
+    disk, closes the database, reopens it through the v5 codebase, and
+    asserts that the upgrade ran cleanly: tables created, rows
+    backfilled, triggers installed, fresh inserts auto-mirrored.
+    Reviewing that test is what kept me honest.
+  </p>
+
+  <h2>Not shipping is also a deliverable</h2>
+
+  <p>
+    There's a temptation, when you've done a day of work, to want
+    something visible to come out the other end. A new tile. A new
+    screen. A devlog post with a screenshot. This day didn't produce
+    any of those. It produced four commits with messages like
+    <code>refactor(lang): exhaustive switch on AppLanguage</code> and a
+    test count that went from 1141 to 1162 — a number nobody but me
+    will ever look at.
+  </p>
+
+  <p>
+    But the next time I sit down to add a language to Sesla, the work
+    is going to be small. Most of it is going to be content — labels,
+    cultural symbols, voice picks, hand-curated boards. The plumbing
+    is already paid for. The compiler will tell me everywhere I missed.
+    The translations table will already have rows. The passthrough
+    engine will already be there if I decide morphology can wait.
+  </p>
+
+  <p>
+    That's worth not shipping a thing.
+  </p>
+
+  <h2>The third anything rule</h2>
+
+  <p>
+    I think this is general. Any time you're about to add a third
+    instance of something — third payment method, third notification
+    channel, third theme, third language — stop and check what the
+    code thinks. There's a good chance it thinks there are only ever
+    going to be two, because nothing has forced it to think otherwise
+    yet. The third one is the one that exposes that assumption. It's
+    cheaper to fix the assumption first and then add the new instance
+    than to add the new instance and chase down all the silent
+    fallthroughs from production bug reports.
+  </p>
+
+  <p>
+    Which language am I actually adding next, and when? That's a
+    different post. I want some real user data first — I just shipped
+    the Plus tier and the app is in store review, and decisions made
+    without conversion data are decisions made by vibes. So the next
+    few weeks are probably going to be quiet on the engineering side
+    and loud on the watching-numbers side.
+  </p>
+
+  <p>
+    Then I'll know, and then the third language will land in roughly
+    the time it takes to write the labels.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="10-the-necessity-tile.html">← Previous: The Necessity Tile</a>
+    <span></span>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="devlog.html" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>
