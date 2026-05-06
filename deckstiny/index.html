@@ -3,18 +3,25 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Deckstiny — A Roguelike Deckbuilder</title>
-<meta name="description" content="Deckstiny is a roguelike deckbuilder for iOS and Android with elemental Resonance and Fusion mechanics." />
-<meta property="og:title" content="Deckstiny" />
+<title>Deckstiny — A Roguelike Deckbuilder for iOS &amp; Android</title>
+<meta name="description" content="Deckstiny is a roguelike deckbuilder for iOS and Android. Build a deck from scratch each run, weave four elements into resonant chains, and switch elements to trigger devastating fusion combos." />
+<link rel="icon" type="image/png" href="./assets/icon-256.png" />
+<link rel="apple-touch-icon" href="./assets/icon-256.png" />
+<meta property="og:title" content="Deckstiny — A Roguelike Deckbuilder" />
 <meta property="og:description" content="A roguelike deckbuilder with elemental Resonance &amp; Fusion mechanics. Coming to iOS &amp; Android." />
 <meta property="og:type" content="website" />
+<meta property="og:image" content="./assets/feature-graphic.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <style>
   :root {
     --bg: #15110b;
     --bg-card: #1d180f;
+    --bg-elevated: #251e13;
     --ink: #efe6d4;
     --muted: #b9ad94;
+    --muted-soft: #8a8068;
     --accent: #c9a86a;
+    --accent-strong: #e0c389;
     --line: #2a2218;
     --fire:      #e07a3c;
     --ice:       #6fb7cf;
@@ -26,25 +33,47 @@
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
   }
+  img { max-width: 100%; display: block; }
+
   main {
-    max-width: 760px;
+    max-width: 880px;
     margin: 0 auto;
-    padding: 56px 24px 96px;
+    padding: 32px 24px 80px;
   }
   .breadcrumb { font-size: 0.9rem; color: var(--muted); margin-bottom: 24px; }
   .breadcrumb a { color: var(--accent); text-decoration: none; }
   .breadcrumb a:hover { text-decoration: underline; }
 
-  header.hero {
+  /* Hero */
+  .hero {
     text-align: center;
-    padding: 32px 0 16px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 40px;
+    margin-bottom: 56px;
   }
+  .hero-banner {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    margin-bottom: 28px;
+    aspect-ratio: 1024 / 500;
+    background: #000;
+  }
+  .hero-banner img { width: 100%; height: 100%; object-fit: cover; }
+
+  .hero-icon {
+    width: 96px;
+    height: 96px;
+    border-radius: 22px;
+    margin: -76px auto 16px;
+    border: 3px solid var(--bg);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    background: var(--bg-card);
+  }
+
   h1 {
     font-family: "Iowan Old Style", "Palatino", Georgia, serif;
-    font-size: 3.2rem;
+    font-size: 3rem;
     letter-spacing: 0.02em;
     margin: 0 0 8px;
     color: var(--accent);
@@ -53,28 +82,72 @@
     color: var(--muted);
     font-style: italic;
     font-size: 1.1rem;
-    margin: 0 0 16px;
+    margin: 0 0 20px;
   }
+
   .status-pill {
     display: inline-block;
-    padding: 4px 12px;
+    padding: 6px 14px;
     border: 1px solid var(--accent);
     border-radius: 999px;
     color: var(--accent);
     font-size: 0.85rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    background: rgba(201, 168, 106, 0.08);
+  }
+
+  .store-badges {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    border-radius: 10px;
+    color: var(--muted-soft);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    cursor: not-allowed;
+    opacity: 0.85;
+  }
+  .badge .badge-glyph {
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+  .badge .badge-line-1 {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .badge .badge-line-2 {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.95rem;
   }
 
   h2 {
     font-family: "Iowan Old Style", "Palatino", Georgia, serif;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: var(--accent);
-    margin-top: 48px;
+    margin-top: 56px;
+    margin-bottom: 12px;
     border-bottom: 1px solid var(--line);
-    padding-bottom: 8px;
+    padding-bottom: 10px;
   }
 
+  /* Pillars */
   .pillars {
     display: grid;
     grid-template-columns: 1fr;
@@ -87,17 +160,57 @@
   .pillar {
     background: var(--bg-card);
     border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 18px 20px;
+    border-radius: 10px;
+    padding: 20px 22px;
   }
   .pillar h3 {
     font-family: "Iowan Old Style", "Palatino", Georgia, serif;
-    font-size: 1.1rem;
-    margin: 0 0 6px;
+    font-size: 1.15rem;
+    margin: 0 0 8px;
     color: var(--accent);
   }
   .pillar p { margin: 0; color: var(--ink); font-size: 0.95rem; }
 
+  /* Feature blocks: text + screenshot, alternating */
+  .feature {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: center;
+    margin-top: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  @media (min-width: 720px) {
+    .feature { grid-template-columns: 1fr 240px; }
+    .feature.reverse { grid-template-columns: 240px 1fr; }
+    .feature.reverse .feature-text { order: 2; }
+  }
+  .feature-text h3 {
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+  .feature-text p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.97rem;
+  }
+  .feature-shot {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #000;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    max-width: 240px;
+    margin: 0 auto;
+  }
+  .feature-shot img { width: 100%; height: auto; }
+
+  /* Elements */
   .elements {
     display: flex;
     flex-wrap: wrap;
@@ -117,41 +230,111 @@
   .element.lightning { color: var(--lightning); border-color: var(--lightning); }
   .element.shadow    { color: var(--shadow);    border-color: var(--shadow); }
 
+  /* Screenshot scroll gallery */
+  .gallery {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 4px 24px;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .gallery::-webkit-scrollbar { height: 6px; }
+  .gallery::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+  .gallery-item {
+    flex: 0 0 auto;
+    width: 220px;
+    scroll-snap-align: start;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #000;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+  .gallery-item img { width: 100%; height: auto; display: block; }
+  .gallery-hint {
+    color: var(--muted-soft);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  /* Facts table */
   .facts {
     width: 100%;
     margin-top: 16px;
     border-collapse: collapse;
   }
   .facts td {
-    padding: 10px 0;
+    padding: 12px 0;
     border-bottom: 1px solid var(--line);
     vertical-align: top;
   }
   .facts td:first-child {
     color: var(--muted);
-    width: 38%;
+    width: 36%;
     padding-right: 16px;
   }
   .facts tr:last-child td { border-bottom: none; }
 
+  /* FAQ */
+  .faq details {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 10px;
+  }
+  .faq details[open] { background: var(--bg-elevated); }
+  .faq summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-weight: 600;
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: "＋";
+    float: right;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .faq details[open] summary::after { content: "−"; }
+  .faq details > p {
+    margin: 12px 0 0;
+    color: var(--ink);
+    font-size: 0.97rem;
+  }
+
+  /* Availability */
+  .availability {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-top: 16px;
+  }
+  .availability p { margin: 0; }
+  .availability p + p { margin-top: 12px; }
+  .availability a { color: var(--accent); text-decoration: none; }
+  .availability a:hover { text-decoration: underline; }
+
+  /* Links footer */
   .links { margin-top: 16px; }
   .links a {
     color: var(--accent);
     text-decoration: none;
     border-bottom: 1px solid transparent;
     margin-right: 20px;
+    display: inline-block;
+    padding: 4px 0;
   }
   .links a:hover { border-bottom-color: var(--accent); }
-
-  .availability {
-    background: var(--bg-card);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 18px 22px;
-    margin-top: 16px;
-  }
-  .availability p { margin: 0; }
-  .availability p + p { margin-top: 10px; }
 
   footer {
     margin-top: 64px;
@@ -168,9 +351,30 @@
   <div class="breadcrumb"><a href="../index.html">Oguz Games</a> / Deckstiny</div>
 
   <header class="hero">
+    <div class="hero-banner">
+      <img src="./assets/feature-graphic.jpg" alt="A robed wanderer holds a fan of elemental cards before the Shattered Spire as fire, ice, and lightning crackle around them." />
+    </div>
+    <img class="hero-icon" src="./assets/icon-256.png" alt="Deckstiny app icon — a gilded card framed by fire, ice, lightning, and shadow." />
     <h1>Deckstiny</h1>
     <p class="subtitle">A roguelike deckbuilder with elemental Resonance &amp; Fusion.</p>
-    <span class="status-pill">In development</span>
+    <span class="status-pill">Submitted · Awaiting store review</span>
+
+    <div class="store-badges" aria-label="Store availability">
+      <span class="badge" aria-disabled="true" title="Coming soon to the App Store">
+        <span class="badge-glyph"></span>
+        <span>
+          <span class="badge-line-1">Coming soon to</span>
+          <span class="badge-line-2">App Store</span>
+        </span>
+      </span>
+      <span class="badge" aria-disabled="true" title="Coming soon to Google Play">
+        <span class="badge-glyph">▶</span>
+        <span>
+          <span class="badge-line-1">Coming soon to</span>
+          <span class="badge-line-2">Google Play</span>
+        </span>
+      </span>
+    </div>
   </header>
 
   <p>Ascend the Shattered Spire one floor at a time. Build a deck from scratch each run, weave four elements into resonant chains, and switch elements at the perfect moment to trigger devastating fusion combos. Every run is different. Every choice matters. Die and start over with new knowledge.</p>
@@ -186,12 +390,64 @@
       <p>Switch elements at the right moment to trigger combo effects — Steam Blast, Void Strike, Storm Front, and three more. Six fusions, six identities.</p>
     </div>
     <div class="pillar">
-      <h3>Element Channeling</h3>
+      <h3>Element channeling</h3>
       <p>Cards that let you sculpt your hand. Elemental strategy is deliberate, not luck-of-the-draw.</p>
     </div>
     <div class="pillar">
       <h3>Run variety</h3>
-      <p>Three heroes, branching maps, narrative events, an ascension ladder, and a daily challenge with a globally seeded run.</p>
+      <p>Four heroes, branching maps, narrative events, an ascension ladder, and a daily challenge with a globally seeded run.</p>
+    </div>
+  </div>
+
+  <h2>How a run plays</h2>
+
+  <div class="feature">
+    <div class="feature-text">
+      <h3>Choose your hero</h3>
+      <p>Four heroes at launch, each with a unique starting deck and elemental identity. Your hero's primary element gets <strong>+30% damage</strong>, secondary <strong>+15%</strong> — so the same card plays differently in different hands.</p>
+    </div>
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-01.jpg" alt="Title screen with the Deckstiny logo and a tutorial prompt offering to walk new players through three short fights." loading="lazy" />
+    </div>
+  </div>
+
+  <div class="feature reverse">
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-02.jpg" alt="A combat encounter against a Shadow Wisp. The hand shows two Defend cards and an Ember Strike, with a Resonance counter ticking up." loading="lazy" />
+    </div>
+    <div class="feature-text">
+      <h3>Combat that rewards reading the room</h3>
+      <p>Hand-drawn cards, clear intents, and a Resonance counter that builds as you commit to an element. Every turn is a question: keep stacking, or switch and fuse?</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="feature-text">
+      <h3>Branching maps, branching choices</h3>
+      <p>Pick your path through fights, elites, shops, rest sites, and events. The route you skip is the route someone else is taking on the daily seed.</p>
+    </div>
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-03.jpg" alt="A branching map of The Ruins with fight, elite, shop, event, rest, and boss nodes laid out vertically." loading="lazy" />
+    </div>
+  </div>
+
+  <div class="feature reverse">
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-04.jpg" alt="Victory screen offering a choice of three reward cards: Molten Strike, Spark, and Stoke." loading="lazy" />
+    </div>
+    <div class="feature-text">
+      <h3>Build your deck, fight by fight</h3>
+      <p>Win a fight, pick a card. Visit a shop, buy a relic. Decide what your run is about — elemental purity, brutal poison damage, a bottomless block wall — one choice at a time.</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="feature-text">
+      <h3>Then the boss</h3>
+      <p>Each act ends with a boss who punishes weak strategies and rewards the run you actually built. Floor 3 is the Apex — and only the full game gets you there.</p>
+    </div>
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-06.jpg" alt="Boss fight against The Pyre-Eater showing a fusion-ready hand with Bleed Strike, Defend, and Ember Strike." loading="lazy" />
     </div>
   </div>
 
@@ -202,28 +458,77 @@
     <span class="element lightning">⚡ Lightning</span>
     <span class="element shadow">🌑 Shadow</span>
   </div>
-  <p>Each element has its own combat identity — Fire piles on burn and pressure, Ice freezes and walls up, Lightning chains and surges, Shadow weakens and exhausts. Heroes have a primary element (+30% damage) and a secondary element (+15%), so the same card plays differently in different hands.</p>
+  <p>Fire piles on burn and pressure. Ice freezes and walls up. Lightning chains and surges. Shadow weakens and exhausts. Same-element streaks build Resonance for an empowered hit; switching elements detonates a Fusion combo. Six fusions in total — Steam Blast, Voidfire, Storm Front, Frostbolt, Eclipse, Tempest — each with its own personality.</p>
+
+  <h2>More from inside the Spire</h2>
+  <div class="gallery" aria-label="Game screenshots — scroll horizontally for more">
+    <div class="gallery-item"><img src="./assets/screenshots/screen-05.jpg" alt="Shop screen with cards, a relic called Thunderheart, and a 'Remove a card' service." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-07.jpg" alt="Spire Pass paywall after Floor 1, offering a one-time $6.99 unlock with no ads and no subscription." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-09.jpg" alt="Daily Leaderboard showing the top runs of the day with HP remaining as the score." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-01.jpg" alt="Title screen with hero selection and the 'Welcome, Wanderer' tutorial prompt." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-02.jpg" alt="A combat against a Shadow Wisp." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-04.jpg" alt="Card reward screen after a victory." loading="lazy" /></div>
+  </div>
+  <p class="gallery-hint">Scroll for more →</p>
 
   <h2>At a glance</h2>
   <table class="facts">
     <tr><td>Genre</td><td>Single-player roguelike deckbuilder</td></tr>
     <tr><td>Platforms</td><td>iOS &amp; Android (Flutter, single codebase)</td></tr>
     <tr><td>Session length</td><td>~10 min per floor · 25–40 min per full run · Quick Run mode for short sessions</td></tr>
-    <tr><td>Heroes</td><td>3 at launch, each with a unique starting deck and elemental identity</td></tr>
+    <tr><td>Heroes</td><td>4 at launch, each with a unique starting deck and elemental identity</td></tr>
+    <tr><td>Card pool</td><td>87 cards, 45 relics, 6 fusion combos at launch</td></tr>
+    <tr><td>Pricing</td><td>Free trial (Floor 1) · One-time <strong>$6.99</strong> Spire Pass unlocks the full game · No ads · No subscription · No gacha</td></tr>
     <tr><td>Connectivity</td><td>Single-player. No account required. Optional online leaderboard for the daily challenge — everything else runs offline.</td></tr>
     <tr><td>Accessibility</td><td>Colourblind-safe palette (each element has a redundant glyph) and full audio-mute support</td></tr>
-    <tr><td>Status</td><td>Mechanically complete; in art &amp; presentation pass before public TestFlight</td></tr>
   </table>
 
-  <h2>Availability</h2>
+  <h2>Frequently asked</h2>
+  <div class="faq">
+    <details>
+      <summary>How much does it cost?</summary>
+      <p>Deckstiny is free to download and free to try through the end of Floor 1. The full game — two more floors, the Apex boss, every hero, the full card collection, and future content drops — unlocks with a one-time <strong>$6.99</strong> purchase called the Spire Pass. No ads. No subscription. No microtransactions inside.</p>
+    </details>
+    <details>
+      <summary>Do I need an internet connection?</summary>
+      <p>No. The full game runs offline. The only online feature is the optional Daily Challenge leaderboard, and even that fails gracefully — if it can't reach the server, you still get to play your daily run.</p>
+    </details>
+    <details>
+      <summary>Do I need an account?</summary>
+      <p>No account, no sign-up, no email required. Submitting a Daily Challenge score lets you pick a display name on the spot, and that's the entire identity system.</p>
+    </details>
+    <details>
+      <summary>Is there pay-to-win or any gacha?</summary>
+      <p>No and no. Every card, every relic, and every hero unlocks through the one-time Spire Pass — there is nothing else to buy, ever. The game is built to be finished, not farmed.</p>
+    </details>
+    <details>
+      <summary>What about ads?</summary>
+      <p>There are no ads anywhere in Deckstiny — not in the free trial, not in the full game, not on the loading screen. The price of the Spire Pass is the entire business model.</p>
+    </details>
+    <details>
+      <summary>Is my data tracked?</summary>
+      <p>No advertising tracking, no analytics SDK, no third-party trackers. The game uses Crashlytics in the release build to report crashes (so they can actually be fixed), and the Daily Challenge leaderboard stores only the display name you choose and the score for that day. Full details on the <a href="./privacy.html">Privacy page</a>.</p>
+    </details>
+    <details>
+      <summary>How long is a run?</summary>
+      <p>A full three-floor run lands somewhere in the 25–40 minute range, with each floor sitting around the 10-minute mark. There's also a Quick Run mode designed for ~10-minute sessions when that's all you've got.</p>
+    </details>
+    <details>
+      <summary>When will it actually launch?</summary>
+      <p>The build is finished and currently in review at both Apple and Google. As soon as both stores approve, this page will switch to live download links and the badges above will become real buttons. To be the first to know, see "Get notified" below.</p>
+    </details>
+  </div>
+
+  <h2>Get notified at launch</h2>
   <div class="availability">
-    <p><strong>Not yet released.</strong> Deckstiny is currently in active development. The core game is feature-complete and the team is focused on the art, audio, and polish pass before opening a public TestFlight.</p>
-    <p>To be notified when the beta opens, email <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>.</p>
+    <p><strong>Submitted to the App Store and Google Play.</strong> The build is in review at both stores — once it clears, this page will switch to live download links.</p>
+    <p>To be notified the day it goes live, email <a href="mailto:m.gokhanoguz2@gmail.com?subject=Deckstiny%20launch%20notify">m.gokhanoguz2@gmail.com</a> and you'll get a single message at launch. No newsletter, no follow-ups.</p>
   </div>
 
   <h2>Information</h2>
   <div class="links">
     <a href="./privacy.html">Privacy Policy</a>
+    <a href="./terms.html">Terms</a>
     <a href="./support.html">Support</a>
     <a href="../index.html">More from Oguz Games</a>
   </div>
