@@ -58,9 +58,10 @@
       You can optionally sign in with Apple or Google to back your
       save up to the cloud and restore it on another device. Sign-in
       is processed by <strong>Firebase Authentication</strong>; the
-      cloud save itself is stored encrypted in <strong>Cloud
-      Firestore</strong>. If you do not sign in, no save data ever
-      leaves your device.
+      cloud save itself is stored in <strong>Cloud Firestore</strong>,
+      protected by Google's standard at-rest encryption and accessed
+      over TLS. If you do not sign in, no save data ever leaves your
+      device.
     </p>
 
     <h2>4. In-app purchases</h2>
@@ -138,24 +139,77 @@
 
     <h2>8. Children</h2>
     <p>
-      Idle Archaeologist is rated for general audiences. The game
-      itself does not knowingly collect personal information from
-      children under 13 (or under 16 in the EEA / UK). Purchases
-      require the device's standard parental-approval mechanism. If
-      you are a parent or guardian and believe your child has provided
-      personal information without your consent, please contact us at
-      the address above and we will remove it.
+      Idle Archaeologist is intended for general audiences age 13
+      and over (16 and over in the EEA / UK). It is not
+      child-directed. The Game does not knowingly collect personal
+      information from children under those ages. Where required by
+      regional law, AdMob and Firebase are configured to apply
+      additional restrictions for users we have reason to believe
+      are under 13 (e.g. non-personalised ads). Purchases require
+      the device's standard parental-approval mechanism. If you are
+      a parent or guardian and believe your child has provided
+      personal information without your consent, please contact us
+      at the address above and we will remove it.
     </p>
 
     <h2>9. Your rights</h2>
     <p>
-      You can clear all on-device data at any time by uninstalling the
-      app. If you signed in and uploaded a cloud save, you can delete
-      it from Settings → Account, or by emailing the contact address
-      below — we will delete your account and cloud save within 30
-      days. Under GDPR / CCPA, you also have the right to ask what
-      data we hold about you and to request deletion or export; we
-      will respond within 30 days.
+      You can clear all on-device data at any time by uninstalling
+      the app. If you signed in and uploaded a cloud save, email the
+      contact address below to request deletion of your account and
+      cloud save — we will respond within 30 days. Under GDPR /
+      UK GDPR / CCPA / CPRA, you also have the right to ask what
+      data we hold about you and to request access, correction,
+      deletion, or export. Submit requests to the contact address
+      below.
+    </p>
+
+    <h2>9a. Legal bases (EEA / UK)</h2>
+    <p>
+      For users in the European Economic Area, the United Kingdom,
+      and other GDPR-aligned regions, the legal bases under
+      Article 6 GDPR are:
+    </p>
+    <ul>
+      <li><strong>Performance of a contract</strong> — running the
+        Game itself, processing in-app purchases, honouring Restore
+        Purchases, and providing optional cloud sync once you opt
+        in.</li>
+      <li><strong>Legitimate interests</strong> — crash reports
+        (Crashlytics), aggregate anonymous analytics, abuse and
+        fraud prevention. You can object via the contact address
+        below.</li>
+      <li><strong>Consent</strong> — personalised advertising via
+        AdMob (collected through Apple's App Tracking Transparency
+        prompt and Google's UMP consent flow), and re-engagement
+        push notifications via Firebase Cloud Messaging (collected
+        through your OS notification permission and the in-app
+        Settings toggles).</li>
+      <li><strong>Legal obligation</strong> — purchase records
+        retained by RevenueCat to meet tax and audit duties.</li>
+    </ul>
+    <p>
+      You can withdraw consent at any time from your device's
+      Settings (notifications, ATT) or from the in-app Settings
+      screen, without affecting processing that already happened.
+    </p>
+
+    <h2>9b. California rights (CCPA / CPRA)</h2>
+    <p>
+      California residents have the right to know what personal
+      information we and our service providers collect, to request
+      access, correction, deletion, and portability, and to be free
+      from discrimination for exercising these rights. We do not
+      sell personal information for money.
+    </p>
+    <p>
+      To opt out of cross-context behavioural advertising via Google
+      AdMob: on iOS, decline the App Tracking Transparency prompt or
+      change your choice under Settings → Privacy & Security →
+      Tracking; on Android, enable "Delete advertising ID" under
+      Settings → Privacy → Ads. Both options leave the Game fully
+      playable; only ad personalisation is affected. To submit a
+      verifiable consumer request, email the contact address below.
     </p>
 
     <h2>10. Data retention</h2>
@@ -177,11 +231,11 @@
     <h2>12. Security</h2>
     <p>
       Network traffic between the app and our service providers is
-      encrypted in transit (HTTPS / TLS). Cloud saves are encrypted
-      at the application layer with a per-user key before upload.
-      Despite reasonable safeguards, no system is perfectly secure;
-      please report any suspected vulnerability to the contact
-      address above.
+      encrypted in transit (HTTPS / TLS). Cloud saves stored in
+      Cloud Firestore are protected by Google's standard at-rest
+      encryption. Despite reasonable safeguards, no system is
+      perfectly secure; please report any suspected vulnerability to
+      the contact address above.
     </p>
 
     <h2>13. Changes to this policy</h2>
