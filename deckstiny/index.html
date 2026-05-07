@@ -4,11 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Deckstiny — A Roguelike Deckbuilder for iOS &amp; Android</title>
-<meta name="description" content="Deckstiny is a roguelike deckbuilder for iOS and Android. Build a deck from scratch each run, weave four elements into resonant chains, and switch elements to trigger devastating fusion combos." />
+<meta name="description" content="Deckstiny is a roguelike deckbuilder for iPhone and iPad. Build a deck from scratch each run, weave four elements into resonant chains, and switch elements to trigger devastating fusion combos. Coming soon to Android." />
 <link rel="icon" type="image/png" href="./assets/icon-256.png" />
 <link rel="apple-touch-icon" href="./assets/icon-256.png" />
 <meta property="og:title" content="Deckstiny — A Roguelike Deckbuilder" />
-<meta property="og:description" content="A roguelike deckbuilder with elemental Resonance &amp; Fusion mechanics. Coming to iOS &amp; Android." />
+<meta property="og:description" content="A roguelike deckbuilder with elemental Resonance &amp; Fusion mechanics. Now on the App Store. Android coming soon." />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="./assets/feature-graphic.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -112,12 +112,26 @@
     border: 1px solid var(--line);
     background: var(--bg-card);
     border-radius: 10px;
-    color: var(--muted-soft);
+    color: var(--ink);
     text-decoration: none;
     font-size: 0.9rem;
     line-height: 1.2;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  }
+  .badge:hover {
+    border-color: var(--accent);
+    background: var(--bg-elevated);
+    transform: translateY(-1px);
+  }
+  .badge.disabled {
+    color: var(--muted-soft);
     cursor: not-allowed;
     opacity: 0.85;
+  }
+  .badge.disabled:hover {
+    border-color: var(--line);
+    background: var(--bg-card);
+    transform: none;
   }
   .badge .badge-glyph {
     font-size: 1.4rem;
@@ -357,17 +371,17 @@
     <img class="hero-icon" src="./assets/icon-256.png" alt="Deckstiny app icon — a gilded card framed by fire, ice, lightning, and shadow." />
     <h1>Deckstiny</h1>
     <p class="subtitle">A roguelike deckbuilder with elemental Resonance &amp; Fusion.</p>
-    <span class="status-pill">Submitted · Awaiting store review</span>
+    <span class="status-pill">Now on the App Store · Android coming soon</span>
 
     <div class="store-badges" aria-label="Store availability">
-      <span class="badge" aria-disabled="true" title="Coming soon to the App Store">
+      <a class="badge" href="https://apps.apple.com/us/app/deckstiny-roguelike-card-game/id6766580023" target="_blank" rel="noopener">
         <span class="badge-glyph"></span>
         <span>
-          <span class="badge-line-1">Coming soon to</span>
+          <span class="badge-line-1">Download on the</span>
           <span class="badge-line-2">App Store</span>
         </span>
-      </span>
-      <span class="badge" aria-disabled="true" title="Coming soon to Google Play">
+      </a>
+      <span class="badge disabled" aria-disabled="true" title="Coming soon to Google Play">
         <span class="badge-glyph">▶</span>
         <span>
           <span class="badge-line-1">Coming soon to</span>
@@ -515,14 +529,14 @@
     </details>
     <details>
       <summary>When will it actually launch?</summary>
-      <p>The build is finished and currently in review at both Apple and Google. As soon as both stores approve, this page will switch to live download links and the badges above will become real buttons. To be the first to know, see "Get notified" below.</p>
+      <p>It's already out on iOS — grab it from the <a href="https://apps.apple.com/us/app/deckstiny-roguelike-card-game/id6766580023" target="_blank" rel="noopener">App Store</a>. The Android build is in review at Google Play and should follow shortly. The "Coming soon" badge above will switch to a real link the moment it's live.</p>
     </details>
   </div>
 
-  <h2>Get notified at launch</h2>
+  <h2>Get it</h2>
   <div class="availability">
-    <p><strong>Submitted to the App Store and Google Play.</strong> The build is in review at both stores — once it clears, this page will switch to live download links.</p>
-    <p>To be notified the day it goes live, email <a href="mailto:m.gokhanoguz2@gmail.com?subject=Deckstiny%20launch%20notify">m.gokhanoguz2@gmail.com</a> and you'll get a single message at launch. No newsletter, no follow-ups.</p>
+    <p><strong>Deckstiny is live on the App Store.</strong> <a href="https://apps.apple.com/us/app/deckstiny-roguelike-card-game/id6766580023" target="_blank" rel="noopener">Download for iPhone and iPad →</a></p>
+    <p>The Android version is in review at Google Play and will follow shortly. To be notified the day it lands on Android, email <a href="mailto:m.gokhanoguz2@gmail.com?subject=Deckstiny%20Android%20notify">m.gokhanoguz2@gmail.com</a> — you'll get a single message when it goes live, no newsletter.</p>
   </div>
 
   <h2>Information</h2>
