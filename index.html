@@ -18,10 +18,11 @@
 
   /* Per-game accents, used only inside each card so the index page itself
      stays neutral while still hinting at each game's identity. */
-  .card.deckstiny       { --tile: #c9a86a; --tile-bg: #fdf9f0; }
-  .card.forgotten-script{ --tile: #8b3a1e; --tile-bg: #faf3e2; }
-  .card.landrush        { --tile: #3b82f6; --tile-bg: #eff6ff; }
-  .card.sesla           { --tile: #0066cc; --tile-bg: #e8f0fe; }
+  .card.deckstiny          { --tile: #c9a86a; --tile-bg: #fdf9f0; }
+  .card.forgotten-script   { --tile: #8b3a1e; --tile-bg: #faf3e2; }
+  .card.idle-archaeologist { --tile: #b8860b; --tile-bg: #fdf6e3; }
+  .card.landrush           { --tile: #3b82f6; --tile-bg: #eff6ff; }
+  .card.sesla              { --tile: #0066cc; --tile-bg: #e8f0fe; }
 
   * { box-sizing: border-box; }
 
@@ -207,6 +208,21 @@
 
   <h2>Games</h2>
   <ul class="games">
+    <li class="card idle-archaeologist">
+      <div class="card-head">
+        <p class="card-title"><a href="./idle-archaeologist/">Idle Archaeologist</a></p>
+        <span class="card-platforms">iOS · Android</span>
+      </div>
+      <p class="card-blurb">
+        An idle museum-curation game — dig sites unearth artifacts, your workshop restores them, and patrons fund the next expedition.
+      </p>
+      <div class="card-links">
+        <a href="./idle-archaeologist/">About</a>
+        <a href="./idle-archaeologist/privacy.html">Privacy</a>
+        <a href="./idle-archaeologist/terms.html">Terms</a>
+        <a href="./idle-archaeologist/support.html">Support</a>
+      </div>
+    </li>
     <li class="card landrush">
       <div class="card-head">
         <p class="card-title"><a href="./landrush/">LandRush</a></p>
