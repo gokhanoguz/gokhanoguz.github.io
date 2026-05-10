@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Name That Thing — Sesla Dev Log</title>
+<meta name="description" content="Sesla gets a naming practice mode. Show an emoji, say the word, get progressive hints when you're stuck. Plus custom photo items and a sensible free-tier gate." />
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --rule: #e6e4dd;
+    --accent: #0066cc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 40px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 2rem; margin: 0 0 24px; font-weight: 700; line-height: 1.3; }
+
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; font-weight: 700; }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; font-weight: 600; }
+  p { margin: 0 0 16px; color: var(--ink-soft); }
+  p:first-of-type { font-size: 1.08rem; }
+
+  code {
+    background: #f0ede6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+
+  pre {
+    background: #f0ede6;
+    padding: 14px 18px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.86em;
+    line-height: 1.55;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+    color: var(--ink);
+  }
+  pre code { background: none; padding: 0; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ink); margin: 0; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 0; }
+
+  blockquote {
+    margin: 28px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: #f6f8fc;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  blockquote p { margin: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.95rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  td { color: var(--ink-soft); }
+  td:last-child { color: var(--ink); }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { color: var(--ink-soft); padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .nav-bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 520px) {
+    article { padding: 40px 20px 64px; }
+    h1 { font-size: 1.6rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<article>
+  <p class="breadcrumb"><a href="devlog.html">← Sesla Dev Log</a></p>
+
+  <p class="meta">May 9, 2026 · Gökhan Oğuz</p>
+  <h1>Name That Thing</h1>
+
+  <p>
+    Sesla started as an AAC board — tap symbols, build sentences, hear
+    them spoken. That's the core and it's not going anywhere. But
+    aphasia therapy is more than just having a voice. One of the most
+    common exercises a speech therapist will run is <em>confrontation
+    naming</em>: show the patient a picture of an apple, and ask them
+    to say "apple." Simple in concept. Brutal in practice when the word
+    is sitting right there in your brain and your mouth won't cooperate.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-number">185</p>
+      <p class="stat-label">Items in Deck</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">12</p>
+      <p class="stat-label">Categories</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">1403</p>
+      <p class="stat-label">Tests Passing</p>
+    </div>
+  </div>
+
+  <h2>How it works</h2>
+
+  <p>
+    The naming tab lives inside Sesla's practice mode. You see an
+    emoji (or a photo you added yourself), and you say its name into the
+    mic. The app listens via speech-to-text, checks your answer with
+    fuzzy matching, and either celebrates or nudges you to try again.
+    If you're stuck, progressive hints kick in — first the starting
+    sound, then the syllable breakdown, then the full word spoken aloud
+    by the TTS voice. Each hint costs you a couple of points, but the
+    goal isn't a high score. The goal is retrieval practice.
+  </p>
+
+  <p>
+    Sessions are 10 random items from the deck. Short enough that you
+    can do one while waiting for coffee. At the end you get a results
+    card you can share — mostly so a caregiver or therapist can see
+    what the patient practiced today without hovering over their
+    shoulder.
+  </p>
+
+  <h2>The deck</h2>
+
+  <p>
+    Building the item list was more fun than expected. The deck has
+    185 items across 12 categories: food, animals, household, clothing,
+    nature, transport, body parts, sports, everyday objects, numbers,
+    money, and traffic. Every item exists in both English and Turkish,
+    with syllable hints and accepted aliases (so "TV" and "television"
+    and "telly" all count).
+  </p>
+
+  <p>
+    Numbers turned out to be trickier than I expected. Single digits
+    like 3 and 7 use keycap emoji and render fine. But multi-digit
+    numbers — 176, 483, 1000 — don't have emoji equivalents that look
+    right on a phone. Chaining keycap emoji (1️⃣0️⃣0️⃣0️⃣) renders as
+    four giant separate glyphs. The fix was a custom widget that
+    renders multi-digit numbers as white text on a gradient circle,
+    matching the visual weight of the emoji items.
+  </p>
+
+  <h2>Custom items</h2>
+
+  <p>
+    The built-in deck covers common everyday objects, but every
+    patient's life is different. Maybe your dad's word-finding
+    difficulty is specifically around the names of his grandchildren,
+    or the tools in his workshop. So the app lets you add your own
+    items — snap a photo, type the word, done. Custom items merge
+    into the deck and show up in sessions alongside the built-in ones.
+  </p>
+
+  <p>
+    Custom items are stored as JSON files per deck with images saved
+    locally. No cloud sync, no privacy concerns. The photos never
+    leave the device.
+  </p>
+
+  <h2>The paywall question</h2>
+
+  <p>
+    This is always the hard part with a therapy app. You want the free
+    tier to be genuinely useful — this isn't a game, it's a medical
+    tool. But you also need the business to work so the app stays
+    maintained.
+  </p>
+
+  <p>
+    The landing point: free users get one naming session per day.
+    That's enough for daily practice, enough to see if it's helpful,
+    and enough to build a habit. Practice Plus subscribers get
+    unlimited sessions and the ability to add custom photo items. The
+    quota chip at the top of the tab makes the limit visible without
+    being obnoxious — green for unlimited, neutral for "0 / 1 today",
+    and a gentle red when you've used your daily session with a tap
+    to upgrade.
+  </p>
+
+  <p>
+    One detail I'm happy about: the quota uses the same 4am day
+    boundary as the rest of the practice mode. If you're doing a late
+    night session at 2am, it still counts as "today" rather than
+    burning tomorrow's free session. Small thing, but it avoids a
+    confusing edge case.
+  </p>
+
+  <h2>What's next</h2>
+
+  <p>
+    The naming exercise is live on both Android and iOS now. I want to
+    watch how people actually use it before making big changes. The
+    obvious future additions — difficulty filtering, progress tracking
+    over time, therapist-curated decks — are all on the list, but I'd
+    rather ship something simple that works and iterate than build
+    features nobody asked for.
+  </p>
+
+  <p>
+    The test count crept up to 1403, and the per-day quota logic has
+    its own test suite covering user isolation, day boundaries, the
+    4am rollover, and the minimum-session-size guard that prevents a
+    degenerate 1-item deck from burning your daily free session. The
+    kind of tests where you write them and think "nobody will ever hit
+    this edge case" and then someone absolutely will.
+  </p>
+
+  <div class="nav-bottom">
+    <a href="11-the-third-anything.html">← Previous: The Third Anything</a>
+    <span></span>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz · <a href="devlog.html" style="color:var(--muted)">Sesla Dev Log</a></footer>
+</article>
+</body>
+</html>
