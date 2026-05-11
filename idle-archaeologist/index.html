@@ -1,54 +1,539 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Idle Archaeologist</title>
-  <meta name="description" content="Idle Archaeologist — an idle museum-curation game where your dig sites unearth artifacts, your workshop restores them, and your patrons fund the next expedition.">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Idle Archaeologist — Dig, Restore, Display on iOS &amp; Android</title>
+<meta name="description" content="Idle Archaeologist is a cosy idle game about running a museum. Dig sites unearth real-world artifacts, your workshop restores them, and your patrons fund the next expedition. Free on the App Store and Google Play." />
+<link rel="icon" type="image/png" href="./assets/icon-256.png" />
+<link rel="apple-touch-icon" href="./assets/icon-256.png" />
+<meta property="og:title" content="Idle Archaeologist — Dig. Restore. Display." />
+<meta property="og:description" content="A cosy idle game about running a museum. Real artifacts, real eras, no pay-to-win." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="./assets/feature-graphic.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<style>
+  :root {
+    --bg: #15110b;
+    --bg-card: #1d180f;
+    --bg-elevated: #251e13;
+    --ink: #efe6d4;
+    --muted: #b9ad94;
+    --muted-soft: #8a8068;
+    --accent: #c9a86a;
+    --accent-strong: #e0c389;
+    --line: #2a2218;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+
+  main {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+  .breadcrumb { font-size: 0.9rem; color: var(--muted); margin-bottom: 24px; }
+  .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  /* Hero */
+  .hero { text-align: center; margin-bottom: 56px; }
+  .hero-banner {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    margin-bottom: 28px;
+    aspect-ratio: 1024 / 500;
+    background: #000;
+  }
+  .hero-banner img { width: 100%; height: 100%; object-fit: cover; }
+
+  .hero-icon {
+    width: 96px;
+    height: 96px;
+    border-radius: 22px;
+    margin: -76px auto 16px;
+    border: 3px solid var(--bg);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    background: var(--bg-card);
+  }
+
+  h1 {
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 3rem;
+    letter-spacing: 0.02em;
+    margin: 0 0 8px;
+    color: var(--accent);
+  }
+  .subtitle {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 1.1rem;
+    margin: 0 0 20px;
+  }
+  .status-pill {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: rgba(201, 168, 106, 0.08);
+  }
+
+  .store-badges {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    border-radius: 10px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  }
+  .badge:hover {
+    border-color: var(--accent);
+    background: var(--bg-elevated);
+    transform: translateY(-1px);
+  }
+  .badge.disabled {
+    color: var(--muted-soft);
+    cursor: not-allowed;
+    opacity: 0.85;
+  }
+  .badge.disabled:hover {
+    border-color: var(--line);
+    background: var(--bg-card);
+    transform: none;
+  }
+  .badge .badge-glyph { font-size: 1.4rem; line-height: 1; }
+  .badge .badge-line-1 {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .badge .badge-line-2 {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  h2 {
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.6rem;
+    color: var(--accent);
+    margin-top: 56px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 10px;
+  }
+
+  /* Pillars */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  @media (min-width: 600px) {
+    .pillars { grid-template-columns: 1fr 1fr; }
+  }
+  .pillar {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 22px;
+  }
+  .pillar h3 {
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.15rem;
+    margin: 0 0 8px;
+    color: var(--accent);
+  }
+  .pillar p { margin: 0; color: var(--ink); font-size: 0.95rem; }
+
+  /* Feature blocks */
+  .feature {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: center;
+    margin-top: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  @media (min-width: 720px) {
+    .feature { grid-template-columns: 1fr 240px; }
+    .feature.reverse { grid-template-columns: 240px 1fr; }
+    .feature.reverse .feature-text { order: 2; }
+  }
+  .feature-text h3 {
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+  .feature-text p { margin: 0; color: var(--ink); font-size: 0.97rem; }
+  .feature-shot {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #000;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    max-width: 240px;
+    margin: 0 auto;
+  }
+  .feature-shot img { width: 100%; height: auto; }
+
+  /* Eras tags */
+  .eras {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0 8px;
+  }
+  .era {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.95rem;
+    font-weight: 600;
+    background: var(--bg-card);
+  }
+
+  /* Gallery */
+  .gallery {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 4px 24px;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .gallery::-webkit-scrollbar { height: 6px; }
+  .gallery::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+  .gallery-item {
+    flex: 0 0 auto;
+    width: 220px;
+    scroll-snap-align: start;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #000;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+  .gallery-item img { width: 100%; height: auto; display: block; }
+  .gallery-hint {
+    color: var(--muted-soft);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  /* Facts table */
+  .facts { width: 100%; margin-top: 16px; border-collapse: collapse; }
+  .facts td {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .facts td:first-child {
+    color: var(--muted);
+    width: 36%;
+    padding-right: 16px;
+  }
+  .facts tr:last-child td { border-bottom: none; }
+
+  /* FAQ */
+  .faq details {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 10px;
+  }
+  .faq details[open] { background: var(--bg-elevated); }
+  .faq summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-weight: 600;
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "＋"; float: right; color: var(--muted); font-weight: 400; }
+  .faq details[open] summary::after { content: "−"; }
+  .faq details > p {
+    margin: 12px 0 0;
+    color: var(--ink);
+    font-size: 0.97rem;
+  }
+
+  /* Availability */
+  .availability {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-top: 16px;
+  }
+  .availability p { margin: 0; }
+  .availability p + p { margin-top: 12px; }
+  .availability a { color: var(--accent); text-decoration: none; }
+  .availability a:hover { text-decoration: underline; }
+
+  /* Links footer */
+  .links { margin-top: 16px; }
+  .links a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    margin-right: 20px;
+    display: inline-block;
+    padding: 4px 0;
+  }
+  .links a:hover { border-bottom-color: var(--accent); }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="site">
-      <h1>Idle Archaeologist</h1>
-      <p class="tagline">Dig. Restore. Display. Repeat.</p>
-      <nav class="site">
-        <a href="./" class="current">Home</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="support.html">Support</a>
-      </nav>
-    </header>
+<main>
+  <div class="breadcrumb"><a href="../index.html">Oguz Games</a> / Idle Archaeologist</div>
 
-    <p class="lede">
-      An idle museum-curation game. Your dig sites unearth artifacts;
-      your workshop restores them; your patrons fund the next
-      expedition. Single player, plays offline, runs on iOS and
-      Android.
-    </p>
+  <header class="hero">
+    <div class="hero-banner">
+      <img src="./assets/feature-graphic.jpg" alt="A vista of a desert dig site at sunrise, with a screening sieve and a half-excavated stone foundation in the foreground." />
+    </div>
+    <img class="hero-icon" src="./assets/icon-256.png" alt="Idle Archaeologist app icon — a stylised brush and trowel over a golden artifact." />
+    <h1>Idle Archaeologist</h1>
+    <p class="subtitle">Dig. Restore. Display. Repeat.</p>
+    <span class="status-pill">Coming soon to App Store &amp; Google Play</span>
 
-    <h2>Support</h2>
-    <p>
-      Bug reports, feature ideas, store-listing questions, refunds the
-      store didn't handle, anything else:
-      <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>.
-    </p>
+    <div class="store-badges" aria-label="Store availability">
+      <span class="badge disabled" aria-disabled="true">
+        <span class="badge-glyph"></span>
+        <span>
+          <span class="badge-line-1">Coming soon to the</span>
+          <span class="badge-line-2">App Store</span>
+        </span>
+      </span>
+      <span class="badge disabled" aria-disabled="true">
+        <span class="badge-glyph">▶</span>
+        <span>
+          <span class="badge-line-1">Coming soon on</span>
+          <span class="badge-line-2">Google Play</span>
+        </span>
+      </span>
+    </div>
+  </header>
 
-    <h2>Legal</h2>
-    <ul>
-      <li><a href="privacy.html">Privacy Policy</a></li>
-      <li><a href="terms.html">Terms of Service</a></li>
-    </ul>
+  <p>Run a museum, the slow way. Send workers to dig sites, watch them turn rocks into real artifacts, restore the finds at your workshop bench, and put them on display so patrons fund the next expedition. It plays while you're away — come back to a fuller museum and a thicker wallet.</p>
 
-    <footer class="site">
-      <a href="privacy.html">Privacy</a> ·
-      <a href="terms.html">Terms</a> ·
-      <a href="mailto:m.gokhanoguz2@gmail.com">Contact</a>
-      <br><br>
-      © 2026 Gökhan Oğuz.
-      <br>
-      <a href="../">← Back to Oguz Games</a>
-    </footer>
+  <h2>What makes it different</h2>
+  <div class="pillars">
+    <div class="pillar">
+      <h3>Real artifacts</h3>
+      <p>Every find is a real object from a real era — Stone Age beads, Bronze Age tools, Iron Age blades, Classical statuary, Medieval scriptoria. Photographed, not generated.</p>
+    </div>
+    <div class="pillar">
+      <h3>Five eras to unlock</h3>
+      <p>Prestige resets your dig but keeps your renown. Each loop opens a new era with new sites, new artifacts, and bigger numbers.</p>
+    </div>
+    <div class="pillar">
+      <h3>Cosy, never grindy</h3>
+      <p>No timers in your face, no daily login wall. Tap to dig when you feel like it; let it idle when you don't.</p>
+    </div>
+    <div class="pillar">
+      <h3>Honest free-to-play</h3>
+      <p>No forced ads. Optional Patron Pass subscription doubles offline gold; everything else stays unlocked through play.</p>
+    </div>
   </div>
+
+  <h2>How a session plays</h2>
+
+  <div class="feature">
+    <div class="feature-text">
+      <h3>Pick a dig site, hire workers</h3>
+      <p>Each region — Anatolia, the Nile, the Aegean, and beyond — runs on its own. Hire workers, deepen the dig, and watch the next-find timer tick down.</p>
+    </div>
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-02.jpg" alt="Dig Sites screen showing the Anatolia card with workers hired, a Next find progress bar, and a Patrons row underneath." loading="lazy" />
+    </div>
+  </div>
+
+  <div class="feature reverse">
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-03.jpg" alt="Anatolia dig view with a stamina bar at 65/100, a Watch ad to refill option, and a Tap to dig prompt over an excavated stone foundation." loading="lazy" />
+    </div>
+    <div class="feature-text">
+      <h3>Tap to dig — or just let it run</h3>
+      <p>Stamina-gated active digs hand out bigger finds; idle workers grind the long tail. Want a refill in a hurry? Watch a rewarded ad — never forced, always optional.</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="feature-text">
+      <h3>Restore at the workshop</h3>
+      <p>Every artifact comes out of the ground rough. Queue it on a workshop bench and the team brings it back to display quality — Common in seconds, Legendary in hours.</p>
+    </div>
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-06.jpg" alt="Workshop screen with a list of pending artifacts — Plastered Skull, Flint Blade, Mortar and Pestle — each with a Restore button and an estimated time." loading="lazy" />
+    </div>
+  </div>
+
+  <div class="feature reverse">
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-07.jpg" alt="Museum view with six plinths in the Stone Age room — Stone Bead, Fire-Drill Hearth, Bone Flute, Seated Goddess, Ochre Skull Cup — each generating gold per second." loading="lazy" />
+    </div>
+    <div class="feature-text">
+      <h3>Display them, earn passive gold</h3>
+      <p>Drop a restored artifact on a museum plinth and patrons start paying to see it. Higher rarity, higher gold-per-second; matching eras compound the bonus.</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="feature-text">
+      <h3>Fill the codex</h3>
+      <p>Every find is logged in a per-era catalogue. Track your discovery rate, see what you're still missing, and chase the legendaries that haven't shown up yet.</p>
+    </div>
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-05.jpg" alt="Stone Age codex page at 24 of 24 discovered, showing a grid of real artifact photos: Hand Axe, Bone Needle, Ochre Shard, Flint Blade, Antler Tool, Clay Cup, Stone Bead, Obsidian Blade." loading="lazy" />
+    </div>
+  </div>
+
+  <div class="feature reverse">
+    <div class="feature-shot">
+      <img src="./assets/screenshots/screen-08.jpg" alt="Your stats sheet: 6.2K gold, 6,318 gems, renown 21, current era Bronze Age, 57.1M lifetime gold, 426 digs completed, 255 artifacts found." loading="lazy" />
+    </div>
+    <div class="feature-text">
+      <h3>Prestige into the next era</h3>
+      <p>When you've outgrown an era, prestige resets your dig and converts what you earned into permanent renown. The Stone Age becomes the Bronze, becomes the Iron, becomes the Classical…</p>
+    </div>
+  </div>
+
+  <h2>The five eras</h2>
+  <div class="eras">
+    <span class="era">Stone Age</span>
+    <span class="era">Bronze Age</span>
+    <span class="era">Iron Age</span>
+    <span class="era">Classical</span>
+    <span class="era">Medieval</span>
+  </div>
+  <p>Each era brings its own dig sites, its own artifact catalogue, and its own museum room. Stone Age opens with hand axes and bone needles; Medieval ends — for now — at a monastery scriptorium.</p>
+
+  <h2>More from the museum floor</h2>
+  <div class="gallery" aria-label="Game screenshots — scroll horizontally for more">
+    <div class="gallery-item"><img src="./assets/screenshots/screen-02.jpg" alt="Dig Sites home screen with the Anatolia card and a weekly expedition timer." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-03.jpg" alt="Active dig view with stamina bar and Tap to dig prompt." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-06.jpg" alt="Workshop with a queue of artifacts pending restoration." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-07.jpg" alt="Museum room with six occupied plinths showing real artifact photos." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-05.jpg" alt="Stone Age codex grid at 100 percent discovered." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-04.jpg" alt="Codex grid with placeholder tiles for undiscovered artifacts." loading="lazy" /></div>
+    <div class="gallery-item"><img src="./assets/screenshots/screen-08.jpg" alt="Your stats sheet showing lifetime gold, digs completed, and prestige progress." loading="lazy" /></div>
+  </div>
+  <p class="gallery-hint">Scroll for more →</p>
+
+  <h2>At a glance</h2>
+  <table class="facts">
+    <tr><td>Genre</td><td>Single-player idle / incremental, museum-curation theme</td></tr>
+    <tr><td>Platforms</td><td>iOS &amp; Android (Flutter, single codebase)</td></tr>
+    <tr><td>Languages</td><td>English and Turkish (full UI)</td></tr>
+    <tr><td>Session length</td><td>Designed for short check-ins; happily idles between sessions and pays out offline progress.</td></tr>
+    <tr><td>Eras at launch</td><td>Five — Stone, Bronze, Iron, Classical, Medieval</td></tr>
+    <tr><td>Pricing</td><td>Free to download. Optional gem packs and a Patron Pass auto-renewable subscription. No paywalled content.</td></tr>
+    <tr><td>Ads</td><td>Optional rewarded ads (stamina refill, gem boost) plus an occasional interstitial when a session closes. The Patron Pass removes interstitials.</td></tr>
+    <tr><td>Connectivity</td><td>Plays offline. Optional cloud save sync via your store account.</td></tr>
+    <tr><td>Accessibility</td><td>Larger text, bold text, reduce motion, and colourblind-safe palette respected. Numbers always carry a unit label.</td></tr>
+  </table>
+
+  <h2>Frequently asked</h2>
+  <div class="faq">
+    <details>
+      <summary>How much does it cost?</summary>
+      <p>Idle Archaeologist is free to download and free to play to the end. Optional gem packs and a <strong>Patron Pass</strong> auto-renewable subscription are offered, but every era, every artifact, and every prestige loop is reachable through normal play.</p>
+    </details>
+    <details>
+      <summary>What is the Patron Pass?</summary>
+      <p>An optional monthly subscription that doubles your offline gold income, removes session-close interstitial ads, and grants a small daily gem stipend. Renewal is handled by the App Store or Google Play; cancel any time from your store account.</p>
+    </details>
+    <details>
+      <summary>Are there ads?</summary>
+      <p>Yes, two kinds — both deliberately light. <strong>Rewarded ads</strong> are entirely optional: tap them to refill stamina or get a small gem bonus. <strong>Session-close interstitials</strong> show occasionally between long sessions; the Patron Pass removes them.</p>
+    </details>
+    <details>
+      <summary>Do I need an internet connection?</summary>
+      <p>No. The full game runs offline. An internet connection is only used for cloud save sync (optional, via your store account), rewarded ads, and the occasional interstitial.</p>
+    </details>
+    <details>
+      <summary>Do I need an account?</summary>
+      <p>No account or sign-up is required. Cloud save uses the Apple ID or Google Play account already on your device.</p>
+    </details>
+    <details>
+      <summary>Is there pay-to-win?</summary>
+      <p>No. Gems speed things up — they don't unlock content. The Patron Pass is a quality-of-life subscription, not a power one. The game is designed to be finished, not farmed.</p>
+    </details>
+    <details>
+      <summary>Is my data tracked?</summary>
+      <p>The game uses Crashlytics in release builds to report crashes, AdMob to serve ads, and basic analytics on app interactions. We do not collect your name, email, location, or contacts. Full details on the <a href="./privacy.html">Privacy page</a>.</p>
+    </details>
+    <details>
+      <summary>When will it launch?</summary>
+      <p>Submitted for review on both stores in May 2026. This page will swap the "Coming Soon" badges for live store links the moment review clears.</p>
+    </details>
+  </div>
+
+  <h2>Get it</h2>
+  <div class="availability">
+    <p><strong>Idle Archaeologist is in store review right now.</strong></p>
+    <p>Once it goes live, the App Store and Google Play badges above will become real links. In the meantime, the <a href="./support.html">Support page</a> is the fastest way to reach the developer.</p>
+  </div>
+
+  <h2>Information</h2>
+  <div class="links">
+    <a href="./privacy.html">Privacy Policy</a>
+    <a href="./terms.html">Terms</a>
+    <a href="./support.html">Support</a>
+    <a href="../index.html">More from Oguz Games</a>
+  </div>
+
+  <footer>© 2026 Gökhan Oğuz. All rights reserved. Idle Archaeologist is a trademark of Oguz Games.</footer>
+</main>
 </body>
 </html>
