@@ -21,8 +21,8 @@
     </header>
 
     <dl class="meta">
-      <dt>Effective date</dt><dd>7 May 2026</dd>
-      <dt>Last updated</dt><dd>7 May 2026</dd>
+      <dt>Effective date</dt><dd>11 May 2026</dd>
+      <dt>Last updated</dt><dd>11 May 2026</dd>
       <dt>Operator</dt><dd>Gökhan Oğuz, independent developer</dd>
       <dt>Contact</dt><dd><a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a></dd>
     </dl>
@@ -33,16 +33,19 @@
       are limited to what is necessary to run a free, ad-supported,
       crash-reported mobile game: Google AdMob (ads), RevenueCat
       (purchase management), Firebase (crash reports, anonymous
-      analytics, push notifications, remote tuning), and the platform
-      stores (Apple, Google) for sign-in and payments.
+      analytics, remote tuning), and the platform stores (Apple,
+      Google) for payments.
     </p>
 
     <h2>1. Data we store on your device</h2>
     <p>
       The game keeps your save state — sites, dig progress, artifacts,
       museum displays, gold, gems, prestige, settings — in a local
-      database on your device. This data lives only on the device
-      unless you sign in and enable cloud sync (see §3).
+      database on your device. This data lives only on the device and
+      is never uploaded to our servers. From Settings → Backup you can
+      manually export your save as a file (e.g. to share with yourself
+      via email or a cloud-storage app) and import it back later; that
+      file goes only where you send it.
     </p>
 
     <h2>2. Anonymous identifiers</h2>
@@ -51,21 +54,10 @@
       Firebase, AdMob, and RevenueCat to attribute crash reports,
       anonymous analytics events, ad delivery, and purchase
       eligibility to the same install. These identifiers are not tied
-      to your name, email, or phone number unless you sign in.
+      to your name, email, or phone number.
     </p>
 
-    <h2>3. Sign-in and cloud sync (optional)</h2>
-    <p>
-      You can optionally sign in with Apple or Google to back your
-      save up to the cloud and restore it on another device. Sign-in
-      is processed by <strong>Firebase Authentication</strong>; the
-      cloud save itself is stored in <strong>Cloud Firestore</strong>,
-      protected by Google's standard at-rest encryption and accessed
-      over TLS. If you do not sign in, no save data ever leaves your
-      device.
-    </p>
-
-    <h2>4. In-app purchases</h2>
+    <h2>3. In-app purchases</h2>
     <p>
       Purchases (gem packs, "Quiet Museum" no-ads, Patron Pass
       subscription, cosmetic bundles) are processed by Apple (App
@@ -85,7 +77,7 @@
       apps.
     </p>
 
-    <h2>5. Advertising</h2>
+    <h2>4. Advertising</h2>
     <p>
       Idle Archaeologist shows ads from
       <a href="https://policies.google.com/technologies/partner-sites">Google
@@ -104,7 +96,7 @@
       personalised and non-personalised ads.
     </p>
 
-    <h2>6. Crash reports and analytics</h2>
+    <h2>5. Crash reports, analytics, and notifications</h2>
     <p>
       The app uses
       <a href="https://firebase.google.com/support/privacy">Firebase
@@ -114,13 +106,15 @@
       (session count, key milestone events). Neither tool collects
       your name, email, or location. We use
       <a href="https://firebase.google.com/support/privacy">Firebase
-      Remote Config</a> to tune game balance without an app update,
-      and <a href="https://firebase.google.com/support/privacy">Firebase
-      Cloud Messaging</a> to deliver re-engagement push notifications
-      if you've enabled them in Settings.
+      Remote Config</a> to tune game balance without an app update.
+      Re-engagement reminders ("your dig site is full", "an artifact
+      finished restoring") are <strong>local</strong> notifications
+      scheduled by the app on your device — they are not sent from any
+      server, and disabling notifications in your OS settings or in
+      Settings → Notifications stops them entirely.
     </p>
 
-    <h2>7. Third-party services</h2>
+    <h2>6. Third-party services</h2>
     <p>
       Each service receives only what it needs to function. Each has
       its own privacy policy that governs the data it sees.
@@ -130,15 +124,14 @@
         ad identifier (subject to ATT / UMP), coarse region.</li>
       <li><strong>RevenueCat</strong> — purchase management. Receives
         anonymous install ID + store-issued purchase metadata.</li>
-      <li><strong>Firebase Authentication, Firestore, Crashlytics,
-        Analytics, Remote Config, Cloud Messaging</strong> — Google's
-        backend stack for sign-in, cloud save, crash reports,
-        analytics, remote tuning, push.</li>
+      <li><strong>Firebase Crashlytics, Analytics, Remote Config</strong>
+        — Google's backend stack for crash reports, anonymous
+        analytics, and remote tuning.</li>
       <li><strong>Apple App Store / Google Play Store</strong> —
         payment processing and Restore Purchases eligibility.</li>
     </ul>
 
-    <h2>8. Children</h2>
+    <h2>7. Children</h2>
     <p>
       Idle Archaeologist is intended for general audiences age 13
       and over (16 and over in the EEA / UK). It is not
@@ -153,19 +146,17 @@
       at the address above and we will remove it.
     </p>
 
-    <h2>9. Your rights</h2>
+    <h2>8. Your rights</h2>
     <p>
       You can clear all on-device data at any time by uninstalling
-      the app. If you signed in and uploaded a cloud save, email the
-      contact address below to request deletion of your account and
-      cloud save — we will respond within 30 days. Under GDPR /
-      UK GDPR / CCPA / CPRA, you also have the right to ask what
-      data we hold about you and to request access, correction,
-      deletion, or export. Submit requests to the contact address
-      below.
+      the app. Because we do not hold any cloud copy of your save,
+      uninstalling is a complete deletion. Under GDPR / UK GDPR /
+      CCPA / CPRA, you also have the right to ask what data we hold
+      about you and to request access, correction, deletion, or
+      export. Submit requests to the contact address below.
     </p>
 
-    <h2>9a. Legal bases (EEA / UK)</h2>
+    <h2>8a. Legal bases (EEA / UK)</h2>
     <p>
       For users in the European Economic Area, the United Kingdom,
       and other GDPR-aligned regions, the legal bases under
@@ -173,19 +164,17 @@
     </p>
     <ul>
       <li><strong>Performance of a contract</strong> — running the
-        Game itself, processing in-app purchases, honouring Restore
-        Purchases, and providing optional cloud sync once you opt
-        in.</li>
+        Game itself, processing in-app purchases, and honouring
+        Restore Purchases.</li>
       <li><strong>Legitimate interests</strong> — crash reports
         (Crashlytics), aggregate anonymous analytics, abuse and
         fraud prevention. You can object via the contact address
         below.</li>
       <li><strong>Consent</strong> — personalised advertising via
         AdMob (collected through Apple's App Tracking Transparency
-        prompt and Google's UMP consent flow), and re-engagement
-        push notifications via Firebase Cloud Messaging (collected
-        through your OS notification permission and the in-app
-        Settings toggles).</li>
+        prompt and Google's UMP consent flow), and local re-engagement
+        reminders (collected through your OS notification permission
+        and the in-app Settings toggles).</li>
       <li><strong>Legal obligation</strong> — purchase records
         retained by RevenueCat to meet tax and audit duties.</li>
     </ul>
@@ -195,7 +184,7 @@
       screen, without affecting processing that already happened.
     </p>
 
-    <h2>9b. California rights (CCPA / CPRA)</h2>
+    <h2>8b. California rights (CCPA / CPRA)</h2>
     <p>
       California residents have the right to know what personal
       information we and our service providers collect, to request
@@ -213,15 +202,14 @@
       verifiable consumer request, email the contact address below.
     </p>
 
-    <h2>10. Data retention</h2>
+    <h2>9. Data retention</h2>
     <p>
-      On-device data is retained until you uninstall the app. Cloud
-      saves are retained until you delete your account. RevenueCat
-      retains purchase records for as long as needed to honour
-      Restore Purchases and to meet tax / audit obligations.
+      On-device data is retained until you uninstall the app.
+      RevenueCat retains purchase records for as long as needed to
+      honour Restore Purchases and to meet tax / audit obligations.
     </p>
 
-    <h2>11. Where data is processed</h2>
+    <h2>10. Where data is processed</h2>
     <p>
       Purchases are processed on Apple and Google infrastructure
       worldwide. Firebase and AdMob run on Google's worldwide
@@ -229,24 +217,22 @@
       provider publishes its sub-processors and processing locations.
     </p>
 
-    <h2>12. Security</h2>
+    <h2>11. Security</h2>
     <p>
       Network traffic between the app and our service providers is
-      encrypted in transit (HTTPS / TLS). Cloud saves stored in
-      Cloud Firestore are protected by Google's standard at-rest
-      encryption. Despite reasonable safeguards, no system is
-      perfectly secure; please report any suspected vulnerability to
-      the contact address above.
+      encrypted in transit (HTTPS / TLS). Despite reasonable
+      safeguards, no system is perfectly secure; please report any
+      suspected vulnerability to the contact address above.
     </p>
 
-    <h2>13. Changes to this policy</h2>
+    <h2>12. Changes to this policy</h2>
     <p>
       If material changes are made, the "Effective date" above will
       be updated and a notice will be posted on this page. Minor
       clarifications may be made at any time.
     </p>
 
-    <h2>14. Contact</h2>
+    <h2>13. Contact</h2>
     <p>
       Questions, requests, or concerns:
       <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>.
