@@ -243,6 +243,7 @@
   [data-lang] { display: none; }
   html[lang="en"] [data-lang="en"] { display: revert; }
   html[lang="tr"] [data-lang="tr"] { display: revert; }
+  html[lang="es"] [data-lang="es"] { display: revert; }
 </style>
 </head>
 <body>
@@ -251,6 +252,7 @@
   <div class="lang-toggle" role="group" aria-label="Language">
     <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
     <button type="button" data-set-lang="tr" aria-pressed="false">TR</button>
+    <button type="button" data-set-lang="es" aria-pressed="false">ES</button>
   </div>
 </header>
 
@@ -260,29 +262,40 @@
       <h1>
         <span data-lang="en">Two ways to find your voice.</span>
         <span data-lang="tr">Sesinizi bulmanın iki yolu.</span>
+        <span data-lang="es">Dos formas de encontrar tu voz.</span>
       </h1>
       <p class="tagline">
         <span data-lang="en">Sesla is an <strong>AAC communication board</strong> for people who can't speak — and a <strong>daily Speech Practice coach</strong> for people learning to speak more clearly. Same app, same price, choose at setup.</span>
         <span data-lang="tr">Sesla iki kişilik bir uygulama: konuşamayanlar için bir <strong>AAC iletişim panosu</strong> ve daha net konuşmak isteyenler için bir <strong>günlük konuşma koçu</strong>. Aynı uygulama, aynı fiyat, ilk açılışta seçiyorsunuz.</span>
+        <span data-lang="es">Sesla es un <strong>tablero de comunicación AAC</strong> para personas que no pueden hablar — y un <strong>entrenador diario de práctica del habla</strong> para quienes aprenden a hablar con más claridad. La misma app, el mismo precio, eliges al configurar.</span>
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#modes">
+        <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.sesla.sesla">
+          <span data-lang="en">Get it on Google Play</span>
+          <span data-lang="tr">Google Play'den indir</span>
+          <span data-lang="es">Disponible en Google Play</span>
+        </a>
+        <a class="btn btn-ghost" href="#modes">
           <span data-lang="en">See both modes</span>
           <span data-lang="tr">İki modu da gör</span>
+          <span data-lang="es">Ver ambos modos</span>
         </a>
         <a class="btn btn-ghost" href="devlog.html">
           <span data-lang="en">Read the dev log</span>
           <span data-lang="tr">Geliştirici günlüğü</span>
+          <span data-lang="es">Lee el diario de desarrollo</span>
         </a>
       </div>
       <p class="availability">
-        <span data-lang="en">Now in v1.0 — App Store &amp; Google Play submission in review. Stay tuned.</span>
-        <span data-lang="tr">v1.0 hazır — App Store ve Google Play incelemesinde. Çok yakında.</span>
+        <span data-lang="en">Now live on Google Play. App Store review in progress.</span>
+        <span data-lang="tr">Artık Google Play'de. App Store incelemesi sürüyor.</span>
+        <span data-lang="es">Ya disponible en Google Play. Revisión de App Store en curso.</span>
       </p>
     </div>
     <div class="hero-art">
       <img data-lang="en" src="img/mode-picker.png" alt="Sesla mode picker: choose AAC or Speech Practice" />
       <img data-lang="tr" src="img/mode-picker-tr.png" alt="Sesla mod seçici: AAC veya Konuşma Pratiği" />
+      <img data-lang="es" src="img/es-aac-board.png" alt="Tablero de comunicación AAC de Sesla en español" />
     </div>
   </section>
 
@@ -290,10 +303,12 @@
     <h2>
       <span data-lang="en">Two modes, one app</span>
       <span data-lang="tr">İki mod, tek uygulama</span>
+      <span data-lang="es">Dos modos, una app</span>
     </h2>
     <p>
       <span data-lang="en">When you first open Sesla you pick the mode that fits — and you can switch any time in Settings. Buying Plus once unlocks the unlimited tier in whichever mode you choose.</span>
       <span data-lang="tr">Sesla'yı ilk açtığınızda size uygun modu seçiyorsunuz; istediğiniz an Ayarlar'dan değiştirebilirsiniz. Plus'ı bir kez aldığınızda hangi modda kullanırsanız kullanın sınırsız sürüm açılır.</span>
+      <span data-lang="es">Cuando abres Sesla por primera vez eliges el modo que encaja — y puedes cambiarlo cuando quieras en Ajustes. Comprar Plus una vez desbloquea el nivel ilimitado en el modo que elijas.</span>
     </p>
     <div class="features">
       <div class="feature">
@@ -301,10 +316,12 @@
         <h3>
           <span data-lang="en">Sesla AAC</span>
           <span data-lang="tr">Sesla AAC</span>
+          <span data-lang="es">Sesla AAC</span>
         </h3>
         <p>
           <span data-lang="en">A symbol-based communication board for non-speaking children &amp; adults. Tap tiles, build sentences, hear them spoken on-device. 540+ symbols across 17 categories, real Turkish &amp; English grammar, free typing tab, custom symbols from your photos.</span>
           <span data-lang="tr">Konuşamayan çocuklar ve yetişkinler için sembol tabanlı iletişim panosu. Tuşlara dokun, cümle kur, cihaz seslendirsin. 17 kategoride 540+ sembol, gerçek Türkçe ve İngilizce dilbilgisi, serbest yazım sekmesi, fotoğraflarınızdan özel semboller.</span>
+          <span data-lang="es">Un tablero de comunicación con símbolos para niños y adultos que no hablan. Toca casillas, forma frases y escuchálas en el dispositivo. Más de 540 símbolos en 17 categorías, gramática real en español, turco e inglés, pestaña de escritura libre y símbolos personalizados desde tus fotos.</span>
         </p>
       </div>
       <div class="feature">
@@ -312,10 +329,12 @@
         <h3>
           <span data-lang="en">Sesla Speech Practice</span>
           <span data-lang="tr">Sesla Konuşma Pratiği</span>
+          <span data-lang="es">Sesla Práctica del Habla</span>
         </h3>
         <p>
           <span data-lang="en">Daily speaking exercises for people working on clarity, recovery, or a second language: structured lessons, Naming Practice with progressive cueing, free Sandbox recording, and a weekly tracker that respects bad days.</span>
           <span data-lang="tr">Daha net konuşmak, iyileşme sürecinde olan ya da yeni bir dil öğrenenler için günlük alıştırmalar: yapılandırılmış dersler, kademeli ipuçlarıyla Resim Adlandırma, serbest kayıt ve kötü günleri anlayan haftalık takip.</span>
+          <span data-lang="es">Ejercicios diarios de habla para quienes trabajan la claridad, la recuperación o un segundo idioma: lecciones estructuradas, denominación de imágenes con pistas progresivas, grabación libre y un seguimiento semanal que respeta los días malos.</span>
         </p>
       </div>
     </div>
@@ -325,6 +344,7 @@
     <h2>
       <span data-lang="en">What's inside</span>
       <span data-lang="tr">Neler var?</span>
+      <span data-lang="es">Qué incluye</span>
     </h2>
     <div class="features">
       <div class="feature">
@@ -332,10 +352,12 @@
         <h3>
           <span data-lang="en">Curated symbol library</span>
           <span data-lang="tr">Özenle seçilmiş semboller</span>
+          <span data-lang="es">Biblioteca de símbolos curada</span>
         </h3>
         <p>
           <span data-lang="en">540+ Turkish and English symbols across 17 categories, hand-picked and culturally filtered. Hundreds drawn just for Sesla.</span>
           <span data-lang="tr">17 kategoride 540'tan fazla Türkçe ve İngilizce sembol, kültüre uygun şekilde elenmiş. Yüzlercesi Sesla için özel çizildi.</span>
+          <span data-lang="es">Más de 540 símbolos en español, turco e inglés en 17 categorías, seleccionados y filtrados culturalmente. Cientos dibujados solo para Sesla.</span>
         </p>
       </div>
       <div class="feature">
@@ -343,10 +365,12 @@
         <h3>
           <span data-lang="en">Real Turkish grammar</span>
           <span data-lang="tr">Gerçek Türkçe dilbilgisi</span>
+          <span data-lang="es">Gramática de verdad</span>
         </h3>
         <p>
           <span data-lang="en">Verbs conjugate, nouns decline, possessives stack — vowel harmony, loanword exceptions, conditional and aorist included.</span>
           <span data-lang="tr">Fiiller çekilir, isimler hâl alır, iyelik ekleri yığılır — ünlü uyumu, yabancı sözcük istisnaları, dilek-şart ve geniş zaman dahil.</span>
+          <span data-lang="es">Los verbos se conjugan, los sustantivos concuerdan, los plurales y artículos se ajustan — con apoyo morfológico real en español, además de turco e inglés.</span>
         </p>
       </div>
       <div class="feature">
@@ -354,10 +378,12 @@
         <h3>
           <span data-lang="en">Daily Practice lessons</span>
           <span data-lang="tr">Günlük pratik dersleri</span>
+          <span data-lang="es">Lecciones de práctica diarias</span>
         </h3>
         <p>
           <span data-lang="en">Short, structured speaking lessons with a Listen → Record → Self-rate loop. Weekly tracker, gentle streaks, a "bad day" button that doesn't punish you.</span>
           <span data-lang="tr">Dinle → Kaydet → Kendini değerlendir döngüsüyle kısa ve yapılandırılmış dersler. Haftalık takip, nazik seriler ve sizi cezalandırmayan bir "kötü gün" düğmesi.</span>
+          <span data-lang="es">Lecciones de habla cortas y estructuradas con un ciclo Escuchar → Grabar → Autoevaluar. Seguimiento semanal, rachas amables y un botón de "día malo" que no te castiga.</span>
         </p>
       </div>
       <div class="feature">
@@ -365,10 +391,12 @@
         <h3>
           <span data-lang="en">Naming Practice</span>
           <span data-lang="tr">Resim Adlandırma</span>
+          <span data-lang="es">Denominación de imágenes</span>
         </h3>
         <p>
           <span data-lang="en">See an image, say its name. Progressive cueing helps when the word is on the tip of your tongue. Add your own photos to practice the words that matter at home.</span>
           <span data-lang="tr">Bir resim gör, adını söyle. Sözcük dilinizin ucunda olduğunda kademeli ipuçları yardımcı olur. Evde önemli olan kelimeler için kendi fotoğraflarınızı ekleyin.</span>
+          <span data-lang="es">Mira una imagen, di su nombre. Las pistas progresivas ayudan cuando la palabra está en la punta de la lengua. Añade tus propias fotos para practicar las palabras que importan en casa.</span>
         </p>
       </div>
       <div class="feature">
@@ -376,10 +404,12 @@
         <h3>
           <span data-lang="en">Free typing &amp; search</span>
           <span data-lang="tr">Serbest yazım ve arama</span>
+          <span data-lang="es">Escritura libre y búsqueda</span>
         </h3>
         <p>
           <span data-lang="en">Type any phrase that isn't on the board and have it spoken instantly with on-device TTS — or search the entire symbol library by name.</span>
           <span data-lang="tr">Panoda olmayan cümleleri yazın, cihazdaki ses sentezi anında seslendirsin — ya da tüm sembol kütüphanesinde ada göre arayın.</span>
+          <span data-lang="es">Escribe cualquier frase que no esté en el tablero y escrúchala al instante con la voz del dispositivo — o busca en toda la biblioteca de símbolos por nombre.</span>
         </p>
       </div>
       <div class="feature">
@@ -387,10 +417,12 @@
         <h3>
           <span data-lang="en">Custom symbols from photos</span>
           <span data-lang="tr">Fotoğraflardan özel semboller</span>
+          <span data-lang="es">Símbolos personalizados desde fotos</span>
         </h3>
         <p>
           <span data-lang="en">Tap the dashed "+" tile in any category, snap or pick a photo, give it a label — Sesla treats it like a built-in symbol.</span>
           <span data-lang="tr">Her kategorinin sonundaki kesik çizgili "+" tuşuna dokunun, fotoğraf çekin ya da seçin, ad verin — Sesla onu hazır sembol gibi kullanır.</span>
+          <span data-lang="es">Toca la casilla "+" punteada en cualquier categoría, haz o elige una foto y ponle una etiqueta — Sesla la trata como un símbolo integrado.</span>
         </p>
       </div>
       <div class="feature">
@@ -398,10 +430,12 @@
         <h3>
           <span data-lang="en">Per-user profiles</span>
           <span data-lang="tr">Kullanıcı profilleri</span>
+          <span data-lang="es">Perfiles por usuario</span>
         </h3>
         <p>
           <span data-lang="en">Different language, mode, grid size, voice, and accessibility settings for every person who shares the device.</span>
           <span data-lang="tr">Cihazı paylaşan her kişi için ayrı dil, mod, ızgara boyutu, ses ve erişilebilirlik ayarları.</span>
+          <span data-lang="es">Idioma, modo, tamaño de cuadrícula, voz y ajustes de accesibilidad distintos para cada persona que comparte el dispositivo.</span>
         </p>
       </div>
       <div class="feature">
@@ -409,10 +443,12 @@
         <h3>
           <span data-lang="en">Built for access</span>
           <span data-lang="tr">Erişilebilirlik öncelikli</span>
+          <span data-lang="es">Pensado para el acceso</span>
         </h3>
         <p>
           <span data-lang="en">Dwell selection, reduced motion, screen reader support, dark mode, and high-contrast theme.</span>
           <span data-lang="tr">Bekleme ile seçim, azaltılmış hareket, ekran okuyucu desteği, koyu mod ve yüksek kontrast teması.</span>
+          <span data-lang="es">Selección por permanencia, movimiento reducido, compatibilidad con lectores de pantalla, modo oscuro y tema de alto contraste.</span>
         </p>
       </div>
       <div class="feature">
@@ -420,10 +456,12 @@
         <h3>
           <span data-lang="en">Privacy by default</span>
           <span data-lang="tr">Varsayılan olarak gizli</span>
+          <span data-lang="es">Privacidad por defecto</span>
         </h3>
         <p>
           <span data-lang="en">No accounts, no cloud sync, no analytics. Your data — including practice recordings — stays on the device. Period.</span>
           <span data-lang="tr">Hesap yok, bulut senkronizasyonu yok, analitik yok. Pratik kayıtları dahil verileriniz cihazda kalır. Nokta.</span>
+          <span data-lang="es">Sin cuentas, sin sincronización en la nube, sin analíticas. Tus datos — incluidas las grabaciones de práctica — se quedan en el dispositivo. Punto.</span>
         </p>
       </div>
     </div>
@@ -433,13 +471,23 @@
     <h2>
       <span data-lang="en">A look inside</span>
       <span data-lang="tr">İçeriden bir bakış</span>
+      <span data-lang="es">Una mirada dentro</span>
     </h2>
     <div class="gallery">
+      <figure>
+        <img src="img/es-practice.png" alt="Sesla speech practice lesson in Spanish: ¿Dónde está el baño?" />
+        <figcaption>
+          <span data-lang="en">Now speaking Spanish, too</span>
+          <span data-lang="tr">Artık İspanyolca da konuşuyor</span>
+          <span data-lang="es">Ahora también habla español</span>
+        </figcaption>
+      </figure>
       <figure>
         <img src="img/aac-people-board.png" alt="Sesla AAC people board with pronoun and family symbols" />
         <figcaption>
           <span data-lang="en">AAC: tap symbols, hear sentences</span>
           <span data-lang="tr">AAC: sembollere dokunun, cümleleri duyun</span>
+          <span data-lang="es">AAC: toca símbolos, escucha frases</span>
         </figcaption>
       </figure>
       <figure>
@@ -447,6 +495,7 @@
         <figcaption>
           <span data-lang="en">Smart grammar: tap simple, speak correct</span>
           <span data-lang="tr">Akıllı dilbilgisi: basit dokunun, doğru konuşun</span>
+          <span data-lang="es">Gramática inteligente: toca simple, habla correcto</span>
         </figcaption>
       </figure>
       <figure>
@@ -454,6 +503,7 @@
         <figcaption>
           <span data-lang="en">Practice: a gentle daily target, no streak shame</span>
           <span data-lang="tr">Pratik: nazik günlük hedef, seri baskısı yok</span>
+          <span data-lang="es">Práctica: una meta diaria amable, sin presión de rachas</span>
         </figcaption>
       </figure>
       <figure>
@@ -461,6 +511,7 @@
         <figcaption>
           <span data-lang="en">Listen → Record → Self-rate. Repeat tomorrow.</span>
           <span data-lang="tr">Dinle → Kaydet → Değerlendir. Yarın yine.</span>
+          <span data-lang="es">Escuchar → Grabar → Autoevaluar. Mañana otra vez.</span>
         </figcaption>
       </figure>
       <figure>
@@ -468,6 +519,7 @@
         <figcaption>
           <span data-lang="en">Naming Practice: see it, say it</span>
           <span data-lang="tr">Resim Adlandırma: gör, söyle</span>
+          <span data-lang="es">Denominación de imágenes: míralo, dilo</span>
         </figcaption>
       </figure>
       <figure>
@@ -475,6 +527,7 @@
         <figcaption>
           <span data-lang="en">Stuck on a word? Progressive hints help.</span>
           <span data-lang="tr">Sözcük dilinizin ucunda mı? Kademeli ipuçları yardımcı olur.</span>
+          <span data-lang="es">¿La palabra en la punta de la lengua? Las pistas progresivas ayudan.</span>
         </figcaption>
       </figure>
       <figure>
@@ -482,6 +535,7 @@
         <figcaption>
           <span data-lang="en">Dark mode for sensory comfort</span>
           <span data-lang="tr">Duyusal rahatlık için koyu mod</span>
+          <span data-lang="es">Modo oscuro para comodidad sensorial</span>
         </figcaption>
       </figure>
       <figure>
@@ -489,6 +543,7 @@
         <figcaption>
           <span data-lang="en">Set up in seconds, in your language</span>
           <span data-lang="tr">Saniyeler içinde, kendi dilinizde kurun</span>
+          <span data-lang="es">Configúralo en segundos, en tu idioma</span>
         </figcaption>
       </figure>
     </div>
@@ -498,6 +553,7 @@
     <h2>
       <span data-lang="en">About</span>
       <span data-lang="tr">Hakkında</span>
+      <span data-lang="es">Acerca de</span>
     </h2>
     <div class="about-card">
       <p data-lang="en">
@@ -512,16 +568,22 @@
         yılda cihaz üstü ses sentezi, olgun sembol kütüphaneleri ve modern arayüz teknolojileri
         o ilk fikre nihayet yetişti. Sesla, Konuşan Parmaklar'ın hep hak ettiği yeniden doğuşu.
       </p>
+      <p data-lang="es">
+        <strong>Sesla</strong> está hecha por <strong>Gökhan Oğuz</strong>, creador original de
+        <em>Konuşan Parmaklar</em>, la primera app AAC de Turquía. Tras años fuera del campo, las
+        herramientas — voz rápida en el dispositivo, bibliotecas de símbolos maduras, frameworks de
+        interfaz modernos — por fin alcanzaron la idea. Sesla es la reconstrucción que siempre mereció.
+      </p>
     </div>
   </section>
 
   <footer>
     <span>© 2026 Gökhan Oğuz</span>
     <span class="links">
-      <a href="devlog.html"><span data-lang="en">Dev log</span><span data-lang="tr">Günlük</span></a>
-      <a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="tr">Gizlilik</span></a>
-      <a href="terms.html"><span data-lang="en">Terms</span><span data-lang="tr">Koşullar</span></a>
-      <a href="support.html"><span data-lang="en">Support</span><span data-lang="tr">Destek</span></a>
+      <a href="devlog.html"><span data-lang="en">Dev log</span><span data-lang="tr">Günlük</span><span data-lang="es">Diario</span></a>
+      <a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="tr">Gizlilik</span><span data-lang="es">Privacidad</span></a>
+      <a href="terms.html"><span data-lang="en">Terms</span><span data-lang="tr">Koşullar</span><span data-lang="es">Términos</span></a>
+      <a href="support.html"><span data-lang="en">Support</span><span data-lang="tr">Destek</span><span data-lang="es">Soporte</span></a>
       <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>
     </span>
   </footer>
@@ -530,7 +592,7 @@
 <script>
   (function () {
     var STORAGE_KEY = 'seslaLang';
-    var supported = ['en', 'tr'];
+    var supported = ['en', 'tr', 'es'];
 
     function pickInitial() {
       try {
@@ -538,7 +600,9 @@
         if (stored && supported.indexOf(stored) !== -1) return stored;
       } catch (e) { /* private mode etc */ }
       var nav = (navigator.language || 'en').toLowerCase();
-      return nav.indexOf('tr') === 0 ? 'tr' : 'en';
+      if (nav.indexOf('tr') === 0) return 'tr';
+      if (nav.indexOf('es') === 0) return 'es';
+      return 'en';
     }
 
     function applyLang(lang) {
@@ -546,6 +610,8 @@
       document.documentElement.setAttribute('lang', lang);
       document.title = lang === 'tr'
         ? 'Sesla — Herkese Bir Ses'
+        : lang === 'es'
+        ? 'Sesla — Dale voz a todos'
         : 'Sesla — Giving Everyone a Voice';
       var buttons = document.querySelectorAll('[data-set-lang]');
       for (var i = 0; i < buttons.length; i++) {
