@@ -26,6 +26,15 @@ support pages are published here.
 
 ## Adding a new game
 
+### Block Shift (private testing)
+
+- https://gokhanoguz.github.io/block-shift/
+- https://gokhanoguz.github.io/block-shift/privacy.html
+- https://gokhanoguz.github.io/block-shift/support.html
+- https://gokhanoguz.github.io/block-shift/terms.html
+
+These pages describe private testing, not public app-store availability.
+
 1. Create a new folder `<game-slug>/`.
 2. Copy `deckstiny/privacy.html` and `deckstiny/support.html` as templates.
 3. Update content + the breadcrumb link.
