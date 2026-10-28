@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Support and private-testing guidance for Block Shift." />
+  <meta name="description" content="Help with Block Shift gameplay, local progress, Google Play age checks and updates." />
   <title>Block Shift — Support</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -12,7 +12,7 @@
   <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../index.html">Oguz Games</a> / <a href="./">Block Shift</a> / Support</nav>
   <h1>Block Shift support</h1>
   <p class="intro">Questions, a saved-game problem, or feedback about a puzzle?</p>
-  <aside class="notice"><p>Email <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>. Block Shift is currently in private testing; there is no public store download to recommend yet.</p></aside>
+  <aside class="notice"><p>Email <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>. For Android installation and updates, <a href="https://play.google.com/store/apps/details?id=dev.gokhanoguz.block_shift">check Google Play availability</a>. The listing may not be accessible until Google approves the release or rollout reaches your region. Use the existing testing link only if you are an invited tester.</p></aside>
   <h2>What to include</h2>
   <ul>
     <li>Your app version, device model and operating-system version.</li>
@@ -25,18 +25,18 @@
   <p>Do not uninstall or clear storage as your first troubleshooting step: progress is local and may be lost. If the app reports a save problem, use its retry/recovery controls and contact support before confirming a reset you do not intend. We do not have a server copy of your board or challenge progress.</p>
   <h2>Offline play</h2>
   <p>Core puzzles work offline. In Android build 28, an unavailable Play age check still allows existing puzzles unless verification was already required or its saved requirement cannot be read. Google Play may need a connection to resolve those cases. In older SDK-enabled testing builds, advertising and purchase services may be unavailable offline; retry an uncertain purchase status when connected rather than purchasing repeatedly.</p>
-  <h2>Android age-check preview: 0.24.0 (build 28)</h2>
-  <p>This Android candidate has no ads or purchase/restore offers. Google Play may ask whether to share an age range or may require verification under its regional rules. This is not the older advertising-age question, and Block Shift does not ask for a birth date or identity document in the game. Whether a Google prompt appears depends on Play availability, region and account settings; no prompt is not automatically a fault.</p>
+  <h2>Android release: 0.24.0 (build 28)</h2>
+  <p>This Android release has no ads or purchase/restore offers. Google Play may ask whether to share an age range or may require verification under its regional rules. This is not the older advertising-age question, and Block Shift does not ask for a birth date or identity document in the game. Whether a Google prompt appears depends on Play availability, region and account settings; no prompt is not automatically a fault.</p>
   <ul>
     <li><strong>Check unavailable:</strong> follow the displayed update/connection advice and use Retry. Continue playing is available when there is no known verification requirement and its saved state is readable.</li>
     <li><strong>Verification required:</strong> open Google Play, follow Google's instructions, return to Block Shift and use Retry. Do not send identity documents to game support.</li>
     <li><strong>Saved check cannot be read or saved:</strong> use Retry and contact support if it persists. Do not clear storage or reset your puzzles to bypass it.</li>
     <li><strong>Optional sharing declined or no range returned:</strong> the existing puzzles stay the same; the game does not assume an adult age or parental approval.</li>
   </ul>
-  <p>Use <strong>Game menu → Settings → Google Play age check</strong> to view the result or retry. Update through the approved Play testing link without uninstalling. A previous build's successful test does not verify this new Google flow. If reporting an issue, share the displayed message and app/OS version, not your age range, Google account details, install IDs or verification documents. The <a href="privacy.html">Privacy Policy</a> explains the transient processing and local requirement flag.</p>
+  <p>Use <strong>Game menu → Settings → Google Play age check</strong> to view the result or retry. Update through Google Play without uninstalling. If reporting an issue, share the displayed message and app/OS version, not your age range, Google account details, install IDs or verification documents. The <a href="privacy.html">Privacy Policy</a> explains the transient processing and local requirement flag.</p>
   <h2>SDK-free Android preview: 0.23.0 (build 27)</h2>
   <p>This Android release has no ads, purchase or restore menus, or advertising-age and Google consent prompts. Their absence is expected, not a fault. Existing local game saves are reused; updating does not cancel previous store transactions or erase records held by purchase providers. Do not clear progress or buy again to make a missing menu return. Privacy and support pages open in your external browser and still need a connection. See the <a href="privacy.html">Privacy Policy</a> for the distinction between this release and SDK-enabled test builds.</p>
-  <h2>Test purchases are different</h2>
+  <h2>Older private test purchases</h2>
   <p>Local-demo and RevenueCat Test Store purchases are simulations and do not transfer into a future paid entitlement. Their reset/restore behavior is separate from a real store purchase.</p>
   <p>For any Google Play billing test, use the designated license-test account and confirm Google's sheet shows a test order and test payment method. Membership of an internal testing track alone does not prevent real charges. <strong>Cancel if a real payment method or an unexpected charge is shown.</strong></p>
   <h2>Privacy and purchase questions</h2>
