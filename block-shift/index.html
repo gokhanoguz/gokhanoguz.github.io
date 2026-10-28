@@ -3,29 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Block Shift is an untimed block puzzle: place shapes on an 8x8 board, clear lines, and shift a row or column to make room." />
+  <meta name="description" content="Play Block Shift, a free untimed block puzzle on Google Play. Place shapes, clear lines, and shift a row or column to make room. See real gameplay." />
   <title>Block Shift: Block Puzzle — Oguz Games</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<main>
+<main class="landing">
   <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../index.html">Oguz Games</a> / Block Shift</nav>
-  <div class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-  <h1>Place blocks.<br />Shift a line.<br />Rescue the board.</h1>
-  <p class="intro">Block Shift is an untimed block puzzle with Android and iOS versions. Place shapes on an 8×8 board, clear lines, and use one optional row or column shift per tray to make room.</p>
-  <aside class="notice"><p><strong>Android build 28 and iOS build 30: no ads or purchase offers.</strong> Availability depends on each store's review, rollout, device and region. <a href="https://play.google.com/store/apps/details?id=dev.gokhanoguz.block_shift">Check Google Play availability</a> or <a href="https://apps.apple.com/app/id6827924493">check App Store availability</a>; listings may not be accessible until release approval.</p></aside>
-  <h2>A puzzle without the hurry</h2>
-  <ul>
-    <li>Drag shapes, or tap a shape and then a board cell.</li>
-    <li>Hold the board, slide a row or column, and release to shift it one cell.</li>
-    <li>Play a dated Daily Shift with free retries, or try multi-tray challenges.</li>
-    <li>Learn with guided practice and short Starter puzzles.</li>
-    <li>No gameplay timer, lives, coin economy or developer-operated game account.</li>
-  </ul>
-  <h2>Your game stays yours</h2>
-  <p>Game progress and settings are stored locally. Core puzzles work offline, but Android build 28 may require a Google Play verification check, and iOS build 30 uses Apple's system age checks. A known requirement or an unreadable saved check may need recovery before play can continue. An unavailable check does not otherwise stop existing puzzles. Older test advertising and purchase services need a connection. There is no developer-operated game-progress sync service. See <a href="support.html">Support</a> for the version-specific behavior.</p>
-  <h2>No ads or purchase offers in this release</h2>
-  <p>Gameplay, hints and retries do not require a purchase. Any future advertising or purchase features will be described before they are introduced; this is not a promise that every future version will be ad-free. Older private billing-test builds are separate and are explained in <a href="support.html">Support</a>.</p>
+  <section class="hero" aria-labelledby="game-title">
+    <div class="hero-copy">
+      <div class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <p class="eyebrow">Block Shift · Available on Android</p>
+      <h1 id="game-title">Place blocks.<br />Shift a line.<br />Rescue the board.</h1>
+      <p class="intro">An untimed block puzzle with one extra move. Fit shapes on an 8×8 board, clear lines, and use one optional row or column shift per tray to make room.</p>
+      <div class="store-links">
+        <a class="store-button" href="https://play.google.com/store/apps/details?id=dev.gokhanoguz.block_shift">Get it on Google Play</a>
+        <a href="#gameplay">See the gameplay</a>
+      </div>
+      <p class="download-note">Free. No ads or purchase offers in this release.</p>
+      <p class="ios-status"><strong>iOS:</strong> submitted for App Store review on <time datetime="2026-10-28">28 October 2026</time>. <a href="https://apps.apple.com/app/id6827924493">Check App Store availability</a>; the listing may not appear until approval. Store availability varies by device and region.</p>
+    </div>
+    <figure class="hero-shot">
+      <a class="screenshot-link" href="images/four-line-clear.webp" aria-label="View larger screenshot: a four-line clear">
+        <img src="images/four-line-clear.webp" width="900" height="1600" fetchpriority="high" decoding="async" alt="A Brilliant! 4 lines +165 celebration with colorful tile shards across the board." />
+      </a>
+      <figcaption>A real four-line clear, with the game's own burst effects.</figcaption>
+    </figure>
+  </section>
+
+  <section class="gameplay" id="gameplay" aria-labelledby="gameplay-title">
+    <p class="eyebrow">Take a closer look</p>
+    <h2 id="gameplay-title">Small pieces. More possibilities.</h2>
+    <p class="gallery-intro">Actual Android gameplay, resized for the web. Select any screenshot for a larger view.</p>
+    <ul class="gallery">
+      <li>
+        <figure>
+          <a class="screenshot-link" href="images/place-and-clear.webp" aria-label="View larger screenshot: placing blocks">
+            <img src="images/place-and-clear.webp" width="900" height="1600" loading="lazy" decoding="async" alt="A normal game with colorful blocks on the board and three new shapes ready to place." />
+          </a>
+          <figcaption><h3>Make room for the next piece</h3><p>Fit shapes on the board. Complete rows or columns to clear them.</p></figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure>
+          <a class="screenshot-link" href="images/shift-a-line.webp" aria-label="View larger screenshot: previewing a column shift">
+            <img src="images/shift-a-line.webp" width="900" height="1600" loading="lazy" decoding="async" alt="A held upward shift previews a highlighted column and the lines it would clear in Challenge 3." />
+          </a>
+          <figcaption><h3>One shift. A new opening.</h3><p>Hold, slide, and preview a row or column before committing your one shift per tray.</p></figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure>
+          <a class="screenshot-link" href="images/shift-challenges.webp" aria-label="View larger screenshot: Shift Challenges">
+            <img src="images/shift-challenges.webp" width="900" height="1600" loading="lazy" decoding="async" alt="Challenge 1, Open Lanes, with six star-marked target tiles and three available shapes." />
+          </a>
+          <figcaption><h3>A different kind of puzzle</h3><p>Clear marked tiles in Shift Challenges, or learn with guided practice and Starter puzzles.</p></figcaption>
+        </figure>
+      </li>
+    </ul>
+  </section>
+
+  <div class="game-details">
+    <section aria-labelledby="untimed-title">
+      <h2 id="untimed-title">A puzzle without the hurry</h2>
+      <ul>
+        <li>Drag shapes, or tap a shape and then a board cell.</li>
+        <li>Hold the board, slide a row or column, and release to shift it one cell.</li>
+        <li>Play a dated Daily Shift with free retries, or try multi-tray challenges.</li>
+        <li>Learn with guided practice and short Starter puzzles.</li>
+        <li>No gameplay timer, lives, coin economy or developer-operated game account.</li>
+      </ul>
+    </section>
+    <section aria-labelledby="progress-title">
+      <h2 id="progress-title">Your game stays yours</h2>
+      <p>Game progress and settings are stored locally. Core puzzles work offline, but Android build 28 may require a Google Play verification check, and iOS build 30 uses Apple's system age checks. A known requirement or an unreadable saved check may need recovery before play can continue. An unavailable check does not otherwise stop existing puzzles. Older test advertising and purchase services need a connection. There is no developer-operated game-progress sync service. See <a href="support.html">Support</a> for the version-specific behavior.</p>
+    </section>
+  </div>
+  <aside class="notice">
+    <h2>No ads or purchase offers in this release</h2>
+    <p>Android build 28 and iOS build 30 have no ads or purchase offers. Gameplay, hints and retries do not require a purchase. Any future advertising or purchase features will be described before they are introduced; this is not a promise that every future version will be ad-free. Older private billing-test builds are separate and are explained in <a href="support.html">Support</a>.</p>
+  </aside>
   <nav class="links" aria-label="Block Shift information">
     <a href="support.html">Get support</a>
     <a href="privacy.html">Privacy policy</a>
