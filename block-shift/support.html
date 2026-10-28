@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Help with Block Shift gameplay, local progress, Google Play age checks and updates." />
+  <meta name="description" content="Help with Block Shift gameplay, local progress, Apple and Google Play age checks, and updates." />
   <title>Block Shift — Support</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -24,7 +24,17 @@
   <h2>Protect your progress</h2>
   <p>Do not uninstall or clear storage as your first troubleshooting step: progress is local and may be lost. If the app reports a save problem, use its retry/recovery controls and contact support before confirming a reset you do not intend. We do not have a server copy of your board or challenge progress.</p>
   <h2>Offline play</h2>
-  <p>Core puzzles work offline. In Android build 28, an unavailable Play age check still allows existing puzzles unless verification was already required or its saved requirement cannot be read. Google Play may need a connection to resolve those cases. In older SDK-enabled testing builds, advertising and purchase services may be unavailable offline; retry an uncertain purchase status when connected rather than purchasing repeatedly.</p>
+  <p>Core puzzles work offline. In Android build 28 and the iOS build 29 candidate, an unavailable age check still allows existing puzzles unless a check was already required or its saved requirement cannot be read. Google Play or Apple's services may need a connection to resolve those cases. In older SDK-enabled testing builds, advertising and purchase services may be unavailable offline; retry an uncertain purchase status when connected rather than purchasing repeatedly.</p>
+  <h2>iOS candidate: 0.25.0 (build 29)</h2>
+  <p>The iOS candidate is named <strong>Block Shift: Untimed Puzzle</strong> in App Store Connect and has no ads or purchase offers. There is no public iOS release yet. Use TestFlight only if you receive an authorized invitation; do not install a development fixture or replace an existing app to bypass a check.</p>
+  <p>Open <strong>Game menu → Settings → Apple age check</strong> to view the result or retry. Apple may show a system age-range sharing sheet on supported versions. Optional sharing can be declined. The game does not treat an unavailable, declined or empty result as adulthood or parental approval.</p>
+  <ul>
+    <li><strong>No requirement or unsupported older iOS:</strong> existing puzzles remain available when there is no earlier requirement and saved state is readable. An older OS cannot clear an existing requirement.</li>
+    <li><strong>Required check cannot finish:</strong> use Retry. On supported iOS versions, review Settings → your Apple Account → Personal Information → Age Range for Apps, then return to the game. Apple handles its own account and verification process.</li>
+    <li><strong>Ordinary failure:</strong> follow the displayed advice. Continue playing is available when no known requirement or saved-state recovery blocks it.</li>
+    <li><strong>Saved state cannot be recovered:</strong> retry, update iOS if needed and contact support. Do not clear storage or reset your puzzles to bypass it.</li>
+  </ul>
+  <p>Send only the displayed message and app/OS version when reporting a problem. Do not send age ranges, Apple Account credentials, identity documents or verification details. A missing system prompt does not prove that every Apple sharing or parental scenario has been tested.</p>
   <h2>Android release: 0.24.0 (build 28)</h2>
   <p>This Android release has no ads or purchase/restore offers. Google Play may ask whether to share an age range or may require verification under its regional rules. This is not the older advertising-age question, and Block Shift does not ask for a birth date or identity document in the game. Whether a Google prompt appears depends on Play availability, region and account settings; no prompt is not automatically a fault.</p>
   <ul>
