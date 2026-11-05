@@ -40,8 +40,7 @@
     <h3>Daily vs endless runs</h3>
     <p>
       The <strong>daily run</strong> uses a seed that's the same for
-      every player on a given UTC day, so streaks and leaderboards are
-      comparable. <strong>Endless runs</strong> use a fresh random seed
+      every player on a given UTC day. <strong>Endless runs</strong> use a fresh random seed
       and don't affect your streak — play as many as you like.
     </p>
 
@@ -50,7 +49,9 @@
       Completing the daily run on a given UTC day extends your streak.
       Missing a day breaks it. If life gets in the way, a free
       <strong>streak rescue</strong> is available roughly once every 30
-      days.
+      days. Version 1.1.0 also includes one weekly streak shield for
+      everyone. Rescues and shields are offered when you return after
+      missing exactly one day.
     </p>
 
     <h3>Hints</h3>
@@ -63,50 +64,54 @@
 
     <h3>Do I need to sign in?</h3>
     <p>
-      No. The game works fully offline as a single-player puzzle.
-      Signing in unlocks: cloud-synced progress across devices, public
-      leaderboards, and durable streak state.
+      No. Version 1.1.0 removes accounts, cloud sync, and leaderboards
+      entirely. All game features are free and progress stays on-device.
+      Older installed versions may still show sign-in and purchase options;
+      update in place rather than uninstalling to preserve local progress.
     </p>
 
     <h3>How do I delete my account?</h3>
     <p>
-      In the app, open <em>Settings → Account → Delete account</em>.
-      This permanently removes your Firebase account, private sync
-      data, and leaderboard rows. The action cannot be undone.
+      For an account created in an older version, email
+      <a href="mailto:m.gokhanoguz2@gmail.com?subject=Forgotten%20Script%20account%20deletion">m.gokhanoguz2@gmail.com</a>.
+      Include the sign-in provider or email used, but never your password.
+      We can help with access, export, and deletion of legacy cloud records,
+      normally within 30 days. Updating the app does not itself delete them.
+      See the <a href="privacy.html">privacy policy</a> for details.
     </p>
 
-    <h3>How do I change my display name?</h3>
+    <h3>What happened to Pro?</h3>
     <p>
-      <em>Settings → Account → Display name</em>. The new name appears
-      on leaderboards within a few seconds.
+      In version 1.1.0 every former Pro feature is free: Expert difficulty,
+      palettes, past dailies, detailed stats, and the weekly shield.
+      Existing purchasers keep access without signing in or restoring a
+      purchase. Historical payment or refund questions should be directed
+      to the store where the purchase was made.
     </p>
 
     <h3>I deleted the app — is my progress gone?</h3>
     <p>
       Local progress (run history, settings, achievements) is removed
-      with the app. Cloud-synced progress (streaks, leaderboard
-      standing) is preserved if you signed in; sign in again on a fresh
-      install and your account state will restore.
+      with the app. Version 1.1.0 has no cloud restore or cross-device sync.
+      Your device's backup settings may affect recovery. Contact support
+      for access to legacy cloud records, but do not assume they can
+      restore an offline save.
     </p>
 
     <h2>Common issues</h2>
 
-    <h3>The leaderboard isn't updating</h3>
+    <h3>Where are the leaderboards?</h3>
     <p>
-      Leaderboard writes need a network connection. If you played
-      offline, your run is queued locally and uploads next time the app
-      is open with internet access. The first run of a UTC day is
-      always the one that counts; runs 2–4 award smaller scores; the
-      5th and beyond don't count toward leaderboards (but you can
-      still play them for fun).
+      Public leaderboards are removed in version 1.1.0. Your local scores,
+      history, achievements, and daily streaks remain available in Profile.
+      Old queued scores are not uploaded by the offline update.
     </p>
 
-    <h3>"Sign in with Apple/Google" failed</h3>
+    <h3>Does this update address the Firestore SDK notice?</h3>
     <p>
-      Make sure you're signed into iCloud / a Google account on the
-      device, then try again. If the issue persists, switch to
-      anonymous sign-in (the game still saves locally) and email us
-      with the device model and OS version.
+      Version 1.1.0 removes Firebase and Firestore SDKs from the app.
+      Previously installed versions are unchanged until you install the
+      update. Update from your app store when it becomes available.
     </p>
 
     <h3>The puzzle has no solution / the answer doesn't match</h3>
@@ -131,7 +136,7 @@
     </p>
     <ul>
       <li>Device and OS version (e.g. iPhone 15, iOS 18.3)</li>
-      <li>App version (visible in <em>Settings → About</em>)</li>
+      <li>App version (from your device's app information)</li>
       <li>What you did, what you expected, what happened</li>
       <li>If reproducible: the run seed and difficulty</li>
       <li>Screenshot or screen recording, if relevant</li>

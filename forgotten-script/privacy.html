@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy Policy — Forgotten Script</title>
-  <meta name="description" content="Privacy policy for the Forgotten Script mobile game.">
+  <meta name="description" content="Privacy policy for the Forgotten Script mobile game, including offline updates and legacy accounts.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,172 +15,139 @@
       <nav class="site">
         <a href="./">Home</a>
         <a href="privacy.html" class="current">Privacy</a>
+        <a href="terms.html">Terms</a>
         <a href="support.html">Support</a>
       </nav>
     </header>
 
     <dl class="meta">
-      <dt>Effective date</dt><dd>22 April 2026</dd>
-      <dt>Last updated</dt><dd>22 April 2026</dd>
+      <dt>Effective date</dt><dd>5 November 2026</dd>
+      <dt>Last updated</dt><dd>5 November 2026</dd>
       <dt>Operator</dt><dd>Gökhan Oğuz, independent developer</dd>
       <dt>Contact</dt><dd><a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a></dd>
     </dl>
 
     <p class="lede">
-      Short version: Forgotten Script collects as little as possible.
-      The game itself is single-player and works offline. If you choose
-      to sign in, a small set of progress data syncs to the cloud so
-      streaks and leaderboards work across your devices. There are no
-      ads, no third-party analytics, and no advertising identifiers.
+      Version 1.1.0 and later are free, offline games. They do not create
+      accounts or send gameplay data to us. There are no ads, analytics,
+      tracking SDKs, cloud sync, leaderboards, or in-app purchases.
+      Older installed versions and previously stored cloud data are
+      described separately below. Store availability may vary during rollout.
     </p>
 
-    <h2>1. Data we store on your device</h2>
+    <h2>1. Data on your device</h2>
     <p>
-      The app uses a local database on your device to keep your puzzle
-      progress, settings, run history, daily streak state, and an XP /
-      achievements tally. This data lives only on the device and is not
-      transmitted anywhere unless you sign in (see section 2).
+      Puzzle saves, settings, run history, XP, achievements, daily results,
+      streaks, and personal statistics are stored locally. The app does not
+      upload them. Your operating system may include app data in device
+      backups, depending on your settings. We cannot restore local progress
+      from our servers in version 1.1.0 or later.
+    </p>
+    <p>
+      Updating in place preserves compatible local data. Uninstalling the
+      app or clearing its storage can erase it. No data migration to the
+      cloud takes place when you update.
     </p>
 
-    <h2>2. Data we sync to the cloud (only if you sign in)</h2>
+    <h2>2. Optional sharing, reminders, and links</h2>
     <p>
-      Sign-in is optional. The game is fully playable without an account.
-      If you sign in with Apple or Google, we use Firebase Authentication
-      and Cloud Firestore (Google) to store the following:
+      Sharing a result opens your device's share sheet. You choose the
+      recipient or app; the selected service handles what you share under
+      its own policies. Reminders are optional local notifications and do
+      not use a remote push service. You can turn them off in Profile or
+      your device settings.
     </p>
-    <ul>
-      <li><strong>Your account identifier (UID)</strong> — assigned by
-        Firebase. We do not see or store your Apple ID, Google email,
-        or password.</li>
-      <li><strong>A display name</strong> — either chosen by you or
-        derived from your sign-in provider, used on leaderboards.</li>
-      <li><strong>Run scores and metadata</strong> — for each completed
-        run: score, language, difficulty, completion timestamp (UTC),
-        accuracy, duration, and a per-run idempotency key. Used to
-        compute leaderboard standings.</li>
-      <li><strong>Aggregated leaderboard rows</strong> — your total
-        score and run count, all-time and per ISO week, by language.</li>
-      <li><strong>Streak state</strong> — current streak, longest
-        streak, last qualifying day, and rescue/shield bookkeeping.</li>
-    </ul>
-
     <p>
-      We do <strong>not</strong> collect or store: your real name (unless
-      you put it in your display name), email address, location, contacts,
-      photos, microphone, advertising identifier, IP-based location, or
-      any device identifier beyond what Firebase needs to operate.
+      Privacy, terms, and support links open your browser. This website is
+      hosted on GitHub Pages; its provider may process standard request
+      information such as IP addresses for delivery and security. The game
+      does not send your saved progress when opening a link.
     </p>
 
-    <h2>3. Sign-in providers</h2>
+    <h2>3. Older versions and existing cloud accounts</h2>
     <p>
-      If you choose to sign in, you authenticate through one of:
+      Versions before 1.1.0 use Firebase Authentication and Cloud Firestore
+      (Google). They can create an anonymous account and offer Apple or
+      Google sign-in. Account information may include a Firebase identifier,
+      provider identifiers, display name, email or Apple relay address, and
+      profile image information supplied by the provider. We do not receive
+      your Apple or Google password.
     </p>
-    <ul>
-      <li><strong>Sign in with Apple</strong> — see Apple's privacy
-        terms. Apple may share a private relay email with the app; we
-        do not read or persist it.</li>
-      <li><strong>Sign in with Google</strong> — see Google's privacy
-        terms.</li>
-      <li><strong>Anonymous sign-in</strong> — Firebase issues a random
-        UID with no personal data attached. This is what we use if you
-        haven't linked an Apple or Google account.</li>
-    </ul>
-
-    <h2>4. Third-party services</h2>
     <p>
-      The app uses these services to function. Each has its own privacy
-      policy that governs the data they receive.
+      Older versions can upload progress, scores, language, difficulty,
+      timestamps, accuracy, run duration, achievements, and streak state.
+      Display names and leaderboard scores may be visible to other players.
+      Legacy purchase validation uses store transaction or receipt information
+      and an account identifier to check purchases with Apple or Google.
+      Store providers also process purchases under their own privacy policies.
     </p>
-    <ul>
-      <li><strong>Firebase Authentication</strong> (Google) — sign-in
-        and account identity.</li>
-      <li><strong>Cloud Firestore</strong> (Google) — leaderboard and
-        sync storage.</li>
-      <li><strong>Sign in with Apple</strong> (Apple) — sign-in option.</li>
-      <li><strong>Google Sign-In</strong> (Google) — sign-in option.</li>
-    </ul>
     <p>
-      We do <strong>not</strong> use Firebase Analytics, Firebase
-      Crashlytics, AdMob, Facebook SDK, or any third-party analytics or
-      advertising SDKs. The app does not contain ads.
+      Updating does not automatically delete cloud accounts or previously
+      uploaded data. Existing records remain until deleted or retired through
+      a separately managed process. Older installed versions may continue to
+      contact these services. Update to the latest version to stop the app's
+      Firebase activity; deleting cloud data is a separate request.
     </p>
 
-    <h2>5. Children</h2>
+    <h2>4. Access, export, and deletion</h2>
     <p>
-      Forgotten Script is suitable for ages 4 and up and does not
-      knowingly collect personal information from children. Sign-in is
-      optional and the only way data leaves the device. If you believe a
-      child has provided us with personal data, please contact us and we
-      will delete it.
+      To request access, correction, export, or deletion of a legacy account
+      and associated cloud progress, email
+      <a href="mailto:m.gokhanoguz2@gmail.com?subject=Forgotten%20Script%20data%20request">m.gokhanoguz2@gmail.com</a>.
+      Mention Forgotten Script and the sign-in provider or account email used.
+      Do not send passwords, payment-card information, or identity documents.
+      We may ask for proportionate verification of account ownership.
+      We respond within 30 days.
+    </p>
+    <p>
+      Version 1.1.0 has no account screen, so email remains available even
+      after updating or uninstalling. A cloud deletion request covers the
+      authentication record and associated private progress and public
+      leaderboard entries we control. Any information that must be retained
+      for legal or transaction-record obligations will be explained in the
+      response. Apple and Google handle their own store records.
+    </p>
+    <p>
+      Local data can be removed by clearing app storage or uninstalling;
+      device backups are managed separately in your operating system.
+      This may permanently erase progress. We cannot remotely access or
+      delete the offline database on your device.
     </p>
 
-    <h2>6. Your rights</h2>
+    <h2>5. Retention and service providers</h2>
     <p>
-      You can review, export, or delete your data at any time. The app
-      itself includes:
+      Local progress remains until removed from the device. Legacy cloud
+      records are retained while the old service remains in operation or
+      until an applicable deletion request is completed. Support email is
+      used to resolve your request, not for advertising. We do not sell
+      personal information.
     </p>
-    <ul>
-      <li><strong>Sign out</strong> — keeps your local progress, stops
-        cloud sync.</li>
-      <li><strong>Delete account</strong> — permanently removes your
-        Firebase account, your private streak/sync data, and your
-        leaderboard rows. This action cannot be undone.</li>
-      <li><strong>Wipe local data</strong> — clears the on-device
-        database; the app reverts to a fresh anonymous state.</li>
-    </ul>
     <p>
-      You may also email
-      <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>
-      to request access, correction, or deletion of any data we hold,
-      and we will respond within 30 days.
+      Legacy Firebase services are operated by Google and may process data
+      in countries where Google maintains infrastructure. Access is
+      controlled by authentication and database rules; public leaderboard
+      information is intentionally shared. No system can guarantee complete
+      security. Please report concerns to the contact address above.
     </p>
 
-    <h2>7. Data retention</h2>
+    <h2>6. Children</h2>
     <p>
-      Cloud data is retained for as long as your account exists. When
-      you delete your account, your private documents and leaderboard
-      rows are removed. Aggregated, non-identifying counts (e.g. "how
-      many runs were completed in week N") may persist; these contain
-      no link to you.
+      The offline game does not collect children's personal information.
+      If you believe an older version or a support request has provided
+      personal data about a child, contact us to request its removal.
     </p>
 
-    <h2>8. Where data is processed</h2>
+    <h2>7. Policy changes and contact</h2>
     <p>
-      Firebase services are operated by Google and your data may be
-      processed in any country where Google maintains infrastructure.
-      Google publishes details of its sub-processors and locations.
-    </p>
-
-    <h2>9. Security</h2>
-    <p>
-      Cloud data is protected by Firebase security rules that restrict
-      reads and writes to the owning account. Network traffic is
-      encrypted in transit (HTTPS / TLS). Despite reasonable safeguards,
-      no system is perfectly secure; please report any suspected
-      vulnerability to the contact address above.
-    </p>
-
-    <h2>10. Changes to this policy</h2>
-    <p>
-      If material changes are made, the "Effective date" above will be
-      updated and a notice will be posted in-app or on this page. Minor
-      clarifications may be made at any time.
-    </p>
-
-    <h2>11. Contact</h2>
-    <p>
-      Questions, requests, or concerns:
+      Material changes will be reflected in the date and text on this page.
+      Questions or requests:
       <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>.
     </p>
-
     <footer class="site">
-      <a href="./">Home</a> ·
-      <a href="support.html">Support</a> ·
-      <a href="mailto:m.gokhanoguz2@gmail.com">Contact</a>
-      <br><br>
-      © 2026 Gökhan Oğuz.
-      <br>
-      <a href="../">← Back to Oguz Games</a>
+      <a href="./">Home</a> · <a href="terms.html">Terms</a> ·
+      <a href="support.html">Support</a>
+      <br><br>© 2026 Gökhan Oğuz.
+      <br><a href="../">← Back to Oguz Games</a>
     </footer>
   </div>
 </body>
