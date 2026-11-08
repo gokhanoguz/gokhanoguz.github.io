@@ -33,8 +33,11 @@ support pages are published here.
 - https://gokhanoguz.github.io/block-shift/support.html
 - https://gokhanoguz.github.io/block-shift/terms.html
 
-These pages describe the Android release and separately identified older test
-builds. App-store availability depends on Google Play review and rollout status.
+These pages distinguish SDK-free Android28/iOS30 from SDK-enabled Android
+advertising/purchase versions and private tests. The November8 monetization copy
+is a local release-preparation draft, not published approval or a live rollout.
+Do not push it until the coordinated policy/store release package is approved.
+App-store availability depends on Google Play review and rollout status.
 
 1. Create a new folder `<game-slug>/`.
 2. Copy `deckstiny/privacy.html` and `deckstiny/support.html` as templates.
