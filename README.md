@@ -34,9 +34,10 @@ support pages are published here.
 - https://gokhanoguz.github.io/block-shift/terms.html
 
 These pages distinguish SDK-free Android28/iOS30 from SDK-enabled Android
-advertising/purchase versions and private tests. The November8 monetization copy
-is a local release-preparation draft, not published approval or a live rollout.
-Do not push it until the coordinated policy/store release package is approved.
+advertising/purchase versions and private tests. The owner approved publication
+of the November8 disclosures and deletion-request instructions ahead of the
+monetized release. Website publication does not announce a public Android rollout;
+that app submission remains separately controlled.
 App-store availability depends on Google Play review and rollout status.
 
 1. Create a new folder `<game-slug>/`.
