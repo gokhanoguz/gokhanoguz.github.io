@@ -20,16 +20,18 @@
     </header>
 
     <dl class="meta">
-      <dt>Effective date</dt><dd>7 September 2026</dd>
-      <dt>Last updated</dt><dd>7 September 2026</dd>
+      <dt>Effective date</dt><dd>15 November 2026</dd>
+      <dt>Last updated</dt><dd>15 November 2026</dd>
       <dt>Operator</dt><dd>Gökhan Oğuz, independent developer</dd>
       <dt>Contact</dt><dd><a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a></dd>
     </dl>
 
     <p class="lede">
-      Short version: the app has no account, cloud sync, ads, analytics,
-      tracking, or developer-operated server. Reader profiles, imported text,
-      and progress stay on the device. Optional read-along uses the device's
+      Short version: reader profiles, imported text, and progress stay on the
+      device. The app has no reading account, cloud sync, ads, or behavioral
+      tracking. Optional Plus billing uses RevenueCat and your app store for
+      purchase records and subscription checks, only after a parent connects
+      billing or restores purchases. Optional read-along uses the device's
       speech-recognition service while the reader is actively reading; the app
       never saves voice audio or the temporary transcript.
     </p>
@@ -51,6 +53,30 @@
     <p>
       The app does not require an account or sign-in. There is no cloud profile,
       cloud backup, public profile, leaderboard, chat, or social feature.
+    </p>
+    <p>
+      In versions with Plus billing enabled, a parent can connect RevenueCat
+      and the device's app store from the parent-gated Plus screen. The app
+      explains this connection before the parent chooses to view plans or
+      restore purchases. Free reading does not require this connection.
+      Earlier builds without configured purchases do not connect to RevenueCat.
+    </p>
+    <p>
+      RevenueCat processes an anonymous app purchase identifier, store
+      transaction and subscription details, entitlement status, and technical
+      app/store information needed to provide billing. This supports purchase
+      verification, restoration, subscription access and purchase analytics.
+      We can view these purchase records in RevenueCat's dashboard. We do not
+      send reader names, ages, reading languages, imported content, reading
+      progress, voice audio or transcripts to RevenueCat.
+    </p>
+    <p>
+      After a parent connects billing, the app may check subscription status
+      on future launches and resumes. A bounded local cache supports temporary
+      offline access. RevenueCat's optional diagnostic reporting, automatic
+      advertising-identifier collection and attribution integrations are not
+      enabled by this app. Store payment information is handled by Apple or
+      Google; we do not receive full payment-card details.
     </p>
 
     <h2>3. Microphone and speech recognition</h2>
@@ -107,6 +133,7 @@
       <li><strong>Apple or Android text-to-speech</strong>, or an installed device voice, for reading text aloud.</li>
       <li><strong>The website selected by a parent</strong> when importing a secure web page.</li>
       <li><strong>The destination selected by a parent</strong> when exporting or sharing a report.</li>
+      <li><strong>RevenueCat and Apple App Store or Google Play</strong> for optional parent-authorized billing. See <a href="https://www.revenuecat.com/privacy">RevenueCat's privacy policy</a>, <a href="https://www.apple.com/legal/privacy/">Apple's privacy policy</a> and <a href="https://policies.google.com/privacy">Google's privacy policy</a>.</li>
     </ul>
     <p>
       We do not use Firebase Analytics, Firebase Crashlytics, AdMob, Facebook
@@ -122,20 +149,34 @@
       behavioral tracking. Parent-facing management, imports, exports, and
       progress controls are placed in the grown-ups area.
     </p>
+    <p>
+      Optional subscriptions are for parents and caregivers. Anonymous purchase
+      records are not linked by the app to a child's local reader profile and
+      are not used for advertising or behavioral tracking.
+    </p>
 
     <h2>9. Deleting data</h2>
     <p>
       A parent can delete reader profiles and imported texts inside the app.
       Deleting the app, or clearing its storage through device settings, removes
       all app-managed local data. Because we do not hold a remote reader record,
-      there is normally nothing for us to delete from a server. Detailed steps
-      are on the <a href="support.html#delete-data">support page</a>.
+      there is no developer-held cloud reading history to delete. Purchase
+      records are separate: uninstalling does not cancel a subscription or
+      delete RevenueCat or store records. A parent can request deletion of
+      developer-controlled purchase data by email, using the anonymous purchase
+      support ID available in the Plus screen. See
+      <a href="support.html#delete-purchase-data">purchase-data deletion</a>.
     </p>
 
     <h2>10. Data retention and security</h2>
     <p>
       Local information remains until a parent deletes it, clears app storage,
-      or uninstalls the app. Parent-requested web imports use HTTPS. No system is
+      or uninstalls the app. Purchase records may remain with RevenueCat and
+      the store to provide subscriptions, handle refunds, prevent fraud and
+      meet legal financial-record requirements. We review deletion requests
+      and remove developer-controlled records that no longer need to be kept;
+      any applicable retention limits will be explained in our response.
+      Parent-requested web imports and billing connections use HTTPS. No system is
       perfectly secure, so please keep the device protected and report suspected
       vulnerabilities to the contact address below.
     </p>
@@ -144,9 +185,13 @@
     <p>
       For privacy questions or rights requests, email
       <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a>.
-      We will respond within 30 days. Since app data is stored locally rather
-      than in an account we control, access, correction, export, and deletion
-      are normally performed directly on the device.
+      We will respond within 30 days. Local reader data can normally be accessed,
+      corrected or deleted directly on the device. For purchase records or
+      support correspondence, contact us; we may ask for limited information
+      to locate and verify the record. Do not send a child's name, reading
+      content, passwords or payment-card details. Email correspondence is
+      processed to respond to your request and retained only as needed for
+      support, dispute resolution or applicable legal obligations.
     </p>
 
     <h2>12. Changes to this policy</h2>
