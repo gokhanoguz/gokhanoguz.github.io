@@ -21,19 +21,22 @@
 
     <dl class="meta">
       <dt>Effective date</dt><dd>15 November 2026</dd>
-      <dt>Last updated</dt><dd>15 November 2026</dd>
+      <dt>Last updated</dt><dd>17 November 2026</dd>
       <dt>Operator</dt><dd>Gökhan Oğuz, independent developer</dd>
       <dt>Contact</dt><dd><a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a></dd>
     </dl>
 
     <p class="lede">
-      Short version: reader profiles, imported text, and progress stay on the
-      device. The app has no reading account, cloud sync, ads, or behavioral
+      Short version: reader profiles, imported text, and progress are stored on
+      the device. The app has no reading account, cloud sync, ads, or behavioral
       tracking. Optional Plus billing uses RevenueCat and your app store for
       purchase records and subscription checks, only after a parent connects
-      billing or restores purchases. Optional read-along uses the device's
-      speech-recognition service while the reader is actively reading; the app
-      never saves voice audio or the temporary transcript.
+      billing or restores purchases. Optional read-aloud may send the text being
+      spoken, including imported text, to the selected voice provider for online
+      processing. Optional read-along uses the device's speech-recognition
+      service, which may process microphone audio online, while the reader is
+      actively reading. The app never saves voice audio or the temporary
+      transcript.
     </p>
 
     <h2>1. Data stored on your device</h2>
@@ -98,10 +101,11 @@
 
     <h2>4. Text-to-speech</h2>
     <p>
-      Read-aloud uses the text-to-speech service and voice installed on the
-      device. Many voices work entirely on the device; some downloadable or
-      streaming voices may contact the operating-system provider. The app does
-      not operate a text-to-speech server.
+      Read-aloud passes the text being spoken to your device's selected
+      text-to-speech service. Some voices process text on the device;
+      network-based voices may send that text, including text from imported
+      documents, to their provider's servers under that provider's privacy
+      terms. We do not operate a text-to-speech server.
     </p>
 
     <h2>5. Imported files and web pages</h2>
@@ -116,7 +120,8 @@
       website will receive ordinary connection information such as the device's
       IP address and the requested URL under that website's own privacy policy.
       We do not proxy, log, or receive the URL or page content. The extracted
-      reading text remains on the device.
+      reading text is stored locally. Optional read-aloud processing is
+      described in section 4 above.
     </p>
 
     <h2>6. Exports and sharing</h2>
