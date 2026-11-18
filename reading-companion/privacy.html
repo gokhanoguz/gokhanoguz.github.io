@@ -21,15 +21,15 @@
 
     <dl class="meta">
       <dt>Effective date</dt><dd>15 November 2026</dd>
-      <dt>Last updated</dt><dd>17 November 2026</dd>
+      <dt>Last updated</dt><dd>18 November 2026</dd>
       <dt>Operator</dt><dd>Gökhan Oğuz, independent developer</dd>
       <dt>Contact</dt><dd><a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a></dd>
     </dl>
 
     <p class="lede">
       Short version: reader profiles, imported text, and progress are stored on
-      the device. The app has no reading account, cloud sync, ads, or behavioral
-      tracking. Optional Plus billing uses RevenueCat and your app store for
+      the device. The app has no reading account, cloud sync, ads, or tracking
+      of reading activity. Optional Plus billing uses RevenueCat and your app store for
       purchase records and subscription checks, only after a parent connects
       billing or restores purchases. Optional read-aloud may send the text being
       spoken, including imported text, to the selected voice provider for online
@@ -65,24 +65,38 @@
       Earlier builds without configured purchases do not connect to RevenueCat.
     </p>
     <p>
-      RevenueCat processes an anonymous app purchase identifier, store
-      transaction and subscription details, entitlement status, and technical
-      app/store information needed to provide billing. This supports purchase
-      verification, restoration, subscription access and purchase analytics.
-      We can view these purchase records in RevenueCat's dashboard. We do not
-      send reader names, ages, reading languages, imported content, reading
+      When a parent connects billing or restores purchases, RevenueCat processes
+      an anonymous billing identifier and any aliases, first-seen and last-connection
+      information, country, locale, currency, and platform/app/SDK versions.
+      Requests also include technical information such as the app's package
+      identifier, device model and operating-system version. After a purchase,
+      RevenueCat processes store receipts or purchase tokens, product and
+      transaction references, purchase dates, prices, subscription status and
+      entitlements. This supports subscription functionality, purchase analytics,
+      security and troubleshooting. We can view purchase records in RevenueCat's
+      dashboard. We do not send reader names, ages, reading languages, imported text, reading
       progress, voice audio or transcripts to RevenueCat.
     </p>
     <p>
       RevenueCat also processes country-level information from store transactions
-      and may infer and retain country from your connection’s IP address for
-      subscription analytics. The app does not request GPS or device-location
-      permissions.
+      and can infer and retain country from the connection's IP address.
+      Removing the raw IP from its customer-profile data does not mean every
+      system is IP-free: source IPs may also appear in operational, access,
+      security and infrastructure logs. The app does not request GPS or
+      device-location permissions. Disabling automatic advertising-identifier
+      collection does not disable this ordinary connection processing.
     </p>
     <p>
       After a parent connects billing, the app may check subscription status
-      on future launches and resumes. A bounded local cache supports temporary
-      offline access. RevenueCat's optional diagnostic reporting, automatic
+      on future launches and resumes. Configuration and customer-information
+      requests can create a RevenueCat customer record without a purchase,
+      including after an earlier record was deleted. In versions with
+      <strong>Disconnect billing</strong>, a parent can turn off future automatic
+      billing connections while keeping local reading data. Follow any restart
+      instruction before requesting purchase-data deletion. Reconnecting or
+      restoring later authorizes billing processing again and may create another
+      record. A bounded local cache supports temporary offline access.
+      RevenueCat's optional diagnostic reporting, automatic
       advertising-identifier collection and attribution integrations are not
       enabled by this app. Store payment information is handled by Apple or
       Google; we do not receive full payment-card details.
@@ -148,8 +162,21 @@
     </ul>
     <p>
       We do not use Firebase Analytics, Firebase Crashlytics, AdMob, Facebook
-      SDK, advertising identifiers, attribution SDKs, or third-party behavioral
-      analytics. The app contains no ads.
+      SDK, advertising identifiers, attribution integrations, ads, or third-party
+      analytics of reading activity. Optional billing analytics and connection
+      metadata are described above. RevenueCat's optional SDK diagnostic event
+      reporting is not enabled. Ordinary service, security and infrastructure
+      logs still exist.
+    </p>
+    <p>
+      RevenueCat uses subprocessors for infrastructure and other service operations.
+      Its subprocessor list does not mean every vendor receives every record.
+      RevenueCat states that AI providers are not part of every SDK request, but
+      relevant data may be processed for Rico or internal support/troubleshooting.
+      It states that Customer Personal Data is not used for model training and
+      third-party LLM training is disabled. See RevenueCat's current
+      <a href="https://www.revenuecat.com/dpa">DPA and subprocessor information</a>
+      for details.
     </p>
 
     <h2>8. Children</h2>
@@ -157,7 +184,7 @@
       The app is designed for children and families. It does not knowingly
       collect personal information from children on a developer-operated
       server. There is no account, public communication, advertising, or
-      behavioral tracking. Parent-facing management, imports, exports, and
+      tracking of reading activity. Parent-facing management, imports, exports, and
       progress controls are placed in the grown-ups area.
     </p>
     <p>
@@ -178,6 +205,20 @@
       support ID available in the Plus screen. See
       <a href="support.html#delete-purchase-data">purchase-data deletion</a>.
     </p>
+    <p>
+      Disconnecting billing does not cancel a store subscription, delete RevenueCat
+      records, remove Apple/Google transaction records, or erase data already sent
+      to configured downstream services. Use the store's subscription settings
+      to stop renewals, and contact us separately for purchase-data deletion.
+    </p>
+    <p>
+      Preventing ordinary SDK recreation requires stopping the app's billing
+      connection before deletion is processed. On iOS, RevenueCat has no supported
+      unconfigure operation: fully close and reopen the app after disconnecting.
+      Do not reconnect or restore unless you intend to resume billing-data
+      processing. Store-originated transactions and records are separate from
+      the app's SDK connection.
+    </p>
 
     <h2>10. Data retention and security</h2>
     <p>
@@ -187,6 +228,18 @@
       meet legal financial-record requirements. We review deletion requests
       and remove developer-controlled records that no longer need to be kept;
       any applicable retention limits will be explained in our response.
+    </p>
+    <p>
+      Verified RevenueCat customer-deletion requests are processed asynchronously.
+      RevenueCat states that completed deletion removes the customer and associated
+      data from production systems used to provide its services. Residual copies in
+      logs and backups are deleted or overwritten on standard schedules, generally
+      within 90 days; deletion is reapplied if a backup is restored. This is not a
+      guaranteed maximum for every IP-containing operational log. RevenueCat does
+      not publish a single maximum covering all such logs. We explain relevant
+      retention limits or legal exceptions when responding to a request.
+    </p>
+    <p>
       Parent-requested web imports and billing connections use HTTPS. No system is
       perfectly secure, so please keep the device protected and report suspected
       vulnerabilities to the contact address below.

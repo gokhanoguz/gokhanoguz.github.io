@@ -61,9 +61,16 @@
       <li><strong>Restore Plus:</strong> open Grown-ups → Reading Companion Plus → Restore purchases, using the same Apple or Google store account that made the purchase.</li>
       <li><strong>Cancel or manage:</strong> use Manage or cancel subscription in the Plus screen, or open your app store's subscription settings. Deleting the app does not cancel billing.</li>
       <li><strong>Request a refund:</strong> use the purchase/refund support tools provided by Apple or Google. Refund eligibility is decided by the store.</li>
-      <li><strong>Identify your purchase record:</strong> after connecting billing, open the Plus screen and choose Copy purchase support ID. This is an anonymous RevenueCat identifier, not your child's reader name.</li>
-      <li><strong>Request deletion:</strong> email <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a> with the subject “Reading Companion purchase-data deletion”, your purchase support ID, and whether you used Apple or Google. Ask to delete your developer-controlled purchase record.</li>
     </ul>
+    <h3>Request purchase-data deletion while keeping reading data</h3>
+    <ol>
+      <li>If you want to stop renewals, cancel the subscription in Apple/Google's subscription settings. This is separate from data deletion.</li>
+      <li>Before disconnecting, open <strong>Grown-ups → Reading Companion Plus → Copy purchase support ID</strong>. Save the ID for your request. This is an anonymous RevenueCat identifier, not your child's reader name. If unavailable, contact support with the store order reference; never send payment-card details, passwords or private reading material.</li>
+      <li>Choose <strong>Disconnect billing</strong> and confirm. Plus access turns off locally; saved texts, reader profiles and history remain. If the app says a restart is required, <strong>fully close and reopen it before requesting deletion</strong>. The choice is saved, but the SDK can continue making requests in the old iOS session until the app is closed.</li>
+      <li>Do not choose Connect or Restore again unless you intend to resume billing processing. Ordinary configured SDK requests, not just new purchases or explicit restores, can create another customer record after deletion.</li>
+      <li>Email <a href="mailto:m.gokhanoguz2@gmail.com">m.gokhanoguz2@gmail.com</a> with subject <strong>Reading Companion purchase-data deletion</strong>, the support ID/order reference, store used, and confirmation that you disconnected and completed any required restart. We verify and process the request through RevenueCat.</li>
+      <li>If the installed version has no Disconnect billing option, contact support for coordinated instructions before deletion. Uninstalling or clearing app storage stops that installation's billing setup but also removes local reading data; it is not a way to preserve reading data.</li>
+    </ol>
     <p>
       If the app was already uninstalled and the ID is unavailable, contact us
       with the store order reference if you have it. We may ask for limited
@@ -75,9 +82,23 @@
       We handle verified requests through RevenueCat and explain any purchase
       records that must be retained for legal, financial or fraud-prevention
       reasons. Deletion is separate from cancellation and refunds. Cancel an
-      active subscription in the store to stop renewals; future purchases or
-      restoration may create another purchase record. Apple and Google manage
-      their own financial records under their policies.
+      active subscription in the store to stop renewals. Disconnecting does not
+      itself erase RevenueCat records, store records or data already sent to
+      configured downstream services. Apple and Google manage their own financial
+      records under their policies; store-originated processing is separate from
+      the app's SDK connection.
+    </p>
+    <p>
+      RevenueCat customer deletion is asynchronous. RevenueCat states that
+      completed deletion removes the customer and associated data from production
+      systems used to provide its services. Residual copies in logs and backups
+      are deleted or overwritten on standard schedules, generally within 90 days;
+      deletion is reapplied if a backup is restored. This is not a guaranteed
+      maximum for every IP-containing operational log; RevenueCat does not publish
+      one maximum covering all such logs. We explain relevant retention limits
+      or legal exceptions in our response. Our 30-day response commitment is not
+      a promise that every backup or external financial record is erased within
+      30 days.
     </p>
 
     <h2>Microphone help</h2>
